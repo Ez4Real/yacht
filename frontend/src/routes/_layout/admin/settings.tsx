@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router"
 
-import ChangePassword from "@/components/UserSettings/ChangePassword"
-import DeleteAccount from "@/components/UserSettings/DeleteAccount"
-import UserInformation from "@/components/UserSettings/UserInformation"
+import ChangePassword from "@/components/adminPanel/UserSettings/ChangePassword"
+import DeleteAccount from "@/components/adminPanel/UserSettings/DeleteAccount"
+import UserInformation from "@/components/adminPanel/UserSettings/UserInformation"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import useAuth from "@/hooks/useAuth"
 
@@ -12,7 +12,7 @@ const tabsConfig = [
   { value: "danger-zone", title: "Danger zone", component: DeleteAccount },
 ]
 
-export const Route = createFileRoute("/_layout/settings")({
+export const Route = createFileRoute("/_layout/admin/settings")({
   component: UserSettings,
   head: () => ({
     meta: [

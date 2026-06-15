@@ -4,10 +4,10 @@ import { Search } from "lucide-react"
 import { Suspense } from "react"
 
 import { ItemsService } from "@/client"
-import { DataTable } from "@/components/Common/DataTable"
+import { DataTable } from "@/components/adminPanel/Common/DataTable"
 import AddItem from "@/components/Items/AddItem"
 import { columns } from "@/components/Items/columns"
-import PendingItems from "@/components/Pending/PendingItems"
+import PendingItems from "@/components/adminPanel/Pending/PendingItems"
 
 function getItemsQueryOptions() {
   return {
@@ -16,7 +16,7 @@ function getItemsQueryOptions() {
   }
 }
 
-export const Route = createFileRoute("/_layout/items")({
+export const Route = createFileRoute("/_layout/admin/items")({
   component: Items,
   head: () => ({
     meta: [

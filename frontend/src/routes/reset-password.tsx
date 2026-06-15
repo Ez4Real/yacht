@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 
 import { LoginService } from "@/client"
-import { AuthLayout } from "@/components/Common/AuthLayout"
+import { AuthLayout } from "@/components/adminPanel/Common/AuthLayout"
 import {
   Form,
   FormControl,

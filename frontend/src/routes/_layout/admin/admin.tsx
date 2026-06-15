@@ -3,10 +3,10 @@ import { createFileRoute, redirect } from "@tanstack/react-router"
 import { Suspense } from "react"
 
 import { type UserPublic, UsersService } from "@/client"
-import AddUser from "@/components/Admin/AddUser"
-import { columns, type UserTableData } from "@/components/Admin/columns"
-import { DataTable } from "@/components/Common/DataTable"
-import PendingUsers from "@/components/Pending/PendingUsers"
+import AddUser from "@/components/adminPanel/Admin/AddUser"
+import { columns, type UserTableData } from "@/components/adminPanel/Admin/columns"
+import { DataTable } from "@/components/adminPanel/Common/DataTable"
+import PendingUsers from "@/components/adminPanel/Pending/PendingUsers"
 import useAuth from "@/hooks/useAuth"
 
 function getUsersQueryOptions() {
@@ -16,7 +16,7 @@ function getUsersQueryOptions() {
   }
 }
 
-export const Route = createFileRoute("/_layout/admin")({
+export const Route = createFileRoute("/_layout/admin/admin")({
   component: Admin,
   beforeLoad: async () => {
     const user = await UsersService.readUserMe()

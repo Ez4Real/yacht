@@ -6,7 +6,7 @@ import {
 } from "@tanstack/react-router"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { AuthLayout } from "@/components/Common/AuthLayout"
+import { AuthLayout } from "@/components/admin/Common/AuthLayout"
 import {
   Form,
   FormControl,
