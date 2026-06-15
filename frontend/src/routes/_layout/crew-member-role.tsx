@@ -4,7 +4,7 @@ import { Search } from "lucide-react"
 import { Suspense } from "react"
 
 import { CrewMemberRolesService } from "@/client"
-import { DataTable } from "@/components/Common/DataTable"
+import { DataTable } from "@/components/admin/Common/DataTable"
 import AddRole from "@/components/CrewMemberRoles/AddRole"
 import { columns } from "@/components/CrewMemberRoles/columns"
 import PendingCrewMemberRoles from "@/components/Pending/PendingCrewMemberRoles"
