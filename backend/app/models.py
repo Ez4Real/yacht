@@ -1,14 +1,19 @@
 import uuid
 from datetime import datetime, timezone
 
-from pydantic import EmailStr
+from typing import Annotated
+from pydantic import EmailStr, StringConstraints
 from sqlalchemy import DateTime
 from sqlmodel import Field, Relationship, SQLModel
+
+from fastapi import UploadFile, File
 
 
 def get_datetime_utc() -> datetime:
     return datetime.now(timezone.utc)
 
+
+HexColor = Annotated[str, StringConstraints(pattern=r"^#[0-9A-Fa-f]{6}$")]
 
 # Shared properties
 class UserBase(SQLModel):
@@ -54,6 +59,8 @@ class User(UserBase, table=True):
         sa_type=DateTime(timezone=True),  # type: ignore
     )
     items: list["Item"] = Relationship(back_populates="owner", cascade_delete=True)
+    crew_member_roles: list["CrewMemberRole"] = Relationship(back_populates="owner", cascade_delete=True)
+    crew_members: list["CrewMember"] = Relationship(back_populates="owner", cascade_delete=True)
 
 
 # Properties to return via API, id is always required
@@ -65,6 +72,17 @@ class UserPublic(UserBase):
 class UsersPublic(SQLModel):
     data: list[UserPublic]
     count: int
+    
+
+class ImageBase(SQLModel):
+    url: str
+    alt_text: str | None = None
+
+class ImageCreate(ImageBase):
+    pass
+
+class ImageUpdate(ImageBase):
+    id: uuid.UUID
 
 
 # Shared properties
@@ -127,3 +145,106 @@ class TokenPayload(SQLModel):
 class NewPassword(SQLModel):
     token: str
     new_password: str = Field(min_length=8, max_length=128)
+
+
+#----Crew Member Role-----
+
+class CrewMemberRoleBase(SQLModel):
+    name: str = Field(min_length=1, max_length=255)
+
+class CrewMemberRoleCreate(CrewMemberRoleBase): pass
+
+class CrewMemberRoleUpdate(CrewMemberRoleBase):
+    name: str | None = Field(default=None, min_length=1, max_length=255)  # type: ignore[assignment]
+
+class CrewMemberRole(CrewMemberRoleBase, table=True):
+    __tablename__ = "crew_member_role" # type: ignore
+    
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    crew_members: list["CrewMember"] = Relationship(
+        back_populates="role",
+        cascade_delete=False
+    )
+    created_at: datetime | None = Field(
+        default_factory=get_datetime_utc,
+        sa_type=DateTime(timezone=True),  # type: ignore
+    )
+    owner_id: uuid.UUID = Field(
+        foreign_key="user.id", nullable=False, ondelete="CASCADE"
+    )
+    owner: User | None = Relationship(back_populates="crew_member_roles")
+
+class CrewMemberRolePublic(CrewMemberRoleBase):
+    id: uuid.UUID
+
+class CrewMemberRolesPublic(SQLModel):
+    data: list[CrewMemberRolePublic]
+    count: int
+#-------------------------
+
+
+#-----Crew Member-----
+class CrewMemberImage(ImageBase, table=True):
+    __tablename__ = "crew_member_image" # type: ignore
+
+    id: uuid.UUID = Field(
+        default_factory=uuid.uuid4,
+        primary_key=True
+    )
+    crew_member_id: uuid.UUID = Field(
+        foreign_key="crew_member.id"
+    )
+    crew_member: "CrewMember" = Relationship(back_populates="image")
+    
+
+class CrewMemberBase(SQLModel):
+    first_name: str = Field(min_length=1, max_length=64)
+    last_name: str = Field(min_length=1, max_length=64)
+    role_id: uuid.UUID
+    color: HexColor
+    motto: str = Field(min_length=1, max_length=510)
+    instagram: str = Field(unique=True, index=True, min_length=1, max_length=30)
+    email: EmailStr = Field(unique=True, index=True, max_length=255)
+    
+class CrewMemberCreate(CrewMemberBase):
+    image: UploadFile
+
+class CrewMemberUpdate(CrewMemberBase):
+    first_name: str | None = Field(default=None, min_length=1, max_length=64) # type: ignore[assignment]
+    last_name: str | None = Field(default=None, min_length=1, max_length=64) # type: ignore[assignment]
+    role_id: uuid.UUID | None = Field(default=None) # type: ignore[assignment]
+    color: HexColor | None = Field(default=None) # type: ignore[assignment]
+    motto: str | None = Field(default=None, min_length=1, max_length=510) # type: ignore[assignment]
+    instagram: str | None = Field(unique=True, index=True, min_length=1, max_length=30) # type: ignore[assignment]
+    email: EmailStr | None = Field(unique=True, index=True, max_length=255) # type: ignore[assignment]
+    
+    image: UploadFile | None = File(default=None)
+
+class CrewMember(CrewMemberBase, table=True):
+    __tablename__ = "crew_member" # type: ignore
+    
+    id: uuid.UUID = Field(
+        default_factory=uuid.uuid4,
+        primary_key=True
+    )
+    role_id: uuid.UUID = Field(
+        foreign_key="crew_member_role.id",
+        index=True,
+        ondelete="RESTRICT"
+    )
+    role: CrewMemberRole = Relationship(
+        back_populates="crew_members"
+    )
+    created_at: datetime | None = Field(
+        default_factory=get_datetime_utc,
+        sa_type=DateTime(timezone=True),  # type: ignore
+    )
+    owner_id: uuid.UUID = Field(
+        foreign_key="user.id", nullable=False, ondelete="CASCADE"
+    )
+    owner: User | None = Relationship(back_populates="crew_members")
+    image: CrewMemberImage = Relationship(
+        back_populates="crew_member",
+        sa_relationship_kwargs={"cascade": "all, delete-orphan"}
+    )
+#---------------------

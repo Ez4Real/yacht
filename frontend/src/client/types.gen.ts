@@ -9,6 +9,24 @@ export type Body_login_login_access_token = {
     client_secret?: (string | null);
 };
 
+export type CrewMemberRoleCreate = {
+    name: string;
+};
+
+export type CrewMemberRolePublic = {
+    name: string;
+    id: string;
+};
+
+export type CrewMemberRolesPublic = {
+    data: Array<CrewMemberRolePublic>;
+    count: number;
+};
+
+export type CrewMemberRoleUpdate = {
+    name?: (string | null);
+};
+
 export type HTTPValidationError = {
     detail?: Array<ValidationError>;
 };
@@ -112,6 +130,38 @@ export type ValidationError = {
         [key: string]: unknown;
     };
 };
+
+export type CrewMemberRolesReadCrewMemberRolesData = {
+    limit?: number;
+    skip?: number;
+};
+
+export type CrewMemberRolesReadCrewMemberRolesResponse = (CrewMemberRolesPublic);
+
+export type CrewMemberRolesCreateCrewMemberRoleData = {
+    requestBody: CrewMemberRoleCreate;
+};
+
+export type CrewMemberRolesCreateCrewMemberRoleResponse = (CrewMemberRolePublic);
+
+export type CrewMemberRolesReadCrewMemberRoleData = {
+    id: string;
+};
+
+export type CrewMemberRolesReadCrewMemberRoleResponse = (CrewMemberRolePublic);
+
+export type CrewMemberRolesUpdateCrewMemberRoleData = {
+    id: string;
+    requestBody: CrewMemberRoleUpdate;
+};
+
+export type CrewMemberRolesUpdateCrewMemberRoleResponse = (CrewMemberRolePublic);
+
+export type CrewMemberRolesDeleteCrewMemberRoleData = {
+    id: string;
+};
+
+export type CrewMemberRolesDeleteCrewMemberRoleResponse = (Message);
 
 export type ItemsReadItemsData = {
     limit?: number;

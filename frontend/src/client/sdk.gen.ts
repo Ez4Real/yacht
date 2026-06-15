@@ -3,7 +3,118 @@
 import type { CancelablePromise } from './core/CancelablePromise';
 import { OpenAPI } from './core/OpenAPI';
 import { request as __request } from './core/request';
-import type { ItemsReadItemsData, ItemsReadItemsResponse, ItemsCreateItemData, ItemsCreateItemResponse, ItemsReadItemData, ItemsReadItemResponse, ItemsUpdateItemData, ItemsUpdateItemResponse, ItemsDeleteItemData, ItemsDeleteItemResponse, LoginLoginAccessTokenData, LoginLoginAccessTokenResponse, LoginTestTokenResponse, LoginRecoverPasswordData, LoginRecoverPasswordResponse, LoginResetPasswordData, LoginResetPasswordResponse, LoginRecoverPasswordHtmlContentData, LoginRecoverPasswordHtmlContentResponse, PrivateCreateUserData, PrivateCreateUserResponse, UsersReadUsersData, UsersReadUsersResponse, UsersCreateUserData, UsersCreateUserResponse, UsersReadUserMeResponse, UsersDeleteUserMeResponse, UsersUpdateUserMeData, UsersUpdateUserMeResponse, UsersUpdatePasswordMeData, UsersUpdatePasswordMeResponse, UsersRegisterUserData, UsersRegisterUserResponse, UsersReadUserByIdData, UsersReadUserByIdResponse, UsersUpdateUserData, UsersUpdateUserResponse, UsersDeleteUserData, UsersDeleteUserResponse, UtilsTestEmailData, UtilsTestEmailResponse, UtilsHealthCheckResponse } from './types.gen';
+import type { CrewMemberRolesReadCrewMemberRolesData, CrewMemberRolesReadCrewMemberRolesResponse, CrewMemberRolesCreateCrewMemberRoleData, CrewMemberRolesCreateCrewMemberRoleResponse, CrewMemberRolesReadCrewMemberRoleData, CrewMemberRolesReadCrewMemberRoleResponse, CrewMemberRolesUpdateCrewMemberRoleData, CrewMemberRolesUpdateCrewMemberRoleResponse, CrewMemberRolesDeleteCrewMemberRoleData, CrewMemberRolesDeleteCrewMemberRoleResponse, ItemsReadItemsData, ItemsReadItemsResponse, ItemsCreateItemData, ItemsCreateItemResponse, ItemsReadItemData, ItemsReadItemResponse, ItemsUpdateItemData, ItemsUpdateItemResponse, ItemsDeleteItemData, ItemsDeleteItemResponse, LoginLoginAccessTokenData, LoginLoginAccessTokenResponse, LoginTestTokenResponse, LoginRecoverPasswordData, LoginRecoverPasswordResponse, LoginResetPasswordData, LoginResetPasswordResponse, LoginRecoverPasswordHtmlContentData, LoginRecoverPasswordHtmlContentResponse, PrivateCreateUserData, PrivateCreateUserResponse, UsersReadUsersData, UsersReadUsersResponse, UsersCreateUserData, UsersCreateUserResponse, UsersReadUserMeResponse, UsersDeleteUserMeResponse, UsersUpdateUserMeData, UsersUpdateUserMeResponse, UsersUpdatePasswordMeData, UsersUpdatePasswordMeResponse, UsersRegisterUserData, UsersRegisterUserResponse, UsersReadUserByIdData, UsersReadUserByIdResponse, UsersUpdateUserData, UsersUpdateUserResponse, UsersDeleteUserData, UsersDeleteUserResponse, UtilsTestEmailData, UtilsTestEmailResponse, UtilsHealthCheckResponse } from './types.gen';
+
+export class CrewMemberRolesService {
+    /**
+     * Read Crew Member Roles
+     * Retrieve crew_member_roles.
+     * @param data The data for the request.
+     * @param data.skip
+     * @param data.limit
+     * @returns CrewMemberRolesPublic Successful Response
+     * @throws ApiError
+     */
+    public static readCrewMemberRoles(data: CrewMemberRolesReadCrewMemberRolesData = {}): CancelablePromise<CrewMemberRolesReadCrewMemberRolesResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/crew_member_roles/',
+            query: {
+                skip: data.skip,
+                limit: data.limit
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Create Crew Member Role
+     * Create new crew member role.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns CrewMemberRolePublic Successful Response
+     * @throws ApiError
+     */
+    public static createCrewMemberRole(data: CrewMemberRolesCreateCrewMemberRoleData): CancelablePromise<CrewMemberRolesCreateCrewMemberRoleResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/crew_member_roles/',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read Crew Member Role
+     * Get crew member role by ID.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns CrewMemberRolePublic Successful Response
+     * @throws ApiError
+     */
+    public static readCrewMemberRole(data: CrewMemberRolesReadCrewMemberRoleData): CancelablePromise<CrewMemberRolesReadCrewMemberRoleResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/crew_member_roles/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Crew Member Role
+     * Update a crew member role.
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.requestBody
+     * @returns CrewMemberRolePublic Successful Response
+     * @throws ApiError
+     */
+    public static updateCrewMemberRole(data: CrewMemberRolesUpdateCrewMemberRoleData): CancelablePromise<CrewMemberRolesUpdateCrewMemberRoleResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/v1/crew_member_roles/{id}',
+            path: {
+                id: data.id
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Crew Member Role
+     * Delete a crew member role.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static deleteCrewMemberRole(data: CrewMemberRolesDeleteCrewMemberRoleData): CancelablePromise<CrewMemberRolesDeleteCrewMemberRoleResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/crew_member_roles/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+}
 
 export class ItemsService {
     /**
