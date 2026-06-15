@@ -17,7 +17,9 @@ import { Route as Main_layoutRouteImport } from './routes/_main_layout'
 import { Route as LayoutRouteImport } from './routes/_layout'
 import { Route as Main_layoutIndexRouteImport } from './routes/_main_layout/index'
 import { Route as LayoutCrewMemberRoleRouteImport } from './routes/_layout/crew-member-role'
+import { Route as Main_layoutMembersIndexRouteImport } from './routes/_main_layout/members/index'
 import { Route as LayoutAdminIndexRouteImport } from './routes/_layout/admin/index'
+import { Route as Main_layoutMembersSlugRouteImport } from './routes/_main_layout/members/$slug'
 import { Route as LayoutAdminSettingsRouteImport } from './routes/_layout/admin/settings'
 import { Route as LayoutAdminItemsRouteImport } from './routes/_layout/admin/items'
 import { Route as LayoutAdminAdminRouteImport } from './routes/_layout/admin/admin'
@@ -60,10 +62,20 @@ const LayoutCrewMemberRoleRoute = LayoutCrewMemberRoleRouteImport.update({
   path: '/crew-member-role',
   getParentRoute: () => LayoutRoute,
 } as any)
+const Main_layoutMembersIndexRoute = Main_layoutMembersIndexRouteImport.update({
+  id: '/members/',
+  path: '/members/',
+  getParentRoute: () => Main_layoutRoute,
+} as any)
 const LayoutAdminIndexRoute = LayoutAdminIndexRouteImport.update({
   id: '/admin/',
   path: '/admin/',
   getParentRoute: () => LayoutRoute,
+} as any)
+const Main_layoutMembersSlugRoute = Main_layoutMembersSlugRouteImport.update({
+  id: '/members/$slug',
+  path: '/members/$slug',
+  getParentRoute: () => Main_layoutRoute,
 } as any)
 const LayoutAdminSettingsRoute = LayoutAdminSettingsRouteImport.update({
   id: '/admin/settings',
@@ -91,7 +103,9 @@ export interface FileRoutesByFullPath {
   '/admin/admin': typeof LayoutAdminAdminRoute
   '/admin/items': typeof LayoutAdminItemsRoute
   '/admin/settings': typeof LayoutAdminSettingsRoute
+  '/members/$slug': typeof Main_layoutMembersSlugRoute
   '/admin/': typeof LayoutAdminIndexRoute
+  '/members/': typeof Main_layoutMembersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof Main_layoutIndexRoute
@@ -103,7 +117,9 @@ export interface FileRoutesByTo {
   '/admin/admin': typeof LayoutAdminAdminRoute
   '/admin/items': typeof LayoutAdminItemsRoute
   '/admin/settings': typeof LayoutAdminSettingsRoute
+  '/members/$slug': typeof Main_layoutMembersSlugRoute
   '/admin': typeof LayoutAdminIndexRoute
+  '/members': typeof Main_layoutMembersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -118,7 +134,9 @@ export interface FileRoutesById {
   '/_layout/admin/admin': typeof LayoutAdminAdminRoute
   '/_layout/admin/items': typeof LayoutAdminItemsRoute
   '/_layout/admin/settings': typeof LayoutAdminSettingsRoute
+  '/_main_layout/members/$slug': typeof Main_layoutMembersSlugRoute
   '/_layout/admin/': typeof LayoutAdminIndexRoute
+  '/_main_layout/members/': typeof Main_layoutMembersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -132,7 +150,9 @@ export interface FileRouteTypes {
     | '/admin/admin'
     | '/admin/items'
     | '/admin/settings'
+    | '/members/$slug'
     | '/admin/'
+    | '/members/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -144,7 +164,9 @@ export interface FileRouteTypes {
     | '/admin/admin'
     | '/admin/items'
     | '/admin/settings'
+    | '/members/$slug'
     | '/admin'
+    | '/members'
   id:
     | '__root__'
     | '/_layout'
@@ -158,7 +180,9 @@ export interface FileRouteTypes {
     | '/_layout/admin/admin'
     | '/_layout/admin/items'
     | '/_layout/admin/settings'
+    | '/_main_layout/members/$slug'
     | '/_layout/admin/'
+    | '/_main_layout/members/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -228,12 +252,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutCrewMemberRoleRouteImport
       parentRoute: typeof LayoutRoute
     }
+    '/_main_layout/members/': {
+      id: '/_main_layout/members/'
+      path: '/members'
+      fullPath: '/members/'
+      preLoaderRoute: typeof Main_layoutMembersIndexRouteImport
+      parentRoute: typeof Main_layoutRoute
+    }
     '/_layout/admin/': {
       id: '/_layout/admin/'
       path: '/admin'
       fullPath: '/admin/'
       preLoaderRoute: typeof LayoutAdminIndexRouteImport
       parentRoute: typeof LayoutRoute
+    }
+    '/_main_layout/members/$slug': {
+      id: '/_main_layout/members/$slug'
+      path: '/members/$slug'
+      fullPath: '/members/$slug'
+      preLoaderRoute: typeof Main_layoutMembersSlugRouteImport
+      parentRoute: typeof Main_layoutRoute
     }
     '/_layout/admin/settings': {
       id: '/_layout/admin/settings'
@@ -280,10 +318,14 @@ const LayoutRouteWithChildren =
 
 interface Main_layoutRouteChildren {
   Main_layoutIndexRoute: typeof Main_layoutIndexRoute
+  Main_layoutMembersSlugRoute: typeof Main_layoutMembersSlugRoute
+  Main_layoutMembersIndexRoute: typeof Main_layoutMembersIndexRoute
 }
 
 const Main_layoutRouteChildren: Main_layoutRouteChildren = {
   Main_layoutIndexRoute: Main_layoutIndexRoute,
+  Main_layoutMembersSlugRoute: Main_layoutMembersSlugRoute,
+  Main_layoutMembersIndexRoute: Main_layoutMembersIndexRoute,
 }
 
 const Main_layoutRouteWithChildren = Main_layoutRoute._addFileChildren(

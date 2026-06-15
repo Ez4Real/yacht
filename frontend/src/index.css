@@ -1,13 +1,74 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@font-face {
+  font-family: "Inter";
+  src: url("/assets/fonts/Inter_24pt-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/assets/fonts/Inter_24pt-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/assets/fonts/Inter_24pt-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/assets/fonts/Inter_24pt-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cedarville Cursive";
+  src: url("/assets/fonts/CedarvilleCursive-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+
+  --text-quote: 32px;
+  --text-quote--line-height: 41px;
+  --text-quote--font-weight: 400;
+
+  --text-main: 26px;
+  --text-title--line-height: 120%;
+  --text-title--font-weight: 400;
+
+  --text-title: 32px;
+  --text-title--line-height: 100%;
+  --text-title--font-weight: 400;
+
+  --font-inter: "Inter", sans-serif;
+  --font-cursive: "Cedarville Cursive", cursive;
+  --font-inter: "Inter", sans-serif;
+  --font-cursive: "Cedarville Cursive", cursive;
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  --color-role: var(--role);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -43,8 +104,10 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --background: #F0EFEB;;
+  --foreground: #501500;
+  --role: #A78A80;
+
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -76,9 +139,11 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
-/* .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
+.dark {
+  --background: #501500;
+  --foreground: #FFF3DB;
+  --role: #A78A80;
+
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
@@ -108,15 +173,14 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
-} */
+}
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
-    background-color: #F0EFEB;
+    @apply bg-background text-foreground font-inter;
   }
   button,
   [role="button"] {

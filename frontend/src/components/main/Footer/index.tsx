@@ -1,50 +1,58 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
+import { useTheme } from "@/components/admin/theme-provider";
 
-export const Footer = () => {
-    return (
-        <footer>
-            <div className="flex">
-                <div className="w-full pointer-events-none">
-                    <Button
-                        variant="ghost"
-                        className="p-[0px] gap-[0px]"
-                    >
+type FooterProps = {
+  fullWidth?: boolean;
+  transparent?: boolean;
+};
 
-                    </Button>
+export const Footer = ({ fullWidth = false, transparent = false, }: FooterProps) => {
+  const { theme, setTheme } = useTheme();
+  const isDark = theme === "dark";
+
+ const footerWrapperClass = fullWidth ? "w-full" : "w-[50%]";
+ const footerClass = transparent
+  ? "flex justify-end sticky bottom-0 z-1 text-foreground"
+  : "flex justify-end sticky bottom-0 z-1 bg-background text-foreground";
+
+  return (
+    <footer className={footerClass}>
+      <div className={`${footerWrapperClass} py-[30px]`}>
+        <div className="flex w-full items-end justify-between">
+          <div className="flex flex-col items-start gap-[30px]">
+            <Button variant="ghost" className="flex items-center p-0 gap-0">
+              <div className="flex items-center font-normal text-main">
+                <p>instagram</p>
+                <div className="w-[44px] h-[44px] flex justify-center items-center">
+                  <img
+                    src={
+                      isDark
+                        ? "/assets/icons/arrow-dark.svg"
+                        : "/assets/icons/arrow-right.svg"
+                    }
+                  />
                 </div>
+              </div>
+            </Button>
 
-                <div className="flex w-full items-end justify-between">
-                    <div className="flex flex-col items-start gap-[30px]">
-                        <Button
-                            variant="ghost"
-                            className="flex items-center align-center p-[0px] gap-[0px]"
-                        >
-                            <div className="flex justify-center items-center align-center text-[#501500] font-[400] text-[26px]">
-                                <p>instagram</p>
-                                <div className="w-[44px] h-[44px] flex justify-center items-center align-center">
-                                    <img src="/assets/icons/arrow-right.svg" />
-                                </div>
-                            </div>
-                        </Button>
-                        <Button
-                            variant="ghost"
-                            className="flex items-center align-center p-[0px] gap-[0px]"
-                        >
-                            <div className="text-[#501500] font-[400] text-[26px]">
-                                broker@bmayachts.com
-                            </div>
-                        </Button>
-                    </div>
-                    <Button
-                        variant="ghost"
-                        className="flex items-center align-center p-[0px] gap-[0px]"
-                    >
-                        <div className="text-[#501500] font-[400] text-[26px]">
-                            dark mode
-                        </div>
-                    </Button>
-                </div>
+            <Button variant="ghost" className="flex items-center p-0 gap-0">
+              <div className="font-normal text-main">
+                broker@bmayachts.com
+              </div>
+            </Button>
+          </div>
+
+          <Button
+            variant="ghost"
+            className="p-0 gap-0"
+            onClick={() => setTheme(isDark ? "light" : "dark")}
+          >
+            <div className="font-normal text-main">
+              {isDark ? "light mode" : "dark mode"}
             </div>
-        </footer>
-    );
+          </Button>
+        </div>
+      </div>
+    </footer>
+  );
 };

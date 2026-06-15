@@ -3,7 +3,6 @@ import { Outlet, createFileRoute } from "@tanstack/react-router"
 import "../index.css"
 import { Header } from "@/components/main/Header"
 import { Footer } from "@/components/main/Footer"
-import { CrewMembers } from "@/components/main/CrewMembers"
 
 
 export const Route = createFileRoute("/_main_layout")({
@@ -16,12 +15,9 @@ function MainLayout() {
     <>
       <div className="pl-[30px] pr-[60px]">
         <Header />
-        <main>
-          <div>
-            <Outlet />
-          </div>
+        <main className="pb-[162px]">
+          <Outlet />
         </main>
-        <CrewMembers/>
         <Footer />
       </div>
     </>
