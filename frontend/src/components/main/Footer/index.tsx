@@ -12,8 +12,8 @@ export const Footer = ({ fullWidth = false, transparent = false, }: FooterProps)
 
  const footerWrapperClass = fullWidth ? "w-full" : "w-[50%]";
  const footerClass = transparent
-  ? "flex justify-end sticky bottom-0 z-1 text-foreground"
-  : "flex justify-end sticky bottom-0 z-1 bg-background text-foreground";
+  ? "flex justify-end z-1 text-foreground"
+  : "flex justify-end z-1 bg-background text-foreground";
 
   return (
     <footer className={footerClass}>

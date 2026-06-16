@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/admin/theme-provider";
-import { Link } from "@tanstack/react-router";
 import { Menu } from "@/components/main/Menu";
 
 export const Header = () => {
@@ -8,14 +7,15 @@ export const Header = () => {
     const isDark = theme === "dark";
 
     return (
-        <header className="pt-[30px] pb-[30px] sticky top-0 z-10 bg-background text-foreground">
+        <header className="pt-[30px] pb-[30px] text-foreground">
             <nav>
                 <div className="flex justify-between items-center">
                     <div className="w-full">
-                        <Button asChild variant="ghost" className="p-0 gap-0">
-                            <Link to="/" className="font-normal text-main">
-                                back
-                            </Link>
+                        <Button asChild
+                            onClick={() => window.history.back()}
+                            variant="ghost"
+                            className="p-0 gap-0 cursor-pointer">
+                            <p className="font-normal text-main">back</p>
                         </Button>
                     </div>
 
@@ -36,7 +36,7 @@ export const Header = () => {
                                     }
                                 />
                             </div>
-                            
+
                         </Button>
 
                         <Button
