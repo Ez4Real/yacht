@@ -2,6 +2,14 @@
 @import "tw-animate-css";
 
 @font-face {
+  font-family: "Druk Cond";
+  src: url("./assets/fonts/DrukCond-Super-Trial.otf") format("opentype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
   font-family: "Inter";
   src: url("/assets/fonts/Inter_24pt-Regular.ttf") format("truetype");
   font-weight: 400;
@@ -53,10 +61,11 @@
   --text-title--line-height: 120%;
   --text-title--font-weight: 400;
 
-  --text-title: 32px;
+  --text-title: 36px;
   --text-title--line-height: 100%;
   --text-title--font-weight: 400;
 
+  --font-druk: "Druk Cond", sans-serif;
   --font-inter: "Inter", sans-serif;
   --font-cursive: "Cedarville Cursive", cursive;
   --font-inter: "Inter", sans-serif;
@@ -68,6 +77,7 @@
   --radius-xl: calc(var(--radius) + 4px);
 
   --color-role: var(--role);
+  --color-light-text: var(--light-text);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -104,9 +114,11 @@
 
 :root {
   --radius: 0.625rem;
-  --background: #F0EFEB;;
+  --background: #F0EFEB;
   --foreground: #501500;
   --role: #A78A80;
+  --light-text: #F0EFEB;
+
 
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -143,6 +155,7 @@
   --background: #501500;
   --foreground: #FFF3DB;
   --role: #A78A80;
+  --light-text: #F0EFEB; 
 
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
@@ -179,9 +192,11 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground font-inter;
   }
+
   button,
   [role="button"] {
     cursor: pointer;

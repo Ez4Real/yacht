@@ -18,8 +18,10 @@ import { Route as LayoutRouteImport } from './routes/_layout'
 import { Route as Main_layoutIndexRouteImport } from './routes/_main_layout/index'
 import { Route as LayoutCrewMemberRoleRouteImport } from './routes/_layout/crew-member-role'
 import { Route as Main_layoutMembersIndexRouteImport } from './routes/_main_layout/members/index'
+import { Route as Main_layoutDestinationsIndexRouteImport } from './routes/_main_layout/destinations/index'
 import { Route as LayoutAdminIndexRouteImport } from './routes/_layout/admin/index'
 import { Route as Main_layoutMembersSlugRouteImport } from './routes/_main_layout/members/$slug'
+import { Route as Main_layoutDestinationsSlugRouteImport } from './routes/_main_layout/destinations/$slug'
 import { Route as LayoutAdminSettingsRouteImport } from './routes/_layout/admin/settings'
 import { Route as LayoutAdminItemsRouteImport } from './routes/_layout/admin/items'
 import { Route as LayoutAdminAdminRouteImport } from './routes/_layout/admin/admin'
@@ -67,6 +69,12 @@ const Main_layoutMembersIndexRoute = Main_layoutMembersIndexRouteImport.update({
   path: '/members/',
   getParentRoute: () => Main_layoutRoute,
 } as any)
+const Main_layoutDestinationsIndexRoute =
+  Main_layoutDestinationsIndexRouteImport.update({
+    id: '/destinations/',
+    path: '/destinations/',
+    getParentRoute: () => Main_layoutRoute,
+  } as any)
 const LayoutAdminIndexRoute = LayoutAdminIndexRouteImport.update({
   id: '/admin/',
   path: '/admin/',
@@ -77,6 +85,12 @@ const Main_layoutMembersSlugRoute = Main_layoutMembersSlugRouteImport.update({
   path: '/members/$slug',
   getParentRoute: () => Main_layoutRoute,
 } as any)
+const Main_layoutDestinationsSlugRoute =
+  Main_layoutDestinationsSlugRouteImport.update({
+    id: '/destinations/$slug',
+    path: '/destinations/$slug',
+    getParentRoute: () => Main_layoutRoute,
+  } as any)
 const LayoutAdminSettingsRoute = LayoutAdminSettingsRouteImport.update({
   id: '/admin/settings',
   path: '/admin/settings',
@@ -103,8 +117,10 @@ export interface FileRoutesByFullPath {
   '/admin/admin': typeof LayoutAdminAdminRoute
   '/admin/items': typeof LayoutAdminItemsRoute
   '/admin/settings': typeof LayoutAdminSettingsRoute
+  '/destinations/$slug': typeof Main_layoutDestinationsSlugRoute
   '/members/$slug': typeof Main_layoutMembersSlugRoute
   '/admin/': typeof LayoutAdminIndexRoute
+  '/destinations/': typeof Main_layoutDestinationsIndexRoute
   '/members/': typeof Main_layoutMembersIndexRoute
 }
 export interface FileRoutesByTo {
@@ -117,8 +133,10 @@ export interface FileRoutesByTo {
   '/admin/admin': typeof LayoutAdminAdminRoute
   '/admin/items': typeof LayoutAdminItemsRoute
   '/admin/settings': typeof LayoutAdminSettingsRoute
+  '/destinations/$slug': typeof Main_layoutDestinationsSlugRoute
   '/members/$slug': typeof Main_layoutMembersSlugRoute
   '/admin': typeof LayoutAdminIndexRoute
+  '/destinations': typeof Main_layoutDestinationsIndexRoute
   '/members': typeof Main_layoutMembersIndexRoute
 }
 export interface FileRoutesById {
@@ -134,8 +152,10 @@ export interface FileRoutesById {
   '/_layout/admin/admin': typeof LayoutAdminAdminRoute
   '/_layout/admin/items': typeof LayoutAdminItemsRoute
   '/_layout/admin/settings': typeof LayoutAdminSettingsRoute
+  '/_main_layout/destinations/$slug': typeof Main_layoutDestinationsSlugRoute
   '/_main_layout/members/$slug': typeof Main_layoutMembersSlugRoute
   '/_layout/admin/': typeof LayoutAdminIndexRoute
+  '/_main_layout/destinations/': typeof Main_layoutDestinationsIndexRoute
   '/_main_layout/members/': typeof Main_layoutMembersIndexRoute
 }
 export interface FileRouteTypes {
@@ -150,8 +170,10 @@ export interface FileRouteTypes {
     | '/admin/admin'
     | '/admin/items'
     | '/admin/settings'
+    | '/destinations/$slug'
     | '/members/$slug'
     | '/admin/'
+    | '/destinations/'
     | '/members/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -164,8 +186,10 @@ export interface FileRouteTypes {
     | '/admin/admin'
     | '/admin/items'
     | '/admin/settings'
+    | '/destinations/$slug'
     | '/members/$slug'
     | '/admin'
+    | '/destinations'
     | '/members'
   id:
     | '__root__'
@@ -180,8 +204,10 @@ export interface FileRouteTypes {
     | '/_layout/admin/admin'
     | '/_layout/admin/items'
     | '/_layout/admin/settings'
+    | '/_main_layout/destinations/$slug'
     | '/_main_layout/members/$slug'
     | '/_layout/admin/'
+    | '/_main_layout/destinations/'
     | '/_main_layout/members/'
   fileRoutesById: FileRoutesById
 }
@@ -259,6 +285,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Main_layoutMembersIndexRouteImport
       parentRoute: typeof Main_layoutRoute
     }
+    '/_main_layout/destinations/': {
+      id: '/_main_layout/destinations/'
+      path: '/destinations'
+      fullPath: '/destinations/'
+      preLoaderRoute: typeof Main_layoutDestinationsIndexRouteImport
+      parentRoute: typeof Main_layoutRoute
+    }
     '/_layout/admin/': {
       id: '/_layout/admin/'
       path: '/admin'
@@ -271,6 +304,13 @@ declare module '@tanstack/react-router' {
       path: '/members/$slug'
       fullPath: '/members/$slug'
       preLoaderRoute: typeof Main_layoutMembersSlugRouteImport
+      parentRoute: typeof Main_layoutRoute
+    }
+    '/_main_layout/destinations/$slug': {
+      id: '/_main_layout/destinations/$slug'
+      path: '/destinations/$slug'
+      fullPath: '/destinations/$slug'
+      preLoaderRoute: typeof Main_layoutDestinationsSlugRouteImport
       parentRoute: typeof Main_layoutRoute
     }
     '/_layout/admin/settings': {
@@ -318,13 +358,17 @@ const LayoutRouteWithChildren =
 
 interface Main_layoutRouteChildren {
   Main_layoutIndexRoute: typeof Main_layoutIndexRoute
+  Main_layoutDestinationsSlugRoute: typeof Main_layoutDestinationsSlugRoute
   Main_layoutMembersSlugRoute: typeof Main_layoutMembersSlugRoute
+  Main_layoutDestinationsIndexRoute: typeof Main_layoutDestinationsIndexRoute
   Main_layoutMembersIndexRoute: typeof Main_layoutMembersIndexRoute
 }
 
 const Main_layoutRouteChildren: Main_layoutRouteChildren = {
   Main_layoutIndexRoute: Main_layoutIndexRoute,
+  Main_layoutDestinationsSlugRoute: Main_layoutDestinationsSlugRoute,
   Main_layoutMembersSlugRoute: Main_layoutMembersSlugRoute,
+  Main_layoutDestinationsIndexRoute: Main_layoutDestinationsIndexRoute,
   Main_layoutMembersIndexRoute: Main_layoutMembersIndexRoute,
 }
 

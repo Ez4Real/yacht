@@ -10,16 +10,16 @@ import {
 } from "@/components/ui/sheet";
 
 const menuItems = [
-  { label: "home", to: "/", activePath: "/" },
-  { label: "team", to: "/members", activePath: "/members" },
-  { label: "sales", to: "/sales", activePath: "/sales" },
-  { label: "charters", to: "/charters", activePath: "/charters" },
-  { label: "about us", to: "/about", activePath: "/about" },
-  { label: "destinations", to: "/destinations", activePath: "/destinations" },
-  { label: "concierge", to: "/concierge", activePath: "/concierge" },
-  { label: "charter management", to: "/charter-management", activePath: "/charter-management" },
-  { label: "owner representation", to: "/owner-representation", activePath: "/owner-representation" },
-  { label: "spinnaker magazine", to: "/spinnaker-magazine", activePath: "/spinnaker-magazine" },
+    { label: "home", to: "/", activePath: "/" },
+    { label: "team", to: "/members", activePath: "/members" },
+    { label: "sales", to: "/sales", activePath: "/sales" },
+    { label: "charters", to: "/charters", activePath: "/charters" },
+    { label: "about us", to: "/about", activePath: "/about" },
+    { label: "destinations", to: "/destinations", activePath: "/destinations" },
+    { label: "concierge", to: "/concierge", activePath: "/concierge" },
+    { label: "charter management", to: "/charter-management", activePath: "/charter-management" },
+    { label: "owner representation", to: "/owner-representation", activePath: "/owner-representation" },
+    { label: "spinnaker magazine", to: "/spinnaker-magazine", activePath: "/spinnaker-magazine" },
 ];
 
 export const Menu = () => {
@@ -102,9 +102,11 @@ export const Menu = () => {
                         <nav className="mt-[30px] gap-[10px] flex flex-col items-start">
                             {menuItems.map((item) => {
                                 const isActive =
-                                item.to === "/members"
-                                ? location.pathname.startsWith("/members")
-                                : location.pathname === item.to;
+                                    item.to === "/members"
+                                        ? location.pathname.startsWith("/members")
+                                        : item.to === "/destinations"
+                                            ? location.pathname.startsWith("/destinations")
+                                            : location.pathname === item.to;
 
                                 return (
                                     <SheetClose asChild key={item.label}>

@@ -15,7 +15,7 @@ function MainLayout() {
     <>
       <div className="pl-[30px] pr-[60px]">
         <Header />
-        <main className="pb-[162px]">
+        <main className="pb-[160px]">
           <Outlet />
         </main>
         <Footer />
