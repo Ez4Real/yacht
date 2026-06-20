@@ -4,7 +4,7 @@ import { Search } from "lucide-react"
 import { Suspense } from "react"
 
 import { CrewMemberRolesService } from "@/client"
-import { DataTable } from "@/components/admin/Common/DataTable"
+import { DataTable } from "@/components/Common/DataTable"
 import AddRole from "@/components/CrewMemberRoles/AddRole"
 import { columns } from "@/components/CrewMemberRoles/columns"
 import PendingCrewMemberRoles from "@/components/Pending/PendingCrewMemberRoles"
@@ -16,7 +16,7 @@ function getCrewMemberRolesQueryOptions() {
   }
 }
 
-export const Route = createFileRoute("/_layout/crew-member-role")({
+export const Route = createFileRoute("/_admin_layout/admin/crew-member-role")({
   component: CrewMemberRoles,
   head: () => ({
     meta: [

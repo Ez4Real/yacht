@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { useTheme } from "@/components/admin/theme-provider";
+import { useTheme } from "@/components/theme-provider";
 import { Menu } from "@/components/main/Menu";
 
 export const Header = () => {
