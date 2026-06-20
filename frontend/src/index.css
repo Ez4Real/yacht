@@ -52,22 +52,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-
-  --text-quote: 32px;
-  --text-quote--line-height: 41px;
-  --text-quote--font-weight: 400;
-
-  --text-main: 26px;
-  --text-title--line-height: 120%;
-  --text-title--font-weight: 400;
-
-  --text-title: 36px;
-  --text-title--line-height: 100%;
-  --text-title--font-weight: 400;
-
   --font-druk: "Druk Cond", sans-serif;
-  --font-inter: "Inter", sans-serif;
-  --font-cursive: "Cedarville Cursive", cursive;
   --font-inter: "Inter", sans-serif;
   --font-cursive: "Cedarville Cursive", cursive;
 
@@ -155,7 +140,7 @@
   --background: #501500;
   --foreground: #FFF3DB;
   --role: #A78A80;
-  --light-text: #F0EFEB; 
+  --light-text: #F0EFEB;
 
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
@@ -200,5 +185,51 @@
   button,
   [role="button"] {
     cursor: pointer;
+  }
+}
+
+@layer utilities {
+  .text-small {
+    font-size: 24px;
+    line-height: 100%;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  .text-main-style {
+    font-size: 26px;
+    line-height: 31px;
+    font-weight: 400;
+  }
+
+  .text-h2 {
+    font-size: 36px;
+    line-height: 100%;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  .text-main-nav {
+    font-size: 26px;
+    line-height: 135%;
+    font-weight: 400;
+  }
+
+  .text-title-style {
+    font-size: 32px;
+    line-height: 41px;
+    font-weight: 400;
+  }
+
+  .text-quote {
+    font-size: 32px;
+    line-height: 41px;
+    font-weight: 400;
+  }
+
+  .text-menu {
+    font-size: 50px;
+    line-height: 120%;
+    font-weight: 400;
   }
 }

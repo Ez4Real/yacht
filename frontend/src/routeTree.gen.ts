@@ -16,6 +16,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as Main_layoutRouteImport } from './routes/_main_layout'
 import { Route as LayoutRouteImport } from './routes/_layout'
 import { Route as Main_layoutIndexRouteImport } from './routes/_main_layout/index'
+import { Route as Main_layoutAboutRouteImport } from './routes/_main_layout/about'
 import { Route as LayoutCrewMemberRoleRouteImport } from './routes/_layout/crew-member-role'
 import { Route as Main_layoutMembersIndexRouteImport } from './routes/_main_layout/members/index'
 import { Route as Main_layoutDestinationsIndexRouteImport } from './routes/_main_layout/destinations/index'
@@ -57,6 +58,11 @@ const LayoutRoute = LayoutRouteImport.update({
 const Main_layoutIndexRoute = Main_layoutIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => Main_layoutRoute,
+} as any)
+const Main_layoutAboutRoute = Main_layoutAboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => Main_layoutRoute,
 } as any)
 const LayoutCrewMemberRoleRoute = LayoutCrewMemberRoleRouteImport.update({
@@ -114,6 +120,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/crew-member-role': typeof LayoutCrewMemberRoleRoute
+  '/about': typeof Main_layoutAboutRoute
   '/admin/admin': typeof LayoutAdminAdminRoute
   '/admin/items': typeof LayoutAdminItemsRoute
   '/admin/settings': typeof LayoutAdminSettingsRoute
@@ -130,6 +137,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/crew-member-role': typeof LayoutCrewMemberRoleRoute
+  '/about': typeof Main_layoutAboutRoute
   '/admin/admin': typeof LayoutAdminAdminRoute
   '/admin/items': typeof LayoutAdminItemsRoute
   '/admin/settings': typeof LayoutAdminSettingsRoute
@@ -148,6 +156,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/_layout/crew-member-role': typeof LayoutCrewMemberRoleRoute
+  '/_main_layout/about': typeof Main_layoutAboutRoute
   '/_main_layout/': typeof Main_layoutIndexRoute
   '/_layout/admin/admin': typeof LayoutAdminAdminRoute
   '/_layout/admin/items': typeof LayoutAdminItemsRoute
@@ -167,6 +176,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/signup'
     | '/crew-member-role'
+    | '/about'
     | '/admin/admin'
     | '/admin/items'
     | '/admin/settings'
@@ -183,6 +193,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/signup'
     | '/crew-member-role'
+    | '/about'
     | '/admin/admin'
     | '/admin/items'
     | '/admin/settings'
@@ -200,6 +211,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/signup'
     | '/_layout/crew-member-role'
+    | '/_main_layout/about'
     | '/_main_layout/'
     | '/_layout/admin/admin'
     | '/_layout/admin/items'
@@ -269,6 +281,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof Main_layoutIndexRouteImport
+      parentRoute: typeof Main_layoutRoute
+    }
+    '/_main_layout/about': {
+      id: '/_main_layout/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof Main_layoutAboutRouteImport
       parentRoute: typeof Main_layoutRoute
     }
     '/_layout/crew-member-role': {
@@ -357,6 +376,7 @@ const LayoutRouteWithChildren =
   LayoutRoute._addFileChildren(LayoutRouteChildren)
 
 interface Main_layoutRouteChildren {
+  Main_layoutAboutRoute: typeof Main_layoutAboutRoute
   Main_layoutIndexRoute: typeof Main_layoutIndexRoute
   Main_layoutDestinationsSlugRoute: typeof Main_layoutDestinationsSlugRoute
   Main_layoutMembersSlugRoute: typeof Main_layoutMembersSlugRoute
@@ -365,6 +385,7 @@ interface Main_layoutRouteChildren {
 }
 
 const Main_layoutRouteChildren: Main_layoutRouteChildren = {
+  Main_layoutAboutRoute: Main_layoutAboutRoute,
   Main_layoutIndexRoute: Main_layoutIndexRoute,
   Main_layoutDestinationsSlugRoute: Main_layoutDestinationsSlugRoute,
   Main_layoutMembersSlugRoute: Main_layoutMembersSlugRoute,

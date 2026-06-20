@@ -7,7 +7,7 @@ export const Route = createFileRoute("/_main_layout/members/")({
 
 function MembersPage() {
   return (
-    <div className="grid grid-cols-6 gap-4">
+    <div className="grid grid-cols-6 gap-[20px]">
       {team.map((member, index) => (
         <div key={`${member.slug}-${index}`}>
           {member.image ? (
@@ -23,7 +23,7 @@ function MembersPage() {
               />
             </Link>
           ) : (
-            <div className="w-full aspect-[310/468] bg-[#F1E7CD] dark:bg-[#FFF3DB]" />
+            <div className="w-full aspect-[310/468] bg-[#FFF3DB] dark:bg-[#FFF3DB]" />
           )}
 
           <p className="mt-5 text-[24px] font-normal text-foreground">
