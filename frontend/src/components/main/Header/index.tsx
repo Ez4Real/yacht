@@ -7,7 +7,7 @@ export const Header = () => {
     const isDark = theme === "dark";
 
     return (
-        <header className="pt-[30px] pb-[30px] text-foreground">
+        <header className="pt-[30px] pb-[30px]">
             <nav>
                 <div className="flex justify-between items-center">
                     <div className="w-full">
@@ -15,7 +15,7 @@ export const Header = () => {
                             onClick={() => window.history.back()}
                             variant="ghost"
                             className="p-0 gap-0 cursor-pointer">
-                            <p className="font-normal text-main">back</p>
+                            <p className="text-main-nav">back</p>
                         </Button>
                     </div>
 
@@ -24,9 +24,8 @@ export const Header = () => {
                             variant="ghost"
                             className="flex items-center w-[113px] h-[44px] p-0 gap-0"
                         >
-                            <p className="font-normal text-main">
-                                <Menu />
-                            </p>
+                            <Menu />
+
                             <div className="w-[44px] h-[44px] flex justify-center items-center">
                                 <img
                                     src={
@@ -43,7 +42,7 @@ export const Header = () => {
                             variant="ghost"
                             className="flex items-center w-[136px] h-[44px] p-0 gap-0"
                         >
-                            <p className="font-normal text-main">enquire</p>
+                            <p className="text-main-nav">enquire</p>
                             <div className="w-[44px] h-[44px] flex justify-center items-center">
                                 <img
                                     src={

@@ -8,6 +8,7 @@ import {
     SheetContent,
     SheetTrigger,
 } from "@/components/ui/sheet";
+import { ThemeSwitcher } from "../ThemeSwitcher";
 
 const menuItems = [
     { label: "home", to: "/", activePath: "/" },
@@ -34,7 +35,7 @@ export const Menu = () => {
                     variant="ghost"
                     className="flex items-center w-[113px] h-[44px] p-0 gap-0 transition-none"
                 >
-                    <p className="font-normal text-main">menu</p>
+                    <p className="text-main-nav">menu</p>
 
                     <div className="w-[44px] h-[44px] flex justify-center items-center">
                         <img
@@ -51,27 +52,53 @@ export const Menu = () => {
 
             <SheetContent
                 side="right"
-                className="!fixed !inset-0 !z-50 !max-w-none !w-screen !h-screen border-0 bg-transparent text-foreground p-0"
-            >
-                <div className="flex h-screen">
+                className="
+                !fixed 
+                !inset-0 
+                !z-50 
+                !max-w-none 
+                !w-screen 
+                !h-screen 
+                border-0 
+                bg-transparent 
+                text-foreground 
+                p-0
+                ">
+                <div className="flex h-screen justify-end">
                     <SheetClose asChild>
                         <button
                             type="button"
                             aria-label="Close menu"
-                            className="w-1/2 h-full cursor-default"
+                            className="flex-1 h-full cursor-default"
                         />
                     </SheetClose>
-                    <div className="ml-auto w-1/2 bg-background pl-[50px] pt-[30px] pr-[52px] pb-[20px] flex flex-col h-full">
+                    <div className="
+                        w-[calc(50%+50px)] 
+                        bg-background 
+                        pl-[50px] 
+                        pt-[30px] 
+                        pr-[50px] 
+                        pb-[50px] 
+                        flex 
+                        flex-col 
+                        h-full
+                        ">
 
                         <div className="flex justify-between">
                             <SheetClose asChild>
                                 <Button
-                                    variant="ghost"
-                                    className="flex items-center p-0 gap-0 transition-none"
-                                >
-                                    <p className="font-normal text-main">menu</p>
+                                    variant="ghost" 
+                                    className="
+                                    h-[44px]
+                                    w-[113px]
+                                    flex items-center 
+                                    p-0 
+                                    gap-0 
+                                    transition-none
+                                    ">
+                                    <p className="text-main-nav">menu</p>
 
-                                    <div className="w-[44px] h-[44px] flex justify-center items-center">
+                                    <div className=" flex justify-center items-center">
                                         <img
                                             src={
                                                 isDark
@@ -84,10 +111,18 @@ export const Menu = () => {
                                 </Button>
                             </SheetClose>
 
-                            <Button variant="ghost" className="flex items-center p-0 gap-0 transition-none">
-                                <p className="font-normal text-main">enquire</p>
+                            <Button variant="ghost" className="
+                                h-[44px] 
+                                w-[136px] 
+                                flex 
+                                items-center 
+                                p-0 
+                                gap-0 
+                                transition-none
+                                ">
+                                <p className="text-main-nav">enquire</p>
 
-                                <div className="w-[44px] h-[44px] flex justify-center items-center">
+                                <div className="flex justify-center items-center">
                                     <img
                                         src={
                                             isDark
@@ -112,7 +147,7 @@ export const Menu = () => {
                                     <SheetClose asChild key={item.label}>
                                         <Link
                                             to={item.to}
-                                            className={`text-title leading-[120%] ${isActive ? "text-foreground" : "text-role"
+                                            className={`text-menu ${isActive ? "text-foreground" : "text-role"
                                                 }`}
                                         >
                                             {item.label}
@@ -121,8 +156,9 @@ export const Menu = () => {
                                 );
                             })}
                         </nav>
-                        <div className="mt-auto">
+                        <div className="mt-auto flex justify-between items-end">
                             <Footer fullWidth transparent />
+                            <ThemeSwitcher className="pr-[10px] w-[132px]"/>
                         </div>
                     </div>
                 </div>

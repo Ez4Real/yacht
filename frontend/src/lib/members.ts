@@ -45,10 +45,4 @@ export const team = [
     role: "Broker",
     image: null,
   },
-  {
-    slug: "",
-    name: "Johanna",
-    role: "Broker",
-    image: null,
-  },
 ];
