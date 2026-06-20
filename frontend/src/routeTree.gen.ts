@@ -14,17 +14,17 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as RecoverPasswordRouteImport } from './routes/recover-password'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as Main_layoutRouteImport } from './routes/_main_layout'
-import { Route as LayoutRouteImport } from './routes/_layout'
+import { Route as Admin_layoutRouteImport } from './routes/_admin_layout'
 import { Route as Main_layoutIndexRouteImport } from './routes/_main_layout/index'
-import { Route as LayoutCrewMemberRoleRouteImport } from './routes/_layout/crew-member-role'
 import { Route as Main_layoutMembersIndexRouteImport } from './routes/_main_layout/members/index'
 import { Route as Main_layoutDestinationsIndexRouteImport } from './routes/_main_layout/destinations/index'
-import { Route as LayoutAdminIndexRouteImport } from './routes/_layout/admin/index'
+import { Route as Admin_layoutAdminIndexRouteImport } from './routes/_admin_layout/admin/index'
 import { Route as Main_layoutMembersSlugRouteImport } from './routes/_main_layout/members/$slug'
 import { Route as Main_layoutDestinationsSlugRouteImport } from './routes/_main_layout/destinations/$slug'
-import { Route as LayoutAdminSettingsRouteImport } from './routes/_layout/admin/settings'
-import { Route as LayoutAdminItemsRouteImport } from './routes/_layout/admin/items'
-import { Route as LayoutAdminAdminRouteImport } from './routes/_layout/admin/admin'
+import { Route as Admin_layoutAdminSettingsRouteImport } from './routes/_admin_layout/admin/settings'
+import { Route as Admin_layoutAdminItemsRouteImport } from './routes/_admin_layout/admin/items'
+import { Route as Admin_layoutAdminCrewMemberRoleRouteImport } from './routes/_admin_layout/admin/crew-member-role'
+import { Route as Admin_layoutAdminAdminManagementRouteImport } from './routes/_admin_layout/admin/admin-management'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -50,19 +50,14 @@ const Main_layoutRoute = Main_layoutRouteImport.update({
   id: '/_main_layout',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LayoutRoute = LayoutRouteImport.update({
-  id: '/_layout',
+const Admin_layoutRoute = Admin_layoutRouteImport.update({
+  id: '/_admin_layout',
   getParentRoute: () => rootRouteImport,
 } as any)
 const Main_layoutIndexRoute = Main_layoutIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => Main_layoutRoute,
-} as any)
-const LayoutCrewMemberRoleRoute = LayoutCrewMemberRoleRouteImport.update({
-  id: '/crew-member-role',
-  path: '/crew-member-role',
-  getParentRoute: () => LayoutRoute,
 } as any)
 const Main_layoutMembersIndexRoute = Main_layoutMembersIndexRouteImport.update({
   id: '/members/',
@@ -75,10 +70,10 @@ const Main_layoutDestinationsIndexRoute =
     path: '/destinations/',
     getParentRoute: () => Main_layoutRoute,
   } as any)
-const LayoutAdminIndexRoute = LayoutAdminIndexRouteImport.update({
+const Admin_layoutAdminIndexRoute = Admin_layoutAdminIndexRouteImport.update({
   id: '/admin/',
   path: '/admin/',
-  getParentRoute: () => LayoutRoute,
+  getParentRoute: () => Admin_layoutRoute,
 } as any)
 const Main_layoutMembersSlugRoute = Main_layoutMembersSlugRouteImport.update({
   id: '/members/$slug',
@@ -91,21 +86,29 @@ const Main_layoutDestinationsSlugRoute =
     path: '/destinations/$slug',
     getParentRoute: () => Main_layoutRoute,
   } as any)
-const LayoutAdminSettingsRoute = LayoutAdminSettingsRouteImport.update({
-  id: '/admin/settings',
-  path: '/admin/settings',
-  getParentRoute: () => LayoutRoute,
-} as any)
-const LayoutAdminItemsRoute = LayoutAdminItemsRouteImport.update({
+const Admin_layoutAdminSettingsRoute =
+  Admin_layoutAdminSettingsRouteImport.update({
+    id: '/admin/settings',
+    path: '/admin/settings',
+    getParentRoute: () => Admin_layoutRoute,
+  } as any)
+const Admin_layoutAdminItemsRoute = Admin_layoutAdminItemsRouteImport.update({
   id: '/admin/items',
   path: '/admin/items',
-  getParentRoute: () => LayoutRoute,
+  getParentRoute: () => Admin_layoutRoute,
 } as any)
-const LayoutAdminAdminRoute = LayoutAdminAdminRouteImport.update({
-  id: '/admin/admin',
-  path: '/admin/admin',
-  getParentRoute: () => LayoutRoute,
-} as any)
+const Admin_layoutAdminCrewMemberRoleRoute =
+  Admin_layoutAdminCrewMemberRoleRouteImport.update({
+    id: '/admin/crew-member-role',
+    path: '/admin/crew-member-role',
+    getParentRoute: () => Admin_layoutRoute,
+  } as any)
+const Admin_layoutAdminAdminManagementRoute =
+  Admin_layoutAdminAdminManagementRouteImport.update({
+    id: '/admin/admin-management',
+    path: '/admin/admin-management',
+    getParentRoute: () => Admin_layoutRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof Main_layoutIndexRoute
@@ -113,13 +116,13 @@ export interface FileRoutesByFullPath {
   '/recover-password': typeof RecoverPasswordRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
-  '/crew-member-role': typeof LayoutCrewMemberRoleRoute
-  '/admin/admin': typeof LayoutAdminAdminRoute
-  '/admin/items': typeof LayoutAdminItemsRoute
-  '/admin/settings': typeof LayoutAdminSettingsRoute
+  '/admin/admin-management': typeof Admin_layoutAdminAdminManagementRoute
+  '/admin/crew-member-role': typeof Admin_layoutAdminCrewMemberRoleRoute
+  '/admin/items': typeof Admin_layoutAdminItemsRoute
+  '/admin/settings': typeof Admin_layoutAdminSettingsRoute
   '/destinations/$slug': typeof Main_layoutDestinationsSlugRoute
   '/members/$slug': typeof Main_layoutMembersSlugRoute
-  '/admin/': typeof LayoutAdminIndexRoute
+  '/admin/': typeof Admin_layoutAdminIndexRoute
   '/destinations/': typeof Main_layoutDestinationsIndexRoute
   '/members/': typeof Main_layoutMembersIndexRoute
 }
@@ -129,32 +132,32 @@ export interface FileRoutesByTo {
   '/recover-password': typeof RecoverPasswordRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
-  '/crew-member-role': typeof LayoutCrewMemberRoleRoute
-  '/admin/admin': typeof LayoutAdminAdminRoute
-  '/admin/items': typeof LayoutAdminItemsRoute
-  '/admin/settings': typeof LayoutAdminSettingsRoute
+  '/admin/admin-management': typeof Admin_layoutAdminAdminManagementRoute
+  '/admin/crew-member-role': typeof Admin_layoutAdminCrewMemberRoleRoute
+  '/admin/items': typeof Admin_layoutAdminItemsRoute
+  '/admin/settings': typeof Admin_layoutAdminSettingsRoute
   '/destinations/$slug': typeof Main_layoutDestinationsSlugRoute
   '/members/$slug': typeof Main_layoutMembersSlugRoute
-  '/admin': typeof LayoutAdminIndexRoute
+  '/admin': typeof Admin_layoutAdminIndexRoute
   '/destinations': typeof Main_layoutDestinationsIndexRoute
   '/members': typeof Main_layoutMembersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/_layout': typeof LayoutRouteWithChildren
+  '/_admin_layout': typeof Admin_layoutRouteWithChildren
   '/_main_layout': typeof Main_layoutRouteWithChildren
   '/login': typeof LoginRoute
   '/recover-password': typeof RecoverPasswordRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
-  '/_layout/crew-member-role': typeof LayoutCrewMemberRoleRoute
   '/_main_layout/': typeof Main_layoutIndexRoute
-  '/_layout/admin/admin': typeof LayoutAdminAdminRoute
-  '/_layout/admin/items': typeof LayoutAdminItemsRoute
-  '/_layout/admin/settings': typeof LayoutAdminSettingsRoute
+  '/_admin_layout/admin/admin-management': typeof Admin_layoutAdminAdminManagementRoute
+  '/_admin_layout/admin/crew-member-role': typeof Admin_layoutAdminCrewMemberRoleRoute
+  '/_admin_layout/admin/items': typeof Admin_layoutAdminItemsRoute
+  '/_admin_layout/admin/settings': typeof Admin_layoutAdminSettingsRoute
   '/_main_layout/destinations/$slug': typeof Main_layoutDestinationsSlugRoute
   '/_main_layout/members/$slug': typeof Main_layoutMembersSlugRoute
-  '/_layout/admin/': typeof LayoutAdminIndexRoute
+  '/_admin_layout/admin/': typeof Admin_layoutAdminIndexRoute
   '/_main_layout/destinations/': typeof Main_layoutDestinationsIndexRoute
   '/_main_layout/members/': typeof Main_layoutMembersIndexRoute
 }
@@ -166,8 +169,8 @@ export interface FileRouteTypes {
     | '/recover-password'
     | '/reset-password'
     | '/signup'
-    | '/crew-member-role'
-    | '/admin/admin'
+    | '/admin/admin-management'
+    | '/admin/crew-member-role'
     | '/admin/items'
     | '/admin/settings'
     | '/destinations/$slug'
@@ -182,8 +185,8 @@ export interface FileRouteTypes {
     | '/recover-password'
     | '/reset-password'
     | '/signup'
-    | '/crew-member-role'
-    | '/admin/admin'
+    | '/admin/admin-management'
+    | '/admin/crew-member-role'
     | '/admin/items'
     | '/admin/settings'
     | '/destinations/$slug'
@@ -193,26 +196,26 @@ export interface FileRouteTypes {
     | '/members'
   id:
     | '__root__'
-    | '/_layout'
+    | '/_admin_layout'
     | '/_main_layout'
     | '/login'
     | '/recover-password'
     | '/reset-password'
     | '/signup'
-    | '/_layout/crew-member-role'
     | '/_main_layout/'
-    | '/_layout/admin/admin'
-    | '/_layout/admin/items'
-    | '/_layout/admin/settings'
+    | '/_admin_layout/admin/admin-management'
+    | '/_admin_layout/admin/crew-member-role'
+    | '/_admin_layout/admin/items'
+    | '/_admin_layout/admin/settings'
     | '/_main_layout/destinations/$slug'
     | '/_main_layout/members/$slug'
-    | '/_layout/admin/'
+    | '/_admin_layout/admin/'
     | '/_main_layout/destinations/'
     | '/_main_layout/members/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  LayoutRoute: typeof LayoutRouteWithChildren
+  Admin_layoutRoute: typeof Admin_layoutRouteWithChildren
   Main_layoutRoute: typeof Main_layoutRouteWithChildren
   LoginRoute: typeof LoginRoute
   RecoverPasswordRoute: typeof RecoverPasswordRoute
@@ -257,11 +260,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Main_layoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_layout': {
-      id: '/_layout'
+    '/_admin_layout': {
+      id: '/_admin_layout'
       path: ''
       fullPath: '/'
-      preLoaderRoute: typeof LayoutRouteImport
+      preLoaderRoute: typeof Admin_layoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_main_layout/': {
@@ -270,13 +273,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof Main_layoutIndexRouteImport
       parentRoute: typeof Main_layoutRoute
-    }
-    '/_layout/crew-member-role': {
-      id: '/_layout/crew-member-role'
-      path: '/crew-member-role'
-      fullPath: '/crew-member-role'
-      preLoaderRoute: typeof LayoutCrewMemberRoleRouteImport
-      parentRoute: typeof LayoutRoute
     }
     '/_main_layout/members/': {
       id: '/_main_layout/members/'
@@ -292,12 +288,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Main_layoutDestinationsIndexRouteImport
       parentRoute: typeof Main_layoutRoute
     }
-    '/_layout/admin/': {
-      id: '/_layout/admin/'
+    '/_admin_layout/admin/': {
+      id: '/_admin_layout/admin/'
       path: '/admin'
       fullPath: '/admin/'
-      preLoaderRoute: typeof LayoutAdminIndexRouteImport
-      parentRoute: typeof LayoutRoute
+      preLoaderRoute: typeof Admin_layoutAdminIndexRouteImport
+      parentRoute: typeof Admin_layoutRoute
     }
     '/_main_layout/members/$slug': {
       id: '/_main_layout/members/$slug'
@@ -313,48 +309,56 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Main_layoutDestinationsSlugRouteImport
       parentRoute: typeof Main_layoutRoute
     }
-    '/_layout/admin/settings': {
-      id: '/_layout/admin/settings'
+    '/_admin_layout/admin/settings': {
+      id: '/_admin_layout/admin/settings'
       path: '/admin/settings'
       fullPath: '/admin/settings'
-      preLoaderRoute: typeof LayoutAdminSettingsRouteImport
-      parentRoute: typeof LayoutRoute
+      preLoaderRoute: typeof Admin_layoutAdminSettingsRouteImport
+      parentRoute: typeof Admin_layoutRoute
     }
-    '/_layout/admin/items': {
-      id: '/_layout/admin/items'
+    '/_admin_layout/admin/items': {
+      id: '/_admin_layout/admin/items'
       path: '/admin/items'
       fullPath: '/admin/items'
-      preLoaderRoute: typeof LayoutAdminItemsRouteImport
-      parentRoute: typeof LayoutRoute
+      preLoaderRoute: typeof Admin_layoutAdminItemsRouteImport
+      parentRoute: typeof Admin_layoutRoute
     }
-    '/_layout/admin/admin': {
-      id: '/_layout/admin/admin'
-      path: '/admin/admin'
-      fullPath: '/admin/admin'
-      preLoaderRoute: typeof LayoutAdminAdminRouteImport
-      parentRoute: typeof LayoutRoute
+    '/_admin_layout/admin/crew-member-role': {
+      id: '/_admin_layout/admin/crew-member-role'
+      path: '/admin/crew-member-role'
+      fullPath: '/admin/crew-member-role'
+      preLoaderRoute: typeof Admin_layoutAdminCrewMemberRoleRouteImport
+      parentRoute: typeof Admin_layoutRoute
+    }
+    '/_admin_layout/admin/admin-management': {
+      id: '/_admin_layout/admin/admin-management'
+      path: '/admin/admin-management'
+      fullPath: '/admin/admin-management'
+      preLoaderRoute: typeof Admin_layoutAdminAdminManagementRouteImport
+      parentRoute: typeof Admin_layoutRoute
     }
   }
 }
 
-interface LayoutRouteChildren {
-  LayoutCrewMemberRoleRoute: typeof LayoutCrewMemberRoleRoute
-  LayoutAdminAdminRoute: typeof LayoutAdminAdminRoute
-  LayoutAdminItemsRoute: typeof LayoutAdminItemsRoute
-  LayoutAdminSettingsRoute: typeof LayoutAdminSettingsRoute
-  LayoutAdminIndexRoute: typeof LayoutAdminIndexRoute
+interface Admin_layoutRouteChildren {
+  Admin_layoutAdminAdminManagementRoute: typeof Admin_layoutAdminAdminManagementRoute
+  Admin_layoutAdminCrewMemberRoleRoute: typeof Admin_layoutAdminCrewMemberRoleRoute
+  Admin_layoutAdminItemsRoute: typeof Admin_layoutAdminItemsRoute
+  Admin_layoutAdminSettingsRoute: typeof Admin_layoutAdminSettingsRoute
+  Admin_layoutAdminIndexRoute: typeof Admin_layoutAdminIndexRoute
 }
 
-const LayoutRouteChildren: LayoutRouteChildren = {
-  LayoutCrewMemberRoleRoute: LayoutCrewMemberRoleRoute,
-  LayoutAdminAdminRoute: LayoutAdminAdminRoute,
-  LayoutAdminItemsRoute: LayoutAdminItemsRoute,
-  LayoutAdminSettingsRoute: LayoutAdminSettingsRoute,
-  LayoutAdminIndexRoute: LayoutAdminIndexRoute,
+const Admin_layoutRouteChildren: Admin_layoutRouteChildren = {
+  Admin_layoutAdminAdminManagementRoute: Admin_layoutAdminAdminManagementRoute,
+  Admin_layoutAdminCrewMemberRoleRoute: Admin_layoutAdminCrewMemberRoleRoute,
+  Admin_layoutAdminItemsRoute: Admin_layoutAdminItemsRoute,
+  Admin_layoutAdminSettingsRoute: Admin_layoutAdminSettingsRoute,
+  Admin_layoutAdminIndexRoute: Admin_layoutAdminIndexRoute,
 }
 
-const LayoutRouteWithChildren =
-  LayoutRoute._addFileChildren(LayoutRouteChildren)
+const Admin_layoutRouteWithChildren = Admin_layoutRoute._addFileChildren(
+  Admin_layoutRouteChildren,
+)
 
 interface Main_layoutRouteChildren {
   Main_layoutIndexRoute: typeof Main_layoutIndexRoute
@@ -377,7 +381,7 @@ const Main_layoutRouteWithChildren = Main_layoutRoute._addFileChildren(
 )
 
 const rootRouteChildren: RootRouteChildren = {
-  LayoutRoute: LayoutRouteWithChildren,
+  Admin_layoutRoute: Admin_layoutRouteWithChildren,
   Main_layoutRoute: Main_layoutRouteWithChildren,
   LoginRoute: LoginRoute,
   RecoverPasswordRoute: RecoverPasswordRoute,

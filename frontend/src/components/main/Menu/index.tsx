@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/main/Footer";
-import { useTheme } from "@/components/admin/theme-provider";
+import { useTheme } from "@/components/theme-provider";
 import { Link, useLocation } from "@tanstack/react-router";
 import {
     Sheet,

@@ -1,4 +1,4 @@
-import { useTheme } from "@/components/admin/theme-provider";
+import { useTheme } from "@/components/theme-provider";
 
 export const Home = () => {
   const { theme } = useTheme();

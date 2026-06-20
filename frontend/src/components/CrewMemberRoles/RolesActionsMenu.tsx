@@ -8,8 +8,8 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import DeleteRole from "../CrewMemberRoles/DeleteRole"
-import EditRole from "../CrewMemberRoles/EditRole"
+import DeleteRole from "./DeleteRole"
+import EditRole from "./EditRole"
 
 interface RoleActionsMenuProps {
   role: CrewMemberRolePublic
