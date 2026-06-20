@@ -1,5 +1,6 @@
 import secrets
 import warnings
+from pathlib import Path
 from typing import Annotated, Any, Literal
 
 from pydantic import (
@@ -114,6 +115,22 @@ class Settings(BaseSettings):
         )
 
         return self
+    
+    UPLOAD_DIR: Path = Path("uploads")
+    @model_validator(mode="after")
+    def _ensure_upload_dir_exists(self) -> Self:
+        """Ensure the upload directory exists."""
+        self.UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+        return self
+    
+    CREW_MEMBER_IMAGES_DIR: Path = Path("crew-member-images")
+    @model_validator(mode="after")
+    def _ensure_crew_member_images_dir_exists(self) -> Self:
+        """Ensure the crew member images upload directory exists."""
+        Path(self.UPLOAD_DIR / self.CREW_MEMBER_IMAGES_DIR).mkdir(parents=True, exist_ok=True)
+        return self
+
+    
 
 
 settings = Settings()  # type: ignore

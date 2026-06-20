@@ -200,6 +200,7 @@ class CrewMemberImage(ImageBase, table=True):
 class CrewMemberBase(SQLModel):
     first_name: str = Field(min_length=1, max_length=64)
     last_name: str = Field(min_length=1, max_length=64)
+    background: str = Field(min_length=1, max_length=512)
     role_id: uuid.UUID
     color: HexColor
     motto: str = Field(min_length=1, max_length=510)
@@ -212,6 +213,7 @@ class CrewMemberCreate(CrewMemberBase):
 class CrewMemberUpdate(CrewMemberBase):
     first_name: str | None = Field(default=None, min_length=1, max_length=64) # type: ignore[assignment]
     last_name: str | None = Field(default=None, min_length=1, max_length=64) # type: ignore[assignment]
+    background: str = Field(default=None, min_length=1, max_length=512)
     role_id: uuid.UUID | None = Field(default=None) # type: ignore[assignment]
     color: HexColor | None = Field(default=None) # type: ignore[assignment]
     motto: str | None = Field(default=None, min_length=1, max_length=510) # type: ignore[assignment]
