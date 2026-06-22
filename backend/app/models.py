@@ -1,8 +1,9 @@
+import json
 import uuid
 from datetime import datetime, timezone
 
 from typing import Annotated
-from pydantic import EmailStr, StringConstraints
+from pydantic import EmailStr, StringConstraints, model_validator
 from sqlalchemy import DateTime
 from sqlmodel import Field, Relationship, SQLModel
 
@@ -13,7 +14,14 @@ def get_datetime_utc() -> datetime:
     return datetime.now(timezone.utc)
 
 
-HexColor = Annotated[str, StringConstraints(pattern=r"^#[0-9A-Fa-f]{6}$")]
+HexColor = Annotated[
+    str,
+    StringConstraints(
+        pattern=r"^#[0-9A-Fa-f]{6}$",
+        min_length=7,
+        max_length=7
+    )
+]
 
 # Shared properties
 class UserBase(SQLModel):
@@ -161,13 +169,13 @@ class CrewMemberRole(CrewMemberRoleBase, table=True):
     __tablename__ = "crew_member_role" # type: ignore
     
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
-    crew_members: list["CrewMember"] = Relationship(
-        back_populates="role",
-        cascade_delete=False
-    )
     created_at: datetime | None = Field(
         default_factory=get_datetime_utc,
         sa_type=DateTime(timezone=True),  # type: ignore
+    )
+    crew_members: list["CrewMember"] = Relationship(
+        back_populates="role",
+        cascade_delete=False
     )
     owner_id: uuid.UUID = Field(
         foreign_key="user.id", nullable=False, ondelete="CASCADE"
@@ -176,6 +184,8 @@ class CrewMemberRole(CrewMemberRoleBase, table=True):
 
 class CrewMemberRolePublic(CrewMemberRoleBase):
     id: uuid.UUID
+    created_at: datetime
+    owner_id: uuid.UUID
 
 class CrewMemberRolesPublic(SQLModel):
     data: list[CrewMemberRolePublic]
@@ -185,7 +195,7 @@ class CrewMemberRolesPublic(SQLModel):
 
 #-----Crew Member-----
 class CrewMemberImage(ImageBase, table=True):
-    __tablename__ = "crew_member_image" # type: ignore
+    __tablename__ = "crew_member_image" # type: ignore[assignment]
 
     id: uuid.UUID = Field(
         default_factory=uuid.uuid4,
@@ -195,6 +205,9 @@ class CrewMemberImage(ImageBase, table=True):
         foreign_key="crew_member.id"
     )
     crew_member: "CrewMember" = Relationship(back_populates="image")
+    
+class CrewMemberImagePublic(ImageBase):
+    id: uuid.UUID
     
 
 class CrewMemberBase(SQLModel):
@@ -207,35 +220,43 @@ class CrewMemberBase(SQLModel):
     instagram: str = Field(unique=True, index=True, min_length=1, max_length=30)
     email: EmailStr = Field(unique=True, index=True, max_length=255)
     
+    @model_validator(mode='before')
+    @classmethod
+    def validate_to_json(cls, value):
+        if isinstance(value, str):
+            return json.loads(value)
+        return value
+    
 class CrewMemberCreate(CrewMemberBase):
     image: UploadFile
 
-class CrewMemberUpdate(CrewMemberBase):
-    first_name: str | None = Field(default=None, min_length=1, max_length=64) # type: ignore[assignment]
-    last_name: str | None = Field(default=None, min_length=1, max_length=64) # type: ignore[assignment]
-    background: str = Field(default=None, min_length=1, max_length=512)
-    role_id: uuid.UUID | None = Field(default=None) # type: ignore[assignment]
-    color: HexColor | None = Field(default=None) # type: ignore[assignment]
-    motto: str | None = Field(default=None, min_length=1, max_length=510) # type: ignore[assignment]
-    instagram: str | None = Field(unique=True, index=True, min_length=1, max_length=30) # type: ignore[assignment]
-    email: EmailStr | None = Field(unique=True, index=True, max_length=255) # type: ignore[assignment]
-    
+class CrewMemberUpdateBase(SQLModel):
+    first_name: str | None = Field(default=None, min_length=1, max_length=64) 
+    last_name: str | None = Field(default=None, min_length=1, max_length=64) 
+    background: str | None = Field(default=None, min_length=1, max_length=512)
+    role_id: uuid.UUID | None = Field(default=None) 
+    color: HexColor | None = None
+    motto: str | None = Field(default=None, min_length=1, max_length=510) 
+    instagram: str | None = Field(default=None, unique=True, index=True, min_length=1, max_length=30) 
+    email: EmailStr | None = Field(default=None, unique=True, index=True, max_length=255) 
+
+    @model_validator(mode='before')
+    @classmethod
+    def validate_to_json(cls, value):
+        if isinstance(value, str):
+            return json.loads(value)
+        return value
+
+class CrewMemberUpdate(CrewMemberUpdateBase):
     image: UploadFile | None = File(default=None)
+    
 
 class CrewMember(CrewMemberBase, table=True):
-    __tablename__ = "crew_member" # type: ignore
+    __tablename__ = "crew_member" # type: ignore[assignment]
     
     id: uuid.UUID = Field(
         default_factory=uuid.uuid4,
         primary_key=True
-    )
-    role_id: uuid.UUID = Field(
-        foreign_key="crew_member_role.id",
-        index=True,
-        ondelete="RESTRICT"
-    )
-    role: CrewMemberRole = Relationship(
-        back_populates="crew_members"
     )
     created_at: datetime | None = Field(
         default_factory=get_datetime_utc,
@@ -245,8 +266,28 @@ class CrewMember(CrewMemberBase, table=True):
         foreign_key="user.id", nullable=False, ondelete="CASCADE"
     )
     owner: User | None = Relationship(back_populates="crew_members")
+    role_id: uuid.UUID = Field(
+        foreign_key="crew_member_role.id",
+        index=True,
+        ondelete="RESTRICT"
+    )
+    role: CrewMemberRole = Relationship(
+        back_populates="crew_members"
+    )
     image: CrewMemberImage = Relationship(
         back_populates="crew_member",
         sa_relationship_kwargs={"cascade": "all, delete-orphan"}
     )
+    
+class CrewMemberPublic(CrewMemberBase):
+    id: uuid.UUID
+    owner_id: uuid.UUID
+    created_at: datetime
+    role: CrewMemberRolePublic
+    image: CrewMemberImagePublic
+    
+class CrewMembersPublic(SQLModel):
+    data: list[CrewMemberPublic]
+    count: int
+    
 #---------------------

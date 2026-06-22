@@ -1,16 +1,16 @@
-import { useTheme } from "@/components/admin/theme-provider";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router"
+import { useTheme } from "@/components/theme-provider"
 
 export const Route = createFileRoute("/_main_layout/")({
   component: RouteComponent,
-});
+})
 
 function RouteComponent() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+  const { theme } = useTheme()
+  const isDark = theme === "dark"
   return (
     <div className="flex justify-between">
-      <Link to='/'>
+      <Link to="/">
         <img
           src={
             isDark
@@ -47,5 +47,5 @@ function RouteComponent() {
         />
       </div>
     </div>
-  );
+  )
 }

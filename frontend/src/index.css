@@ -99,11 +99,10 @@
 
 :root {
   --radius: 0.625rem;
-  --background: #F0EFEB;
+  --background: #f0efeb;
   --foreground: #501500;
-  --role: #A78A80;
-  --light-text: #F0EFEB;
-
+  --role: #a78a80;
+  --light-text: #f0efeb;
 
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -138,9 +137,9 @@
 
 .dark {
   --background: #501500;
-  --foreground: #FFF3DB;
-  --role: #A78A80;
-  --light-text: #F0EFEB;
+  --foreground: #fff3db;
+  --role: #a78a80;
+  --light-text: #f0efeb;
 
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);

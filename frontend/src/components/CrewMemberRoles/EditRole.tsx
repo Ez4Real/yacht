@@ -31,9 +31,10 @@ import useCustomToast from "@/hooks/useCustomToast"
 import { handleError } from "@/utils"
 
 const formSchema = z.object({
-  name: z.string()
-   .min(1, { message: "Role name is required" })
-   .max(255, { message: "Role name must be at most 255 characters" })
+  name: z
+    .string()
+    .min(1, { message: "Role name is required" })
+    .max(255, { message: "Role name must be at most 255 characters" }),
 })
 
 type FormData = z.infer<typeof formSchema>
@@ -53,13 +54,16 @@ const EditRole = ({ role, onSuccess }: EditRoleProps) => {
     mode: "onBlur",
     criteriaMode: "all",
     defaultValues: {
-      name: role.name
+      name: role.name,
     },
   })
 
   const mutation = useMutation({
     mutationFn: (data: FormData) =>
-      CrewMemberRolesService.updateCrewMemberRole({ id: role.id, requestBody: data }),
+      CrewMemberRolesService.updateCrewMemberRole({
+        id: role.id,
+        requestBody: data,
+      }),
     onSuccess: () => {
       showSuccessToast("Role updated successfully")
       setIsOpen(false)

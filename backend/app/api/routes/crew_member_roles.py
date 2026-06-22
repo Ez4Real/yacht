@@ -5,15 +5,15 @@ from fastapi import APIRouter, HTTPException
 from sqlmodel import col, func, select
 
 from app.api.deps import CurrentUser, SessionDep
-from app.models import CrewMemberRole, CrewMemberRoleCreate, CrewMemberRolePublic, CrewMemberRolesPublic, CrewMemberRoleUpdate, Message
+from app.models import CrewMemberRole, CrewMemberRoleCreate, CrewMemberRoleUpdate, CrewMemberRolePublic, CrewMemberRolesPublic, Message
 
-router = APIRouter(prefix="/crew_member_roles", tags=["crew_member_roles"])
+router = APIRouter(prefix="/crew-member-roles", tags=["crew member roles"])
 
 
 @router.get("/", response_model=CrewMemberRolesPublic)
 def read_crew_member_roles(
     session: SessionDep, current_user: CurrentUser, skip: int = 0, limit: int = 100
-) -> Any:
+) -> CrewMemberRolesPublic:
     """
     Retrieve crew_member_roles.
     """

@@ -1,25 +1,25 @@
-import { Link } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router"
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
-} from "@/components/ui/breadcrumb";
+} from "@/components/ui/breadcrumb"
 
 type Destination = {
-  slug: string;
-  title: string;
-  country: string;
-  region?: string;
-  image: string;
-  cardDescription?: string;
-  description?: string;
-};
+  slug: string
+  title: string
+  country: string
+  region?: string
+  image: string
+  cardDescription?: string
+  description?: string
+}
 
 type DestinationCardProps = {
-  destination: Destination;
-};
+  destination: Destination
+}
 
 export function DestinationCard({ destination }: DestinationCardProps) {
   return (
@@ -36,7 +36,8 @@ export function DestinationCard({ destination }: DestinationCardProps) {
             className="w-full aspect-[465/230] object-cover transition-transform duration-700 ease-out group-hover:scale-110"
           />
 
-          <div className="
+          <div
+            className="
             absolute 
             inset-0 
             flex 
@@ -47,7 +48,8 @@ export function DestinationCard({ destination }: DestinationCardProps) {
             transition-opacity 
             duration-500 
             group-hover:opacity-100
-            ">
+            "
+          >
             <span className="font-druk text-light-text text-[72px] leading-none">
               more
             </span>
@@ -91,5 +93,5 @@ export function DestinationCard({ destination }: DestinationCardProps) {
         {destination.cardDescription ?? destination.description}
       </p>
     </div>
-  );
+  )
 }

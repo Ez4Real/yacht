@@ -1,61 +1,64 @@
-import { Button } from "@/components/ui/button";
-import { useTheme } from "@/components/theme-provider";
-import { Menu } from "@/components/main/Menu";
+import { Menu } from "@/components/main/Menu"
+import { useTheme } from "@/components/theme-provider"
+import { Button } from "@/components/ui/button"
 
 export const Header = () => {
-    const { theme } = useTheme();
-    const isDark = theme === "dark";
+  const { theme } = useTheme()
+  const isDark = theme === "dark"
 
-    return (
-        <header className="pt-[30px] pb-[30px]">
-            <nav>
-                <div className="flex justify-between items-center">
-                    <div className="w-full">
-                        <Button asChild
-                            onClick={() => window.history.back()}
-                            variant="ghost"
-                            className="p-0 gap-0 cursor-pointer">
-                            <p className="text-main-nav">back</p>
-                        </Button>
-                    </div>
+  return (
+    <header className="pt-[30px] pb-[30px]">
+      <nav>
+        <div className="flex justify-between items-center">
+          <div className="w-full">
+            <Button
+              asChild
+              onClick={() => window.history.back()}
+              variant="ghost"
+              className="p-0 gap-0 cursor-pointer"
+            >
+              <p className="text-main-nav">back</p>
+            </Button>
+          </div>
 
-                    <div className="flex justify-between w-full">
-                        <Button
-                            variant="ghost"
-                            className="flex items-center w-[113px] h-[44px] p-0 gap-0"
-                        >
-                            <Menu />
+          <div className="flex justify-between w-full">
+            <Button
+              variant="ghost"
+              className="flex items-center w-[113px] h-[44px] p-0 gap-0"
+            >
+              <Menu />
 
-                            <div className="w-[44px] h-[44px] flex justify-center items-center">
-                                <img
-                                    src={
-                                        isDark
-                                            ? "/assets/icons/plus-dark.svg"
-                                            : "/assets/icons/plus.svg"
-                                    }
-                                />
-                            </div>
+              <div className="w-[44px] h-[44px] flex justify-center items-center">
+                <img
+                  src={
+                    isDark
+                      ? "/assets/icons/plus-dark.svg"
+                      : "/assets/icons/plus.svg"
+                  }
+                  alt="FORGERMANTOFIX"
+                />
+              </div>
+            </Button>
 
-                        </Button>
-
-                        <Button
-                            variant="ghost"
-                            className="flex items-center w-[136px] h-[44px] p-0 gap-0"
-                        >
-                            <p className="text-main-nav">enquire</p>
-                            <div className="w-[44px] h-[44px] flex justify-center items-center">
-                                <img
-                                    src={
-                                        isDark
-                                            ? "/assets/icons/plus-dark.svg"
-                                            : "/assets/icons/plus.svg"
-                                    }
-                                />
-                            </div>
-                        </Button>
-                    </div>
-                </div>
-            </nav>
-        </header>
-    );
-};
+            <Button
+              variant="ghost"
+              className="flex items-center w-[136px] h-[44px] p-0 gap-0"
+            >
+              <p className="text-main-nav">enquire</p>
+              <div className="w-[44px] h-[44px] flex justify-center items-center">
+                <img
+                  src={
+                    isDark
+                      ? "/assets/icons/plus-dark.svg"
+                      : "/assets/icons/plus.svg"
+                  }
+                  alt="FORGERMANTOFIX"
+                />
+              </div>
+            </Button>
+          </div>
+        </div>
+      </nav>
+    </header>
+  )
+}

@@ -11,7 +11,8 @@ import PendingCrewMemberRoles from "@/components/Pending/PendingCrewMemberRoles"
 
 function getCrewMemberRolesQueryOptions() {
   return {
-    queryFn: () => CrewMemberRolesService.readCrewMemberRoles({ skip: 0, limit: 100 }),
+    queryFn: () =>
+      CrewMemberRolesService.readCrewMemberRoles({ skip: 0, limit: 100 }),
     queryKey: ["crew_member_roles"],
   }
 }
@@ -58,8 +59,12 @@ function CrewMemberRoles() {
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Crew Member Roles</h1>
-          <p className="text-muted-foreground">Create and manage your crew member roles</p>
+          <h1 className="text-2xl font-bold tracking-tight">
+            Crew Member Roles
+          </h1>
+          <p className="text-muted-foreground">
+            Create and manage your crew member roles
+          </p>
         </div>
         <AddRole />
       </div>

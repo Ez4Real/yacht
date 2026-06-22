@@ -2,7 +2,7 @@ from collections.abc import Generator
 from typing import Annotated
 
 import jwt
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, status, Form, File, UploadFile
 from fastapi.security import OAuth2PasswordBearer
 from jwt.exceptions import InvalidTokenError
 from pydantic import ValidationError
@@ -11,7 +11,7 @@ from sqlmodel import Session
 from app.core import security
 from app.core.config import settings
 from app.core.db import engine
-from app.models import TokenPayload, User
+from app.models import TokenPayload, User, CrewMemberBase, CrewMemberCreate, CrewMemberUpdateBase, CrewMemberUpdate
 
 reusable_oauth2 = OAuth2PasswordBearer(
     tokenUrl=f"{settings.API_V1_STR}/login/access-token"
@@ -55,3 +55,26 @@ def get_current_active_superuser(current_user: CurrentUser) -> User:
             status_code=403, detail="The user doesn't have enough privileges"
         )
     return current_user
+
+
+def parse_crew_member_create(
+    crew_member_base: CrewMemberBase = Form(...),
+    image: UploadFile = File(),
+) -> CrewMemberCreate:
+    crew_member_data = crew_member_base.model_dump()
+    crew_member = CrewMemberCreate(
+        image=image,
+        **crew_member_data
+    )
+    return crew_member
+
+def parse_crew_member_update(
+    crew_member_base: CrewMemberUpdateBase = Form(...),
+    image: UploadFile | None = File(default=None),
+) -> CrewMemberUpdate:
+    crew_member_data = crew_member_base.model_dump()
+    crew_member = CrewMemberUpdate( 
+        image=image, 
+        **crew_member_data)
+    return crew_member
+

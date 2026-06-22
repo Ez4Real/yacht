@@ -1,20 +1,23 @@
-import { Button } from "@/components/ui/button";
-import { useTheme } from "@/components/theme-provider";
-import { Link } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router"
+import { useTheme } from "@/components/theme-provider"
+import { Button } from "@/components/ui/button"
 
 type FooterProps = {
-  fullWidth?: boolean;
-  transparent?: boolean;
-};
+  fullWidth?: boolean
+  transparent?: boolean
+}
 
-export const Footer = ({ fullWidth = false, transparent = false, }: FooterProps) => {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+export const Footer = ({
+  fullWidth = false,
+  transparent = false,
+}: FooterProps) => {
+  const { theme } = useTheme()
+  const isDark = theme === "dark"
 
-  const footerWrapperClass = fullWidth ? "w-full" : "w-[50%]";
+  const footerWrapperClass = fullWidth ? "w-full" : "w-[50%]"
   const footerClass = transparent
     ? "flex justify-end z-1 text-foreground"
-    : "flex justify-end z-1 bg-background text-foreground";
+    : "flex justify-end z-1 bg-background text-foreground"
 
   return (
     <footer className={footerClass}>
@@ -32,6 +35,7 @@ export const Footer = ({ fullWidth = false, transparent = false, }: FooterProps)
                           ? "/assets/icons/arrow-dark.svg"
                           : "/assets/icons/arrow.svg"
                       }
+                      alt="FORGERMANTOFIX"
                     />
                   </div>
                 </Link>
@@ -39,13 +43,11 @@ export const Footer = ({ fullWidth = false, transparent = false, }: FooterProps)
             </Button>
 
             <Button variant="ghost" className="flex items-center p-0 gap-0">
-              <div className="text-main-nav h-[44px]">
-                broker@bmayachts.com
-              </div>
+              <div className="text-main-nav h-[44px]">broker@bmayachts.com</div>
             </Button>
           </div>
         </div>
       </div>
     </footer>
-  );
-};
+  )
+}

@@ -5,7 +5,7 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
-import { CrewMemberRolesService, type CrewMemberRoleCreate } from "@/client"
+import { type CrewMemberRoleCreate, CrewMemberRolesService } from "@/client"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -31,9 +31,10 @@ import useCustomToast from "@/hooks/useCustomToast"
 import { handleError } from "@/utils"
 
 const formSchema = z.object({
-  name: z.string()
-   .min(1, { message: "Role name is required" })
-   .max(255, { message: "Role name must be at most 255 characters" })
+  name: z
+    .string()
+    .min(1, { message: "Role name is required" })
+    .max(255, { message: "Role name must be at most 255 characters" }),
 })
 
 type FormData = z.infer<typeof formSchema>
@@ -48,7 +49,7 @@ const AddRole = () => {
     mode: "onBlur",
     criteriaMode: "all",
     defaultValues: {
-      name: ""
+      name: "",
     },
   })
 

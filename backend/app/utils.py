@@ -1,8 +1,11 @@
+import os
 import logging
+from uuid import uuid4
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
+from fastapi import UploadFile
 
 import emails  # type: ignore[import-untyped]
 import jwt
@@ -121,3 +124,37 @@ def verify_password_reset_token(token: str) -> str | None:
         return str(decoded_token["sub"])
     except InvalidTokenError:
         return None
+
+
+
+def save_image_to_local(
+    image: UploadFile,
+    upload_dir: Path
+) -> str:
+    """
+    Save an image to the specified upload directory and return its URL.
+    """
+    if image.filename is None:
+        raise ValueError("Uploaded image has no filename")
+    
+    # extension = os.path.splitext(image.filename)[1]
+    extension = Path(image.filename).suffix 
+    filename = f"{uuid4().hex}{extension}"
+    
+    file_path = upload_dir / filename
+    upload_path = settings.UPLOAD_DIR / file_path
+    
+    with open(upload_path, "wb") as f:
+        f.write(image.file.read())
+    
+    return f"/{file_path.as_posix()}"
+
+def delete_image_from_local(file_path: str) -> bool:
+    """
+    Deletes an image from the specified upload directory.
+    """
+    image_path = settings.UPLOAD_DIR / Path(file_path).relative_to("/")
+    if image_path.exists():
+        image_path.unlink()
+        return True
+    return False

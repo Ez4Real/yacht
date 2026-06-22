@@ -3,7 +3,7 @@
 import type { CancelablePromise } from './core/CancelablePromise';
 import { OpenAPI } from './core/OpenAPI';
 import { request as __request } from './core/request';
-import type { CrewMemberRolesReadCrewMemberRolesData, CrewMemberRolesReadCrewMemberRolesResponse, CrewMemberRolesCreateCrewMemberRoleData, CrewMemberRolesCreateCrewMemberRoleResponse, CrewMemberRolesReadCrewMemberRoleData, CrewMemberRolesReadCrewMemberRoleResponse, CrewMemberRolesUpdateCrewMemberRoleData, CrewMemberRolesUpdateCrewMemberRoleResponse, CrewMemberRolesDeleteCrewMemberRoleData, CrewMemberRolesDeleteCrewMemberRoleResponse, ItemsReadItemsData, ItemsReadItemsResponse, ItemsCreateItemData, ItemsCreateItemResponse, ItemsReadItemData, ItemsReadItemResponse, ItemsUpdateItemData, ItemsUpdateItemResponse, ItemsDeleteItemData, ItemsDeleteItemResponse, LoginLoginAccessTokenData, LoginLoginAccessTokenResponse, LoginTestTokenResponse, LoginRecoverPasswordData, LoginRecoverPasswordResponse, LoginResetPasswordData, LoginResetPasswordResponse, LoginRecoverPasswordHtmlContentData, LoginRecoverPasswordHtmlContentResponse, PrivateCreateUserData, PrivateCreateUserResponse, UsersReadUsersData, UsersReadUsersResponse, UsersCreateUserData, UsersCreateUserResponse, UsersReadUserMeResponse, UsersDeleteUserMeResponse, UsersUpdateUserMeData, UsersUpdateUserMeResponse, UsersUpdatePasswordMeData, UsersUpdatePasswordMeResponse, UsersRegisterUserData, UsersRegisterUserResponse, UsersReadUserByIdData, UsersReadUserByIdResponse, UsersUpdateUserData, UsersUpdateUserResponse, UsersDeleteUserData, UsersDeleteUserResponse, UtilsTestEmailData, UtilsTestEmailResponse, UtilsHealthCheckResponse } from './types.gen';
+import type { CrewMemberRolesReadCrewMemberRolesData, CrewMemberRolesReadCrewMemberRolesResponse, CrewMemberRolesCreateCrewMemberRoleData, CrewMemberRolesCreateCrewMemberRoleResponse, CrewMemberRolesReadCrewMemberRoleData, CrewMemberRolesReadCrewMemberRoleResponse, CrewMemberRolesUpdateCrewMemberRoleData, CrewMemberRolesUpdateCrewMemberRoleResponse, CrewMemberRolesDeleteCrewMemberRoleData, CrewMemberRolesDeleteCrewMemberRoleResponse, CrewMembersReadCrewMembersData, CrewMembersReadCrewMembersResponse, CrewMembersCreateCrewMemberData, CrewMembersCreateCrewMemberResponse, CrewMembersReadCrewMemberData, CrewMembersReadCrewMemberResponse, CrewMembersUpdateCrewMemberData, CrewMembersUpdateCrewMemberResponse, CrewMembersDeleteCrewMemberData, CrewMembersDeleteCrewMemberResponse, ItemsReadItemsData, ItemsReadItemsResponse, ItemsCreateItemData, ItemsCreateItemResponse, ItemsReadItemData, ItemsReadItemResponse, ItemsUpdateItemData, ItemsUpdateItemResponse, ItemsDeleteItemData, ItemsDeleteItemResponse, LoginLoginAccessTokenData, LoginLoginAccessTokenResponse, LoginTestTokenResponse, LoginRecoverPasswordData, LoginRecoverPasswordResponse, LoginResetPasswordData, LoginResetPasswordResponse, LoginRecoverPasswordHtmlContentData, LoginRecoverPasswordHtmlContentResponse, PrivateCreateUserData, PrivateCreateUserResponse, UsersReadUsersData, UsersReadUsersResponse, UsersCreateUserData, UsersCreateUserResponse, UsersReadUserMeResponse, UsersDeleteUserMeResponse, UsersUpdateUserMeData, UsersUpdateUserMeResponse, UsersUpdatePasswordMeData, UsersUpdatePasswordMeResponse, UsersRegisterUserData, UsersRegisterUserResponse, UsersReadUserByIdData, UsersReadUserByIdResponse, UsersUpdateUserData, UsersUpdateUserResponse, UsersDeleteUserData, UsersDeleteUserResponse, UtilsTestEmailData, UtilsTestEmailResponse, UtilsHealthCheckResponse } from './types.gen';
 
 export class CrewMemberRolesService {
     /**
@@ -18,7 +18,7 @@ export class CrewMemberRolesService {
     public static readCrewMemberRoles(data: CrewMemberRolesReadCrewMemberRolesData = {}): CancelablePromise<CrewMemberRolesReadCrewMemberRolesResponse> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/v1/crew_member_roles/',
+            url: '/api/v1/crew-member-roles/',
             query: {
                 skip: data.skip,
                 limit: data.limit
@@ -40,7 +40,7 @@ export class CrewMemberRolesService {
     public static createCrewMemberRole(data: CrewMemberRolesCreateCrewMemberRoleData): CancelablePromise<CrewMemberRolesCreateCrewMemberRoleResponse> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/v1/crew_member_roles/',
+            url: '/api/v1/crew-member-roles/',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -60,7 +60,7 @@ export class CrewMemberRolesService {
     public static readCrewMemberRole(data: CrewMemberRolesReadCrewMemberRoleData): CancelablePromise<CrewMemberRolesReadCrewMemberRoleResponse> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/v1/crew_member_roles/{id}',
+            url: '/api/v1/crew-member-roles/{id}',
             path: {
                 id: data.id
             },
@@ -82,7 +82,7 @@ export class CrewMemberRolesService {
     public static updateCrewMemberRole(data: CrewMemberRolesUpdateCrewMemberRoleData): CancelablePromise<CrewMemberRolesUpdateCrewMemberRoleResponse> {
         return __request(OpenAPI, {
             method: 'PUT',
-            url: '/api/v1/crew_member_roles/{id}',
+            url: '/api/v1/crew-member-roles/{id}',
             path: {
                 id: data.id
             },
@@ -105,7 +105,118 @@ export class CrewMemberRolesService {
     public static deleteCrewMemberRole(data: CrewMemberRolesDeleteCrewMemberRoleData): CancelablePromise<CrewMemberRolesDeleteCrewMemberRoleResponse> {
         return __request(OpenAPI, {
             method: 'DELETE',
-            url: '/api/v1/crew_member_roles/{id}',
+            url: '/api/v1/crew-member-roles/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+}
+
+export class CrewMembersService {
+    /**
+     * Read Crew Members
+     * Retrieve crew members.
+     * @param data The data for the request.
+     * @param data.skip
+     * @param data.limit
+     * @returns CrewMembersPublic Successful Response
+     * @throws ApiError
+     */
+    public static readCrewMembers(data: CrewMembersReadCrewMembersData = {}): CancelablePromise<CrewMembersReadCrewMembersResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/crew-members/',
+            query: {
+                skip: data.skip,
+                limit: data.limit
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Create Crew Member
+     * Create new crew member.
+     * @param data The data for the request.
+     * @param data.formData
+     * @returns CrewMemberPublic Successful Response
+     * @throws ApiError
+     */
+    public static createCrewMember(data: CrewMembersCreateCrewMemberData): CancelablePromise<CrewMembersCreateCrewMemberResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/crew-members/',
+            formData: data.formData,
+            mediaType: 'multipart/form-data',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read Crew Member
+     * Get crew member by ID.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns CrewMemberPublic Successful Response
+     * @throws ApiError
+     */
+    public static readCrewMember(data: CrewMembersReadCrewMemberData): CancelablePromise<CrewMembersReadCrewMemberResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/crew-members/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Crew Member
+     * Update a crew member.
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.formData
+     * @returns CrewMemberPublic Successful Response
+     * @throws ApiError
+     */
+    public static updateCrewMember(data: CrewMembersUpdateCrewMemberData): CancelablePromise<CrewMembersUpdateCrewMemberResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/v1/crew-members/{id}',
+            path: {
+                id: data.id
+            },
+            formData: data.formData,
+            mediaType: 'multipart/form-data',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Crew Member
+     * Delete a crew member.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static deleteCrewMember(data: CrewMembersDeleteCrewMemberData): CancelablePromise<CrewMembersDeleteCrewMemberResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/crew-members/{id}',
             path: {
                 id: data.id
             },

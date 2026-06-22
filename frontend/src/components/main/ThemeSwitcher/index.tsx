@@ -1,13 +1,13 @@
-import { Button } from "@/components/ui/button";
-import { useTheme } from "@/components/admin/theme-provider";
+import { useTheme } from "@/components/theme-provider"
+import { Button } from "@/components/ui/button"
 
 type ThemeSwitcherProps = {
-  className?: string;
-};
+  className?: string
+}
 
 export function ThemeSwitcher({ className = "" }: ThemeSwitcherProps) {
-  const { theme, setTheme } = useTheme();
-  const isDark = theme === "dark";
+  const { theme, setTheme } = useTheme()
+  const isDark = theme === "dark"
 
   return (
     <Button
@@ -17,7 +17,7 @@ export function ThemeSwitcher({ className = "" }: ThemeSwitcherProps) {
     >
       <span className="font-normal text-main">
         {isDark ? "light mode" : "dark mode"}
-      </span> 
+      </span>
     </Button>
-  );
+  )
 }

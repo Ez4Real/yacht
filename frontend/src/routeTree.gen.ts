@@ -16,6 +16,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as Main_layoutRouteImport } from './routes/_main_layout'
 import { Route as Admin_layoutRouteImport } from './routes/_admin_layout'
 import { Route as Main_layoutIndexRouteImport } from './routes/_main_layout/index'
+import { Route as Main_layoutAboutRouteImport } from './routes/_main_layout/about'
 import { Route as Main_layoutMembersIndexRouteImport } from './routes/_main_layout/members/index'
 import { Route as Main_layoutDestinationsIndexRouteImport } from './routes/_main_layout/destinations/index'
 import { Route as Admin_layoutAdminIndexRouteImport } from './routes/_admin_layout/admin/index'
@@ -57,6 +58,11 @@ const Admin_layoutRoute = Admin_layoutRouteImport.update({
 const Main_layoutIndexRoute = Main_layoutIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => Main_layoutRoute,
+} as any)
+const Main_layoutAboutRoute = Main_layoutAboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => Main_layoutRoute,
 } as any)
 const Main_layoutMembersIndexRoute = Main_layoutMembersIndexRouteImport.update({
@@ -116,6 +122,7 @@ export interface FileRoutesByFullPath {
   '/recover-password': typeof RecoverPasswordRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
+  '/about': typeof Main_layoutAboutRoute
   '/admin/admin-management': typeof Admin_layoutAdminAdminManagementRoute
   '/admin/crew-member-role': typeof Admin_layoutAdminCrewMemberRoleRoute
   '/admin/items': typeof Admin_layoutAdminItemsRoute
@@ -132,6 +139,7 @@ export interface FileRoutesByTo {
   '/recover-password': typeof RecoverPasswordRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
+  '/about': typeof Main_layoutAboutRoute
   '/admin/admin-management': typeof Admin_layoutAdminAdminManagementRoute
   '/admin/crew-member-role': typeof Admin_layoutAdminCrewMemberRoleRoute
   '/admin/items': typeof Admin_layoutAdminItemsRoute
@@ -150,6 +158,7 @@ export interface FileRoutesById {
   '/recover-password': typeof RecoverPasswordRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
+  '/_main_layout/about': typeof Main_layoutAboutRoute
   '/_main_layout/': typeof Main_layoutIndexRoute
   '/_admin_layout/admin/admin-management': typeof Admin_layoutAdminAdminManagementRoute
   '/_admin_layout/admin/crew-member-role': typeof Admin_layoutAdminCrewMemberRoleRoute
@@ -169,6 +178,7 @@ export interface FileRouteTypes {
     | '/recover-password'
     | '/reset-password'
     | '/signup'
+    | '/about'
     | '/admin/admin-management'
     | '/admin/crew-member-role'
     | '/admin/items'
@@ -185,6 +195,7 @@ export interface FileRouteTypes {
     | '/recover-password'
     | '/reset-password'
     | '/signup'
+    | '/about'
     | '/admin/admin-management'
     | '/admin/crew-member-role'
     | '/admin/items'
@@ -202,6 +213,7 @@ export interface FileRouteTypes {
     | '/recover-password'
     | '/reset-password'
     | '/signup'
+    | '/_main_layout/about'
     | '/_main_layout/'
     | '/_admin_layout/admin/admin-management'
     | '/_admin_layout/admin/crew-member-role'
@@ -272,6 +284,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof Main_layoutIndexRouteImport
+      parentRoute: typeof Main_layoutRoute
+    }
+    '/_main_layout/about': {
+      id: '/_main_layout/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof Main_layoutAboutRouteImport
       parentRoute: typeof Main_layoutRoute
     }
     '/_main_layout/members/': {
@@ -361,6 +380,7 @@ const Admin_layoutRouteWithChildren = Admin_layoutRoute._addFileChildren(
 )
 
 interface Main_layoutRouteChildren {
+  Main_layoutAboutRoute: typeof Main_layoutAboutRoute
   Main_layoutIndexRoute: typeof Main_layoutIndexRoute
   Main_layoutDestinationsSlugRoute: typeof Main_layoutDestinationsSlugRoute
   Main_layoutMembersSlugRoute: typeof Main_layoutMembersSlugRoute
@@ -369,6 +389,7 @@ interface Main_layoutRouteChildren {
 }
 
 const Main_layoutRouteChildren: Main_layoutRouteChildren = {
+  Main_layoutAboutRoute: Main_layoutAboutRoute,
   Main_layoutIndexRoute: Main_layoutIndexRoute,
   Main_layoutDestinationsSlugRoute: Main_layoutDestinationsSlugRoute,
   Main_layoutMembersSlugRoute: Main_layoutMembersSlugRoute,

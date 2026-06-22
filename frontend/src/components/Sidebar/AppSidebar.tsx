@@ -1,4 +1,4 @@
-import { Sailboat, Users, UserCog } from "lucide-react"
+import { Sailboat, UserCog, Users } from "lucide-react"
 
 import { SidebarAppearance } from "@/components/Common/Appearance"
 import { Logo } from "@/components/Common/Logo"
@@ -15,7 +15,11 @@ import { User } from "./User"
 const baseItems: Item[] = [
   { icon: Sailboat, title: "Go to Website", path: "/" },
   // { icon: Briefcase, title: "Items", path: "/items" },
-  { icon: UserCog, title: "Crew Member Roles", path: "/admin/crew-member-role" },
+  {
+    icon: UserCog,
+    title: "Crew Member Roles",
+    path: "/admin/crew-member-role",
+  },
 ]
 
 export function AppSidebar() {
@@ -23,7 +27,9 @@ export function AppSidebar() {
 
   const items: Item[] = currentUser?.is_superuser
     ? [
-      { icon: Users, title: "Users", path: "/admin/admin-management" }, ...baseItems]
+        { icon: Users, title: "Users", path: "/admin/admin-management" },
+        ...baseItems,
+      ]
     : baseItems
 
   return (

@@ -1,9 +1,9 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { team } from "@/lib/members";
+import { createFileRoute, Link } from "@tanstack/react-router"
+import { team } from "@/lib/members"
 
 export const Route = createFileRoute("/_main_layout/members/")({
   component: MembersPage,
-});
+})
 
 function MembersPage() {
   return (
@@ -32,5 +32,5 @@ function MembersPage() {
         </div>
       ))}
     </div>
-  );
+  )
 }

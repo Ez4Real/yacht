@@ -1,6 +1,5 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router"
 import "../index.css"
-import { ThemeProvider } from "../components/theme-provider"
 import { Footer } from "@/components/Common/Footer"
 import AppSidebar from "@/components/Sidebar/AppSidebar"
 import {
@@ -9,6 +8,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { isLoggedIn } from "@/hooks/useAuth"
+import { ThemeProvider } from "../components/theme-provider"
 
 export const Route = createFileRoute("/_admin_layout")({
   component: Layout,
