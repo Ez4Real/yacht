@@ -217,8 +217,8 @@ class CrewMemberBase(SQLModel):
     role_id: uuid.UUID
     color: HexColor
     motto: str = Field(min_length=1, max_length=510)
-    instagram: str = Field(unique=True, index=True, min_length=1, max_length=30)
     email: EmailStr = Field(unique=True, index=True, max_length=255)
+    instagram: str = Field(unique=True, index=True, min_length=1, max_length=30)
     
     @model_validator(mode='before')
     @classmethod

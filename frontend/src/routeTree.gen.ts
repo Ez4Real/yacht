@@ -24,7 +24,8 @@ import { Route as Main_layoutMembersSlugRouteImport } from './routes/_main_layou
 import { Route as Main_layoutDestinationsSlugRouteImport } from './routes/_main_layout/destinations/$slug'
 import { Route as Admin_layoutAdminSettingsRouteImport } from './routes/_admin_layout/admin/settings'
 import { Route as Admin_layoutAdminItemsRouteImport } from './routes/_admin_layout/admin/items'
-import { Route as Admin_layoutAdminCrewMemberRoleRouteImport } from './routes/_admin_layout/admin/crew-member-role'
+import { Route as Admin_layoutAdminCrewMembersRouteImport } from './routes/_admin_layout/admin/crew-members'
+import { Route as Admin_layoutAdminCrewMemberRolesRouteImport } from './routes/_admin_layout/admin/crew-member-roles'
 import { Route as Admin_layoutAdminAdminManagementRouteImport } from './routes/_admin_layout/admin/admin-management'
 
 const SignupRoute = SignupRouteImport.update({
@@ -103,10 +104,16 @@ const Admin_layoutAdminItemsRoute = Admin_layoutAdminItemsRouteImport.update({
   path: '/admin/items',
   getParentRoute: () => Admin_layoutRoute,
 } as any)
-const Admin_layoutAdminCrewMemberRoleRoute =
-  Admin_layoutAdminCrewMemberRoleRouteImport.update({
-    id: '/admin/crew-member-role',
-    path: '/admin/crew-member-role',
+const Admin_layoutAdminCrewMembersRoute =
+  Admin_layoutAdminCrewMembersRouteImport.update({
+    id: '/admin/crew-members',
+    path: '/admin/crew-members',
+    getParentRoute: () => Admin_layoutRoute,
+  } as any)
+const Admin_layoutAdminCrewMemberRolesRoute =
+  Admin_layoutAdminCrewMemberRolesRouteImport.update({
+    id: '/admin/crew-member-roles',
+    path: '/admin/crew-member-roles',
     getParentRoute: () => Admin_layoutRoute,
   } as any)
 const Admin_layoutAdminAdminManagementRoute =
@@ -124,7 +131,8 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/about': typeof Main_layoutAboutRoute
   '/admin/admin-management': typeof Admin_layoutAdminAdminManagementRoute
-  '/admin/crew-member-role': typeof Admin_layoutAdminCrewMemberRoleRoute
+  '/admin/crew-member-roles': typeof Admin_layoutAdminCrewMemberRolesRoute
+  '/admin/crew-members': typeof Admin_layoutAdminCrewMembersRoute
   '/admin/items': typeof Admin_layoutAdminItemsRoute
   '/admin/settings': typeof Admin_layoutAdminSettingsRoute
   '/destinations/$slug': typeof Main_layoutDestinationsSlugRoute
@@ -141,7 +149,8 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/about': typeof Main_layoutAboutRoute
   '/admin/admin-management': typeof Admin_layoutAdminAdminManagementRoute
-  '/admin/crew-member-role': typeof Admin_layoutAdminCrewMemberRoleRoute
+  '/admin/crew-member-roles': typeof Admin_layoutAdminCrewMemberRolesRoute
+  '/admin/crew-members': typeof Admin_layoutAdminCrewMembersRoute
   '/admin/items': typeof Admin_layoutAdminItemsRoute
   '/admin/settings': typeof Admin_layoutAdminSettingsRoute
   '/destinations/$slug': typeof Main_layoutDestinationsSlugRoute
@@ -161,7 +170,8 @@ export interface FileRoutesById {
   '/_main_layout/about': typeof Main_layoutAboutRoute
   '/_main_layout/': typeof Main_layoutIndexRoute
   '/_admin_layout/admin/admin-management': typeof Admin_layoutAdminAdminManagementRoute
-  '/_admin_layout/admin/crew-member-role': typeof Admin_layoutAdminCrewMemberRoleRoute
+  '/_admin_layout/admin/crew-member-roles': typeof Admin_layoutAdminCrewMemberRolesRoute
+  '/_admin_layout/admin/crew-members': typeof Admin_layoutAdminCrewMembersRoute
   '/_admin_layout/admin/items': typeof Admin_layoutAdminItemsRoute
   '/_admin_layout/admin/settings': typeof Admin_layoutAdminSettingsRoute
   '/_main_layout/destinations/$slug': typeof Main_layoutDestinationsSlugRoute
@@ -180,7 +190,8 @@ export interface FileRouteTypes {
     | '/signup'
     | '/about'
     | '/admin/admin-management'
-    | '/admin/crew-member-role'
+    | '/admin/crew-member-roles'
+    | '/admin/crew-members'
     | '/admin/items'
     | '/admin/settings'
     | '/destinations/$slug'
@@ -197,7 +208,8 @@ export interface FileRouteTypes {
     | '/signup'
     | '/about'
     | '/admin/admin-management'
-    | '/admin/crew-member-role'
+    | '/admin/crew-member-roles'
+    | '/admin/crew-members'
     | '/admin/items'
     | '/admin/settings'
     | '/destinations/$slug'
@@ -216,7 +228,8 @@ export interface FileRouteTypes {
     | '/_main_layout/about'
     | '/_main_layout/'
     | '/_admin_layout/admin/admin-management'
-    | '/_admin_layout/admin/crew-member-role'
+    | '/_admin_layout/admin/crew-member-roles'
+    | '/_admin_layout/admin/crew-members'
     | '/_admin_layout/admin/items'
     | '/_admin_layout/admin/settings'
     | '/_main_layout/destinations/$slug'
@@ -342,11 +355,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Admin_layoutAdminItemsRouteImport
       parentRoute: typeof Admin_layoutRoute
     }
-    '/_admin_layout/admin/crew-member-role': {
-      id: '/_admin_layout/admin/crew-member-role'
-      path: '/admin/crew-member-role'
-      fullPath: '/admin/crew-member-role'
-      preLoaderRoute: typeof Admin_layoutAdminCrewMemberRoleRouteImport
+    '/_admin_layout/admin/crew-members': {
+      id: '/_admin_layout/admin/crew-members'
+      path: '/admin/crew-members'
+      fullPath: '/admin/crew-members'
+      preLoaderRoute: typeof Admin_layoutAdminCrewMembersRouteImport
+      parentRoute: typeof Admin_layoutRoute
+    }
+    '/_admin_layout/admin/crew-member-roles': {
+      id: '/_admin_layout/admin/crew-member-roles'
+      path: '/admin/crew-member-roles'
+      fullPath: '/admin/crew-member-roles'
+      preLoaderRoute: typeof Admin_layoutAdminCrewMemberRolesRouteImport
       parentRoute: typeof Admin_layoutRoute
     }
     '/_admin_layout/admin/admin-management': {
@@ -361,7 +381,8 @@ declare module '@tanstack/react-router' {
 
 interface Admin_layoutRouteChildren {
   Admin_layoutAdminAdminManagementRoute: typeof Admin_layoutAdminAdminManagementRoute
-  Admin_layoutAdminCrewMemberRoleRoute: typeof Admin_layoutAdminCrewMemberRoleRoute
+  Admin_layoutAdminCrewMemberRolesRoute: typeof Admin_layoutAdminCrewMemberRolesRoute
+  Admin_layoutAdminCrewMembersRoute: typeof Admin_layoutAdminCrewMembersRoute
   Admin_layoutAdminItemsRoute: typeof Admin_layoutAdminItemsRoute
   Admin_layoutAdminSettingsRoute: typeof Admin_layoutAdminSettingsRoute
   Admin_layoutAdminIndexRoute: typeof Admin_layoutAdminIndexRoute
@@ -369,7 +390,8 @@ interface Admin_layoutRouteChildren {
 
 const Admin_layoutRouteChildren: Admin_layoutRouteChildren = {
   Admin_layoutAdminAdminManagementRoute: Admin_layoutAdminAdminManagementRoute,
-  Admin_layoutAdminCrewMemberRoleRoute: Admin_layoutAdminCrewMemberRoleRoute,
+  Admin_layoutAdminCrewMemberRolesRoute: Admin_layoutAdminCrewMemberRolesRoute,
+  Admin_layoutAdminCrewMembersRoute: Admin_layoutAdminCrewMembersRoute,
   Admin_layoutAdminItemsRoute: Admin_layoutAdminItemsRoute,
   Admin_layoutAdminSettingsRoute: Admin_layoutAdminSettingsRoute,
   Admin_layoutAdminIndexRoute: Admin_layoutAdminIndexRoute,

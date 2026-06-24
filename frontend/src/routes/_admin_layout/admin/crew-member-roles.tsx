@@ -17,7 +17,7 @@ function getCrewMemberRolesQueryOptions() {
   }
 }
 
-export const Route = createFileRoute("/_admin_layout/admin/crew-member-role")({
+export const Route = createFileRoute("/_admin_layout/admin/crew-member-roles")({
   component: CrewMemberRoles,
   head: () => ({
     meta: [
