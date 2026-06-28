@@ -1,6 +1,6 @@
 export const team = [
   {
-    slug: "nadia",
+    id: 1,
     name: "Nadia",
     role: "Co-founder",
     image: "/assets/images/photoNadia.svg",
@@ -11,7 +11,7 @@ export const team = [
     quote: "Quote about Nadia...",
   },
   {
-    slug: "stefan",
+    id: 2,
     name: "Stefan",
     role: "co-founder",
     image: "/assets/images/photoStefan-big.svg",
@@ -24,25 +24,25 @@ export const team = [
   },
 
   {
-    slug: "",
+    id: 3,
     name: "Johanna",
     role: "Broker",
     image: null,
   },
   {
-    slug: "",
+    id: 4,
     name: "Johanna",
     role: "Broker",
     image: null,
   },
   {
-    slug: "",
+    id: 5,
     name: "Johanna",
     role: "Broker",
     image: null,
   },
   {
-    slug: "",
+    id: 6,
     name: "Johanna",
     role: "Broker",
     image: null,

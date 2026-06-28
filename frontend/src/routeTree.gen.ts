@@ -20,8 +20,8 @@ import { Route as Main_layoutAboutRouteImport } from './routes/_main_layout/abou
 import { Route as Main_layoutMembersIndexRouteImport } from './routes/_main_layout/members/index'
 import { Route as Main_layoutDestinationsIndexRouteImport } from './routes/_main_layout/destinations/index'
 import { Route as Admin_layoutAdminIndexRouteImport } from './routes/_admin_layout/admin/index'
-import { Route as Main_layoutMembersSlugRouteImport } from './routes/_main_layout/members/$slug'
-import { Route as Main_layoutDestinationsSlugRouteImport } from './routes/_main_layout/destinations/$slug'
+import { Route as Main_layoutMembersIdRouteImport } from './routes/_main_layout/members/$id'
+import { Route as Main_layoutDestinationsIdRouteImport } from './routes/_main_layout/destinations/$id'
 import { Route as Admin_layoutAdminSettingsRouteImport } from './routes/_admin_layout/admin/settings'
 import { Route as Admin_layoutAdminItemsRouteImport } from './routes/_admin_layout/admin/items'
 import { Route as Admin_layoutAdminCrewMembersRouteImport } from './routes/_admin_layout/admin/crew-members'
@@ -82,15 +82,15 @@ const Admin_layoutAdminIndexRoute = Admin_layoutAdminIndexRouteImport.update({
   path: '/admin/',
   getParentRoute: () => Admin_layoutRoute,
 } as any)
-const Main_layoutMembersSlugRoute = Main_layoutMembersSlugRouteImport.update({
-  id: '/members/$slug',
-  path: '/members/$slug',
+const Main_layoutMembersIdRoute = Main_layoutMembersIdRouteImport.update({
+  id: '/members/$id',
+  path: '/members/$id',
   getParentRoute: () => Main_layoutRoute,
 } as any)
-const Main_layoutDestinationsSlugRoute =
-  Main_layoutDestinationsSlugRouteImport.update({
-    id: '/destinations/$slug',
-    path: '/destinations/$slug',
+const Main_layoutDestinationsIdRoute =
+  Main_layoutDestinationsIdRouteImport.update({
+    id: '/destinations/$id',
+    path: '/destinations/$id',
     getParentRoute: () => Main_layoutRoute,
   } as any)
 const Admin_layoutAdminSettingsRoute =
@@ -135,8 +135,8 @@ export interface FileRoutesByFullPath {
   '/admin/crew-members': typeof Admin_layoutAdminCrewMembersRoute
   '/admin/items': typeof Admin_layoutAdminItemsRoute
   '/admin/settings': typeof Admin_layoutAdminSettingsRoute
-  '/destinations/$slug': typeof Main_layoutDestinationsSlugRoute
-  '/members/$slug': typeof Main_layoutMembersSlugRoute
+  '/destinations/$id': typeof Main_layoutDestinationsIdRoute
+  '/members/$id': typeof Main_layoutMembersIdRoute
   '/admin/': typeof Admin_layoutAdminIndexRoute
   '/destinations/': typeof Main_layoutDestinationsIndexRoute
   '/members/': typeof Main_layoutMembersIndexRoute
@@ -153,8 +153,8 @@ export interface FileRoutesByTo {
   '/admin/crew-members': typeof Admin_layoutAdminCrewMembersRoute
   '/admin/items': typeof Admin_layoutAdminItemsRoute
   '/admin/settings': typeof Admin_layoutAdminSettingsRoute
-  '/destinations/$slug': typeof Main_layoutDestinationsSlugRoute
-  '/members/$slug': typeof Main_layoutMembersSlugRoute
+  '/destinations/$id': typeof Main_layoutDestinationsIdRoute
+  '/members/$id': typeof Main_layoutMembersIdRoute
   '/admin': typeof Admin_layoutAdminIndexRoute
   '/destinations': typeof Main_layoutDestinationsIndexRoute
   '/members': typeof Main_layoutMembersIndexRoute
@@ -174,8 +174,8 @@ export interface FileRoutesById {
   '/_admin_layout/admin/crew-members': typeof Admin_layoutAdminCrewMembersRoute
   '/_admin_layout/admin/items': typeof Admin_layoutAdminItemsRoute
   '/_admin_layout/admin/settings': typeof Admin_layoutAdminSettingsRoute
-  '/_main_layout/destinations/$slug': typeof Main_layoutDestinationsSlugRoute
-  '/_main_layout/members/$slug': typeof Main_layoutMembersSlugRoute
+  '/_main_layout/destinations/$id': typeof Main_layoutDestinationsIdRoute
+  '/_main_layout/members/$id': typeof Main_layoutMembersIdRoute
   '/_admin_layout/admin/': typeof Admin_layoutAdminIndexRoute
   '/_main_layout/destinations/': typeof Main_layoutDestinationsIndexRoute
   '/_main_layout/members/': typeof Main_layoutMembersIndexRoute
@@ -194,8 +194,8 @@ export interface FileRouteTypes {
     | '/admin/crew-members'
     | '/admin/items'
     | '/admin/settings'
-    | '/destinations/$slug'
-    | '/members/$slug'
+    | '/destinations/$id'
+    | '/members/$id'
     | '/admin/'
     | '/destinations/'
     | '/members/'
@@ -212,8 +212,8 @@ export interface FileRouteTypes {
     | '/admin/crew-members'
     | '/admin/items'
     | '/admin/settings'
-    | '/destinations/$slug'
-    | '/members/$slug'
+    | '/destinations/$id'
+    | '/members/$id'
     | '/admin'
     | '/destinations'
     | '/members'
@@ -232,8 +232,8 @@ export interface FileRouteTypes {
     | '/_admin_layout/admin/crew-members'
     | '/_admin_layout/admin/items'
     | '/_admin_layout/admin/settings'
-    | '/_main_layout/destinations/$slug'
-    | '/_main_layout/members/$slug'
+    | '/_main_layout/destinations/$id'
+    | '/_main_layout/members/$id'
     | '/_admin_layout/admin/'
     | '/_main_layout/destinations/'
     | '/_main_layout/members/'
@@ -327,18 +327,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Admin_layoutAdminIndexRouteImport
       parentRoute: typeof Admin_layoutRoute
     }
-    '/_main_layout/members/$slug': {
-      id: '/_main_layout/members/$slug'
-      path: '/members/$slug'
-      fullPath: '/members/$slug'
-      preLoaderRoute: typeof Main_layoutMembersSlugRouteImport
+    '/_main_layout/members/$id': {
+      id: '/_main_layout/members/$id'
+      path: '/members/$id'
+      fullPath: '/members/$id'
+      preLoaderRoute: typeof Main_layoutMembersIdRouteImport
       parentRoute: typeof Main_layoutRoute
     }
-    '/_main_layout/destinations/$slug': {
-      id: '/_main_layout/destinations/$slug'
-      path: '/destinations/$slug'
-      fullPath: '/destinations/$slug'
-      preLoaderRoute: typeof Main_layoutDestinationsSlugRouteImport
+    '/_main_layout/destinations/$id': {
+      id: '/_main_layout/destinations/$id'
+      path: '/destinations/$id'
+      fullPath: '/destinations/$id'
+      preLoaderRoute: typeof Main_layoutDestinationsIdRouteImport
       parentRoute: typeof Main_layoutRoute
     }
     '/_admin_layout/admin/settings': {
@@ -404,8 +404,8 @@ const Admin_layoutRouteWithChildren = Admin_layoutRoute._addFileChildren(
 interface Main_layoutRouteChildren {
   Main_layoutAboutRoute: typeof Main_layoutAboutRoute
   Main_layoutIndexRoute: typeof Main_layoutIndexRoute
-  Main_layoutDestinationsSlugRoute: typeof Main_layoutDestinationsSlugRoute
-  Main_layoutMembersSlugRoute: typeof Main_layoutMembersSlugRoute
+  Main_layoutDestinationsIdRoute: typeof Main_layoutDestinationsIdRoute
+  Main_layoutMembersIdRoute: typeof Main_layoutMembersIdRoute
   Main_layoutDestinationsIndexRoute: typeof Main_layoutDestinationsIndexRoute
   Main_layoutMembersIndexRoute: typeof Main_layoutMembersIndexRoute
 }
@@ -413,8 +413,8 @@ interface Main_layoutRouteChildren {
 const Main_layoutRouteChildren: Main_layoutRouteChildren = {
   Main_layoutAboutRoute: Main_layoutAboutRoute,
   Main_layoutIndexRoute: Main_layoutIndexRoute,
-  Main_layoutDestinationsSlugRoute: Main_layoutDestinationsSlugRoute,
-  Main_layoutMembersSlugRoute: Main_layoutMembersSlugRoute,
+  Main_layoutDestinationsIdRoute: Main_layoutDestinationsIdRoute,
+  Main_layoutMembersIdRoute: Main_layoutMembersIdRoute,
   Main_layoutDestinationsIndexRoute: Main_layoutDestinationsIndexRoute,
   Main_layoutMembersIndexRoute: Main_layoutMembersIndexRoute,
 }

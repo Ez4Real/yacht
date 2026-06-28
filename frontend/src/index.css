@@ -187,48 +187,108 @@
   }
 }
 
+@theme {
+  --breakpoint-mobile: 390px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-laptop: 1200px;
+  --breakpoint-desktop: 1440px;
+  --breakpoint-wide: 1920px;
+}
+
 @layer utilities {
   .text-small {
-    font-size: 24px;
-    line-height: 100%;
     font-weight: 400;
-    letter-spacing: 0;
+    @apply
+      text-[18px]
+      tablet:text-[20px]
+      wide:text-[24px]
+
+      leading-[25px]
+      tablet:leading-[24px]
+      wide:leading-[29px]
   }
 
   .text-main-style {
-    font-size: 26px;
-    line-height: 31px;
+    line-height: 35px;
     font-weight: 400;
+    @apply
+      text-[20px]
+      tablet:text-[22px]
+      desktop:text-[26px]
+
+      leading-[27px]
+      tablet:leading-[30px]
+      desktop:leading-[35px]
+      wide:leading-[31px]
+  }
+  
+  .text-quote {
+    line-height: 35px;
+    font-weight: 400;
+    @apply
+      text-[24px]
+      tablet:text-[28px]
+      desktop:text-[32px]
+
+      leading-[30px]
+      tablet:leading-[35px]
+      wide:leading-[40px]
   }
 
-  .text-h2 {
-    font-size: 36px;
-    line-height: 100%;
+    .text-menu {
     font-weight: 400;
-    letter-spacing: 0;
+    @apply
+      text-[32px]
+      tablet:text-[36px]
+      desktop:text-[40px]
+      wide:text-[50px]
+
+      leading-[35px]
+      tablet:leading-[44px]
+      desktop:leading-[48px]
+      wide:leading-[60px]
   }
+
+
 
   .text-main-nav {
-    font-size: 26px;
-    line-height: 135%;
     font-weight: 400;
+    @apply
+      text-[20px]
+      tablet:text-[22px]
+      laptop:text-[22px]
+      desktop:text-[26px]
+      wide:text-[26px]
+
+      leading-[38px]
+      tablet:leading-[44px]
   }
 
   .text-title-style {
-    font-size: 32px;
     line-height: 41px;
     font-weight: 400;
+    @apply
+      text-[32px]
+      laptop:text-[36px]
   }
 
-  .text-quote {
-    font-size: 32px;
-    line-height: 41px;
+  .text-h2 {
     font-weight: 400;
+    @apply
+      text-[30px]
+      laptop:text-[32px]
+      desktop:text-[36px]
+
+      leading-[34px]
+      desktop:leading-[44px]
   }
 
-  .text-menu {
-    font-size: 50px;
-    line-height: 120%;
-    font-weight: 400;
+  .nav-btn-detail {
+    @apply
+      text-[22px]
+      desktop:text-[26px]
+      wide:text-[26px]
+
+      leading-[30px]
   }
 }

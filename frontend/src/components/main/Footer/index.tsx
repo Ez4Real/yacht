@@ -1,52 +1,33 @@
-import { Link } from "@tanstack/react-router"
-import { useTheme } from "@/components/theme-provider"
-import { Button } from "@/components/ui/button"
+import { useTheme } from "@/components/theme-provider";
+import { Link } from "@tanstack/react-router";
 
-type FooterProps = {
-  fullWidth?: boolean
-  transparent?: boolean
-}
 
-export const Footer = ({
-  fullWidth = false,
-  transparent = false,
-}: FooterProps) => {
-  const { theme } = useTheme()
-  const isDark = theme === "dark"
-
-  const footerWrapperClass = fullWidth ? "w-full" : "w-[50%]"
-  const footerClass = transparent
-    ? "flex justify-end z-1 text-foreground"
-    : "flex justify-end z-1 bg-background text-foreground"
+export const Footer = () => {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   return (
-    <footer className={footerClass}>
-      <div className={`${footerWrapperClass}`}>
-        <div className="flex w-full items-end justify-between">
-          <div className="flex flex-col items-start gap-[30px]">
-            <Button variant="ghost" className="flex items-center p-0 gap-0">
-              <div className="flex items-center text-main-nav">
-                <Link to="/" className="flex justify-center items-center">
-                  instagram
-                  <div className="w-[44px] h-[44px]">
-                    <img
-                      src={
-                        isDark
-                          ? "/assets/icons/arrow-dark.svg"
-                          : "/assets/icons/arrow.svg"
-                      }
-                      alt="FORGERMANTOFIX"
-                    />
-                  </div>
-                </Link>
-              </div>
-            </Button>
+    <footer className="flex justify-end">
 
-            <Button variant="ghost" className="flex items-center p-0 gap-0">
-              <div className="text-main-nav h-[44px]">broker@bmayachts.com</div>
-            </Button>
-          </div>
-        </div>
+      <div className="w-[100%] tablet:w-[66%] laptop:w-[49.1%] gap-[20px] tablet:gap-[10px] desktop:gap-[30px]">
+
+        <Link to="/" className="flex items-center mb-[20px] tablet:mb-[10px] laptop:mb-[10px] desktop:mb-[30px]">
+          <p className="text-main-nav">instagram</p>
+          <img
+            className="w-[38px]"
+            src={
+              isDark
+                ? "/assets/icons/arrow-dark.svg"
+                : "/assets/icons/arrow.svg"
+            }
+            alt="inst"
+          />
+        </Link>
+
+        <Link to="/">
+          <p className="text-main-nav">broker@bmayachts.com</p>
+        </Link>
+
       </div>
     </footer>
   )

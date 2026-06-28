@@ -1,5 +1,6 @@
-import { useTheme } from "@/components/theme-provider"
-import { Button } from "@/components/ui/button"
+import { useTheme } from "@/components/theme-provider";
+import { Button } from "@/components/ui/button";
+
 
 type ThemeSwitcherProps = {
   className?: string
@@ -12,10 +13,10 @@ export function ThemeSwitcher({ className = "" }: ThemeSwitcherProps) {
   return (
     <Button
       variant="ghost"
-      className={`p-0 h-[44px] text-main-nav ${className}`}
+      className={`p-0  mobile:hidden tablet:block ${className}`}
       onClick={() => setTheme(isDark ? "light" : "dark")}
     >
-      <span className="font-normal text-main">
+      <span className="text-main-nav">
         {isDark ? "light mode" : "dark mode"}
       </span>
     </Button>

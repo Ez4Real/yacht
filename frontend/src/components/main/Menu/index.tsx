@@ -40,27 +40,26 @@ export const Menu = () => {
   const isDark = theme === "dark"
   const location = useLocation()
 
-  return (
-    <Sheet>
-      <SheetTrigger asChild>
-        <Button
-          variant="ghost"
-          className="flex items-center w-[113px] h-[44px] p-0 gap-0 transition-none"
-        >
-          <p className="text-main-nav">menu</p>
+    return (
+        <Sheet>
+            <SheetTrigger asChild>
+                <Button
+                    variant="ghost"
+                    className="flex items-center transition-none"
+                >
+                    <p className="text-main-nav">menu</p>
 
-          <div className="w-[44px] h-[44px] flex justify-center items-center">
-            <img
-              src={
-                isDark
-                  ? "/assets/icons/plus-dark.svg"
-                  : "/assets/icons/plus.svg"
-              }
-              alt="Open menu"
-            />
-          </div>
-        </Button>
-      </SheetTrigger>
+                    <img
+                        src={
+                            isDark
+                                ? "/assets/icons/plus-dark.svg"
+                                : "/assets/icons/plus.svg"
+                        }
+                        alt="Open menu"
+                        className="w-[38px]"
+                    />
+                </Button>
+            </SheetTrigger>
 
       <SheetContent
         side="right"
@@ -75,113 +74,156 @@ export const Menu = () => {
                 bg-transparent 
                 text-foreground 
                 p-0
-                "
-      >
-        <div className="flex h-screen justify-end">
-          <SheetClose asChild>
-            <button
-              type="button"
-              aria-label="Close menu"
-              className="flex-1 h-full cursor-default"
-            />
-          </SheetClose>
-          <div
-            className="
-                        w-[calc(50%+50px)] 
+                ">
+                <div className="flex h-screen justify-end">
+
+                    <SheetClose asChild>
+                        <button
+                            type="button"
+                            aria-label="Close menu"
+                            className="flex-1 h-full cursor-default"
+                        />
+                    </SheetClose>
+
+                    <div className="
+                        w-[calc(100%)]
+                        tablet:w-[calc(66%+35px)] 
+                        laptop:w-[calc(50%+40px)]
+                        desktop:w-[calc(50%+45px)]
+
+                        h-full
                         bg-background 
-                        pl-[50px] 
-                        pt-[30px] 
-                        pr-[50px] 
-                        pb-[50px] 
                         flex 
                         flex-col 
-                        h-full
-                        "
-          >
-            <div className="flex justify-between">
-              <SheetClose asChild>
-                <Button
-                  variant="ghost"
-                  className="
-                                    h-[44px]
-                                    w-[113px]
+
+                        pt-[13px] 
+                        tablet:pt-[20px]
+                        desktop:pt-[30px]
+
+                        pr-[11px]
+                        tablet:pr-[20px]
+                        laptop:pr-[40px]
+                        desktop:pr-[30px]
+                        wide:pr-[50px]
+
+                        pb-[40px]
+                        tablet:pb-[20px]
+                        desktop:pb-[40px]
+                        wide:pb-[50px]
+
+                        pl-[10px]
+                        tablet:pl-[42px]
+                        desktop:pl-[50px]
+                        ">
+
+                        <div className="flex justify-between pb-[13px] mobile:pb-[0]">
+                            <SheetClose asChild>
+                                <Button
+                                    variant="ghost"
+                                    className="
                                     flex items-center 
                                     p-0 
                                     gap-0 
                                     transition-none
-                                    "
-                >
-                  <p className="text-main-nav">menu</p>
+                                    ">
+                                    <p className="text-main-nav">menu</p>
+                                    <img
+                                        src={
+                                            isDark
+                                                ? "/assets/icons/minus-dark.svg"
+                                                : "/assets/icons/minus.svg"
+                                        }
+                                        alt="Close menu"
+                                        className="w-[38px]"
+                                    />
+                                </Button>
+                            </SheetClose>
 
-                  <div className=" flex justify-center items-center">
-                    <img
-                      src={
-                        isDark
-                          ? "/assets/icons/minus-dark.svg"
-                          : "/assets/icons/minus.svg"
-                      }
-                      alt="Close menu"
-                    />
-                  </div>
-                </Button>
-              </SheetClose>
-
-              <Button
-                variant="ghost"
-                className="
-                                h-[44px] 
-                                w-[136px] 
+                            <Button variant="ghost"
+                                className="
                                 flex 
                                 items-center 
                                 p-0 
                                 gap-0 
                                 transition-none
-                                "
-              >
-                <p className="text-main-nav">enquire</p>
+                                mr-[-11px]
+                                tablet:mr-[0]
+                                ">
+                                <p className="text-main-nav">enquire</p>
+                                <img
+                                    src={
+                                        isDark
+                                            ? "/assets/icons/plus-dark.svg"
+                                            : "/assets/icons/plus.svg"
+                                    }
+                                    alt="iconPlus"
+                                    className="w-[38px]"
+                                />
+                            </Button>
+                        </div>
+                        <nav className="
+                            mt-[30px]
+                            tablet:mt-[40px]
+                            laptop:mt-[30px]
 
-                <div className="flex justify-center items-center">
-                  <img
-                    src={
-                      isDark
-                        ? "/assets/icons/plus-dark.svg"
-                        : "/assets/icons/plus.svg"
-                    }
-                    alt=""
-                  />
+                            gap-[20px] 
+                            tablet:gap-[5px]
+                            desktop:gap-[10px]
+                            flex 
+                            flex-col 
+                            items-start
+                        ">
+                            {menuItems.map((item) => {
+                                const isActive =
+                                    item.to === "/members"
+                                        ? location.pathname.startsWith("/members")
+                                        : item.to === "/destinations"
+                                            ? location.pathname.startsWith("/destinations")
+                                            : location.pathname === item.to;
+
+                                return (
+                                    <SheetClose asChild key={item.label}>
+                                        <Link
+                                            to={item.to}
+                                            className={`text-menu ${isActive ? "text-foreground" : "text-role"
+                                                }`}
+                                        >
+                                            {item.label}
+                                        </Link>
+                                    </SheetClose>
+                                );
+                            })}
+                        </nav>
+
+                        <div className="mt-auto flex justify-between items-end w-[100%]">
+                            <div className="flex items-end justify-end">
+                                <div className="flex flex-col items-start gap-[20px] tablet:gap-[10px] desktop:gap-[30px]">
+
+                                    <Link to="/" className="flex justify-center items-center">
+                                        <p className="text-main-nav">instagram</p>
+                                        <img
+                                            className="w-[38px] tablet:w-[44px] laptop:w-[38px] desktop:w-[44px]"
+                                            src={
+                                                isDark
+                                                    ? "/assets/icons/arrow-dark.svg"
+                                                    : "/assets/icons/arrow.svg"
+                                            }
+                                            alt="instagramIcon"
+                                        />
+                                    </Link>
+
+                                    <Link to="/" className="">
+                                        <p className="text-main-nav">broker@bmayachts.com</p>
+                                    </Link>
+
+                                </div>
+                            </div>
+                            <ThemeSwitcher />
+                        </div>
+
+                    </div>
                 </div>
-              </Button>
-            </div>
-            <nav className="mt-[30px] gap-[10px] flex flex-col items-start">
-              {menuItems.map((item) => {
-                const isActive =
-                  item.to === "/members"
-                    ? location.pathname.startsWith("/members")
-                    : item.to === "/destinations"
-                      ? location.pathname.startsWith("/destinations")
-                      : location.pathname === item.to
-
-                return (
-                  <SheetClose asChild key={item.label}>
-                    <Link
-                      to={item.to}
-                      className={`text-menu ${
-                        isActive ? "text-foreground" : "text-role"
-                      }`}
-                    >
-                      {item.label}
-                    </Link>
-                  </SheetClose>
-                )
-              })}
-            </nav>
-            <div className="mt-auto flex justify-between items-end">
-              <Footer fullWidth transparent />
-              <ThemeSwitcher className="pr-[10px] w-[132px]" />
-            </div>
-          </div>
-        </div>
-      </SheetContent>
-    </Sheet>
-  )
-}
+            </SheetContent>
+        </Sheet>
+    );
+};
