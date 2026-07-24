@@ -10,6 +10,18 @@ export type Body_crew_members_update_crew_member = {
     image?: ((Blob | File) | null);
 };
 
+export type Body_destinations_create_destination = {
+    destination_base: DestinationBase;
+    banner_image: (Blob | File);
+    side_image: (Blob | File);
+};
+
+export type Body_destinations_update_destination = {
+    destination_base: DestinationUpdateBase;
+    banner_image?: ((Blob | File) | null);
+    side_image?: ((Blob | File) | null);
+};
+
 export type Body_login_login_access_token = {
     grant_type?: (string | null);
     username: string;
@@ -26,8 +38,8 @@ export type CrewMemberBase = {
     role_id: string;
     color: string;
     motto: string;
-    instagram: string;
     email: string;
+    instagram: string;
 };
 
 export type CrewMemberImagePublic = {
@@ -43,8 +55,8 @@ export type CrewMemberPublic = {
     role_id: string;
     color: string;
     motto: string;
-    instagram: string;
     email: string;
+    instagram: string;
     id: string;
     owner_id: string;
     created_at: string;
@@ -86,6 +98,52 @@ export type CrewMemberUpdateBase = {
     motto?: (string | null);
     instagram?: (string | null);
     email?: (string | null);
+};
+
+export type DestinationBase = {
+    region: string;
+    country: string;
+    destination: string;
+    description: string;
+    content1: string;
+    content2?: (string | null);
+};
+
+export type DestinationImagePublic = {
+    url: string;
+    alt_text?: (string | null);
+    id: string;
+    type: DestinationImageType;
+};
+
+export type DestinationImageType = 'banner' | 'side';
+
+export type DestinationPublic = {
+    region: string;
+    country: string;
+    destination: string;
+    description: string;
+    content1: string;
+    content2?: (string | null);
+    id: string;
+    owner_id: string;
+    created_at: string;
+    banner_image: DestinationImagePublic;
+    side_image: DestinationImagePublic;
+};
+
+export type DestinationsPublic = {
+    data: Array<DestinationPublic>;
+    count: number;
+};
+
+export type DestinationUpdateBase = {
+    region?: (string | null);
+    country?: (string | null);
+    destination?: (string | null);
+    description?: (string | null);
+    content1?: (string | null);
+    content2?: (string | null);
 };
 
 export type HTTPValidationError = {
@@ -255,6 +313,38 @@ export type CrewMembersDeleteCrewMemberData = {
 };
 
 export type CrewMembersDeleteCrewMemberResponse = (Message);
+
+export type DestinationsReadDestinationsData = {
+    limit?: number;
+    skip?: number;
+};
+
+export type DestinationsReadDestinationsResponse = (DestinationsPublic);
+
+export type DestinationsCreateDestinationData = {
+    formData: Body_destinations_create_destination;
+};
+
+export type DestinationsCreateDestinationResponse = (DestinationPublic);
+
+export type DestinationsReadDestinationData = {
+    id: string;
+};
+
+export type DestinationsReadDestinationResponse = (DestinationPublic);
+
+export type DestinationsUpdateDestinationData = {
+    formData: Body_destinations_update_destination;
+    id: string;
+};
+
+export type DestinationsUpdateDestinationResponse = (DestinationPublic);
+
+export type DestinationsDeleteDestinationData = {
+    id: string;
+};
+
+export type DestinationsDeleteDestinationResponse = (Message);
 
 export type ItemsReadItemsData = {
     limit?: number;

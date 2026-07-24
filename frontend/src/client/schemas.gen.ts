@@ -39,6 +39,62 @@ export const Body_crew_members_update_crew_memberSchema = {
     title: 'Body_crew members-update_crew_member'
 } as const;
 
+export const Body_destinations_create_destinationSchema = {
+    properties: {
+        destination_base: {
+            '$ref': '#/components/schemas/DestinationBase'
+        },
+        banner_image: {
+            type: 'string',
+            format: 'binary',
+            title: 'Banner Image'
+        },
+        side_image: {
+            type: 'string',
+            format: 'binary',
+            title: 'Side Image'
+        }
+    },
+    type: 'object',
+    required: ['destination_base', 'banner_image', 'side_image'],
+    title: 'Body_destinations-create_destination'
+} as const;
+
+export const Body_destinations_update_destinationSchema = {
+    properties: {
+        destination_base: {
+            '$ref': '#/components/schemas/DestinationUpdateBase'
+        },
+        banner_image: {
+            anyOf: [
+                {
+                    type: 'string',
+                    format: 'binary'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Banner Image'
+        },
+        side_image: {
+            anyOf: [
+                {
+                    type: 'string',
+                    format: 'binary'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Side Image'
+        }
+    },
+    type: 'object',
+    required: ['destination_base'],
+    title: 'Body_destinations-update_destination'
+} as const;
+
 export const Body_login_login_access_tokenSchema = {
     properties: {
         grant_type: {
@@ -130,25 +186,25 @@ export const CrewMemberBaseSchema = {
         },
         motto: {
             type: 'string',
-            maxLength: 510,
+            maxLength: 512,
             minLength: 1,
             title: 'Motto'
-        },
-        instagram: {
-            type: 'string',
-            maxLength: 30,
-            minLength: 1,
-            title: 'Instagram'
         },
         email: {
             type: 'string',
             maxLength: 255,
             format: 'email',
             title: 'Email'
+        },
+        instagram: {
+            type: 'string',
+            maxLength: 30,
+            minLength: 1,
+            title: 'Instagram'
         }
     },
     type: 'object',
-    required: ['first_name', 'last_name', 'background', 'role_id', 'color', 'motto', 'instagram', 'email'],
+    required: ['first_name', 'last_name', 'background', 'role_id', 'color', 'motto', 'email', 'instagram'],
     title: 'CrewMemberBase'
 } as const;
 
@@ -214,21 +270,21 @@ export const CrewMemberPublicSchema = {
         },
         motto: {
             type: 'string',
-            maxLength: 510,
+            maxLength: 512,
             minLength: 1,
             title: 'Motto'
-        },
-        instagram: {
-            type: 'string',
-            maxLength: 30,
-            minLength: 1,
-            title: 'Instagram'
         },
         email: {
             type: 'string',
             maxLength: 255,
             format: 'email',
             title: 'Email'
+        },
+        instagram: {
+            type: 'string',
+            maxLength: 30,
+            minLength: 1,
+            title: 'Instagram'
         },
         id: {
             type: 'string',
@@ -253,7 +309,7 @@ export const CrewMemberPublicSchema = {
         }
     },
     type: 'object',
-    required: ['first_name', 'last_name', 'background', 'role_id', 'color', 'motto', 'instagram', 'email', 'id', 'owner_id', 'created_at', 'role', 'image'],
+    required: ['first_name', 'last_name', 'background', 'role_id', 'color', 'motto', 'email', 'instagram', 'id', 'owner_id', 'created_at', 'role', 'image'],
     title: 'CrewMemberPublic'
 } as const;
 
@@ -410,7 +466,7 @@ export const CrewMemberUpdateBaseSchema = {
             anyOf: [
                 {
                     type: 'string',
-                    maxLength: 510,
+                    maxLength: 512,
                     minLength: 1
                 },
                 {
@@ -467,6 +523,267 @@ export const CrewMembersPublicSchema = {
     type: 'object',
     required: ['data', 'count'],
     title: 'CrewMembersPublic'
+} as const;
+
+export const DestinationBaseSchema = {
+    properties: {
+        region: {
+            type: 'string',
+            maxLength: 64,
+            minLength: 1,
+            title: 'Region'
+        },
+        country: {
+            type: 'string',
+            maxLength: 64,
+            minLength: 1,
+            title: 'Country'
+        },
+        destination: {
+            type: 'string',
+            maxLength: 64,
+            minLength: 1,
+            title: 'Destination'
+        },
+        description: {
+            type: 'string',
+            maxLength: 512,
+            minLength: 1,
+            title: 'Description'
+        },
+        content1: {
+            type: 'string',
+            maxLength: 1024,
+            minLength: 1,
+            title: 'Content1'
+        },
+        content2: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 1024
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Content2'
+        }
+    },
+    type: 'object',
+    required: ['region', 'country', 'destination', 'description', 'content1'],
+    title: 'DestinationBase'
+} as const;
+
+export const DestinationImagePublicSchema = {
+    properties: {
+        url: {
+            type: 'string',
+            title: 'Url'
+        },
+        alt_text: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Alt Text'
+        },
+        id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'Id'
+        },
+        type: {
+            '$ref': '#/components/schemas/DestinationImageType'
+        }
+    },
+    type: 'object',
+    required: ['url', 'id', 'type'],
+    title: 'DestinationImagePublic'
+} as const;
+
+export const DestinationImageTypeSchema = {
+    type: 'string',
+    enum: ['banner', 'side'],
+    title: 'DestinationImageType'
+} as const;
+
+export const DestinationPublicSchema = {
+    properties: {
+        region: {
+            type: 'string',
+            maxLength: 64,
+            minLength: 1,
+            title: 'Region'
+        },
+        country: {
+            type: 'string',
+            maxLength: 64,
+            minLength: 1,
+            title: 'Country'
+        },
+        destination: {
+            type: 'string',
+            maxLength: 64,
+            minLength: 1,
+            title: 'Destination'
+        },
+        description: {
+            type: 'string',
+            maxLength: 512,
+            minLength: 1,
+            title: 'Description'
+        },
+        content1: {
+            type: 'string',
+            maxLength: 1024,
+            minLength: 1,
+            title: 'Content1'
+        },
+        content2: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 1024
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Content2'
+        },
+        id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'Id'
+        },
+        owner_id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'Owner Id'
+        },
+        created_at: {
+            type: 'string',
+            format: 'date-time',
+            title: 'Created At'
+        },
+        banner_image: {
+            '$ref': '#/components/schemas/DestinationImagePublic'
+        },
+        side_image: {
+            '$ref': '#/components/schemas/DestinationImagePublic'
+        }
+    },
+    type: 'object',
+    required: ['region', 'country', 'destination', 'description', 'content1', 'id', 'owner_id', 'created_at', 'banner_image', 'side_image'],
+    title: 'DestinationPublic'
+} as const;
+
+export const DestinationUpdateBaseSchema = {
+    properties: {
+        region: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 64,
+                    minLength: 1
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Region'
+        },
+        country: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 64,
+                    minLength: 1
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Country'
+        },
+        destination: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 64,
+                    minLength: 1
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Destination'
+        },
+        description: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 512,
+                    minLength: 1
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Description'
+        },
+        content1: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 1024,
+                    minLength: 1
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Content1'
+        },
+        content2: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 1024
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Content2'
+        }
+    },
+    type: 'object',
+    title: 'DestinationUpdateBase'
+} as const;
+
+export const DestinationsPublicSchema = {
+    properties: {
+        data: {
+            items: {
+                '$ref': '#/components/schemas/DestinationPublic'
+            },
+            type: 'array',
+            title: 'Data'
+        },
+        count: {
+            type: 'integer',
+            title: 'Count'
+        }
+    },
+    type: 'object',
+    required: ['data', 'count'],
+    title: 'DestinationsPublic'
 } as const;
 
 export const HTTPValidationErrorSchema = {

@@ -196,6 +196,12 @@
 }
 
 @layer utilities {
+  .scrollbar-hide {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
   .text-small {
     font-weight: 400;
     @apply

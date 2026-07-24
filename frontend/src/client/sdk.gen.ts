@@ -3,7 +3,7 @@
 import type { CancelablePromise } from './core/CancelablePromise';
 import { OpenAPI } from './core/OpenAPI';
 import { request as __request } from './core/request';
-import type { CrewMemberRolesReadCrewMemberRolesData, CrewMemberRolesReadCrewMemberRolesResponse, CrewMemberRolesCreateCrewMemberRoleData, CrewMemberRolesCreateCrewMemberRoleResponse, CrewMemberRolesReadCrewMemberRoleData, CrewMemberRolesReadCrewMemberRoleResponse, CrewMemberRolesUpdateCrewMemberRoleData, CrewMemberRolesUpdateCrewMemberRoleResponse, CrewMemberRolesDeleteCrewMemberRoleData, CrewMemberRolesDeleteCrewMemberRoleResponse, CrewMembersReadCrewMembersData, CrewMembersReadCrewMembersResponse, CrewMembersCreateCrewMemberData, CrewMembersCreateCrewMemberResponse, CrewMembersReadCrewMemberData, CrewMembersReadCrewMemberResponse, CrewMembersUpdateCrewMemberData, CrewMembersUpdateCrewMemberResponse, CrewMembersDeleteCrewMemberData, CrewMembersDeleteCrewMemberResponse, ItemsReadItemsData, ItemsReadItemsResponse, ItemsCreateItemData, ItemsCreateItemResponse, ItemsReadItemData, ItemsReadItemResponse, ItemsUpdateItemData, ItemsUpdateItemResponse, ItemsDeleteItemData, ItemsDeleteItemResponse, LoginLoginAccessTokenData, LoginLoginAccessTokenResponse, LoginTestTokenResponse, LoginRecoverPasswordData, LoginRecoverPasswordResponse, LoginResetPasswordData, LoginResetPasswordResponse, LoginRecoverPasswordHtmlContentData, LoginRecoverPasswordHtmlContentResponse, PrivateCreateUserData, PrivateCreateUserResponse, UsersReadUsersData, UsersReadUsersResponse, UsersCreateUserData, UsersCreateUserResponse, UsersReadUserMeResponse, UsersDeleteUserMeResponse, UsersUpdateUserMeData, UsersUpdateUserMeResponse, UsersUpdatePasswordMeData, UsersUpdatePasswordMeResponse, UsersRegisterUserData, UsersRegisterUserResponse, UsersReadUserByIdData, UsersReadUserByIdResponse, UsersUpdateUserData, UsersUpdateUserResponse, UsersDeleteUserData, UsersDeleteUserResponse, UtilsTestEmailData, UtilsTestEmailResponse, UtilsHealthCheckResponse } from './types.gen';
+import type { CrewMemberRolesReadCrewMemberRolesData, CrewMemberRolesReadCrewMemberRolesResponse, CrewMemberRolesCreateCrewMemberRoleData, CrewMemberRolesCreateCrewMemberRoleResponse, CrewMemberRolesReadCrewMemberRoleData, CrewMemberRolesReadCrewMemberRoleResponse, CrewMemberRolesUpdateCrewMemberRoleData, CrewMemberRolesUpdateCrewMemberRoleResponse, CrewMemberRolesDeleteCrewMemberRoleData, CrewMemberRolesDeleteCrewMemberRoleResponse, CrewMembersReadCrewMembersData, CrewMembersReadCrewMembersResponse, CrewMembersCreateCrewMemberData, CrewMembersCreateCrewMemberResponse, CrewMembersReadCrewMemberData, CrewMembersReadCrewMemberResponse, CrewMembersUpdateCrewMemberData, CrewMembersUpdateCrewMemberResponse, CrewMembersDeleteCrewMemberData, CrewMembersDeleteCrewMemberResponse, DestinationsReadDestinationsData, DestinationsReadDestinationsResponse, DestinationsCreateDestinationData, DestinationsCreateDestinationResponse, DestinationsReadDestinationData, DestinationsReadDestinationResponse, DestinationsUpdateDestinationData, DestinationsUpdateDestinationResponse, DestinationsDeleteDestinationData, DestinationsDeleteDestinationResponse, ItemsReadItemsData, ItemsReadItemsResponse, ItemsCreateItemData, ItemsCreateItemResponse, ItemsReadItemData, ItemsReadItemResponse, ItemsUpdateItemData, ItemsUpdateItemResponse, ItemsDeleteItemData, ItemsDeleteItemResponse, LoginLoginAccessTokenData, LoginLoginAccessTokenResponse, LoginTestTokenResponse, LoginRecoverPasswordData, LoginRecoverPasswordResponse, LoginResetPasswordData, LoginResetPasswordResponse, LoginRecoverPasswordHtmlContentData, LoginRecoverPasswordHtmlContentResponse, PrivateCreateUserData, PrivateCreateUserResponse, UsersReadUsersData, UsersReadUsersResponse, UsersCreateUserData, UsersCreateUserResponse, UsersReadUserMeResponse, UsersDeleteUserMeResponse, UsersUpdateUserMeData, UsersUpdateUserMeResponse, UsersUpdatePasswordMeData, UsersUpdatePasswordMeResponse, UsersRegisterUserData, UsersRegisterUserResponse, UsersReadUserByIdData, UsersReadUserByIdResponse, UsersUpdateUserData, UsersUpdateUserResponse, UsersDeleteUserData, UsersDeleteUserResponse, UtilsTestEmailData, UtilsTestEmailResponse, UtilsHealthCheckResponse } from './types.gen';
 
 export class CrewMemberRolesService {
     /**
@@ -217,6 +217,117 @@ export class CrewMembersService {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/v1/crew-members/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+}
+
+export class DestinationsService {
+    /**
+     * Read Destinations
+     * Retrieve destinations.
+     * @param data The data for the request.
+     * @param data.skip
+     * @param data.limit
+     * @returns DestinationsPublic Successful Response
+     * @throws ApiError
+     */
+    public static readDestinations(data: DestinationsReadDestinationsData = {}): CancelablePromise<DestinationsReadDestinationsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/destinations/',
+            query: {
+                skip: data.skip,
+                limit: data.limit
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Create Destination
+     * Create new destination.
+     * @param data The data for the request.
+     * @param data.formData
+     * @returns DestinationPublic Successful Response
+     * @throws ApiError
+     */
+    public static createDestination(data: DestinationsCreateDestinationData): CancelablePromise<DestinationsCreateDestinationResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/destinations/',
+            formData: data.formData,
+            mediaType: 'multipart/form-data',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read Destination
+     * Get destination by ID.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns DestinationPublic Successful Response
+     * @throws ApiError
+     */
+    public static readDestination(data: DestinationsReadDestinationData): CancelablePromise<DestinationsReadDestinationResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/destinations/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Destination
+     * Update a destination.
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.formData
+     * @returns DestinationPublic Successful Response
+     * @throws ApiError
+     */
+    public static updateDestination(data: DestinationsUpdateDestinationData): CancelablePromise<DestinationsUpdateDestinationResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/v1/destinations/{id}',
+            path: {
+                id: data.id
+            },
+            formData: data.formData,
+            mediaType: 'multipart/form-data',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Destination
+     * Delete a destination.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static deleteDestination(data: DestinationsDeleteDestinationData): CancelablePromise<DestinationsDeleteDestinationResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/destinations/{id}',
             path: {
                 id: data.id
             },
