@@ -8,8 +8,8 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import EditMember from "./EditMember"
 import DeleteMember from "./DeleteMember"
+import EditMember from "./EditMember"
 
 interface RoleActionsMenuProps {
   member: CrewMemberPublic

@@ -1,12 +1,19 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query"
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query"
 import { Pencil } from "lucide-react"
 import { useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-
-import { OpenAPI } from "@/client"
-import { CrewMemberPublic, CrewMemberRolesService, CrewMembersService } from "@/client"
+import {
+  type CrewMemberPublic,
+  CrewMemberRolesService,
+  CrewMembersService,
+  OpenAPI,
+} from "@/client"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -41,35 +48,28 @@ import useCustomToast from "@/hooks/useCustomToast"
 import { handleError } from "@/utils"
 import { Textarea } from "../ui/textarea"
 
-
 const formSchema = z.object({
   crew_member_base: z.object({
     first_name: z.string().min(1, { message: "First name is required" }),
     last_name: z.string().min(1, { message: "Last name is required" }),
-    role_id: z
-      .uuid("Invalid role id")
-      .min(1, "Role is required"),
+    role_id: z.uuid("Invalid role id").min(1, "Role is required"),
     color: z.string().min(1, { message: "Color is required" }),
     email: z
       .email("Invalid email address")
       .min(1, { message: "Email is required" })
       .trim()
-      .toLowerCase(), 
-    instagram: z
-      .string()
-      .trim()
-      .min(1, { message: "Instagram is required" }),
+      .toLowerCase(),
+    instagram: z.string().trim().min(1, { message: "Instagram is required" }),
     background: z.string().min(1, { message: "Background is required" }),
-    motto: z.string().min(1, { message: "Background is required" })
+    motto: z.string().min(1, { message: "Background is required" }),
   }),
   image: z
     .instanceof(File, { message: "Image is required" })
     .refine(
-      (file) =>
-        ["image/jpeg", "image/png", "image/webp"].includes(file.type),
-      "Only JPG, PNG, and WebP images are allowed"
+      (file) => ["image/jpeg", "image/png", "image/webp"].includes(file.type),
+      "Only JPG, PNG, and WebP images are allowed",
     )
-    .optional()
+    .optional(),
 })
 
 type FormData = z.infer<typeof formSchema>
@@ -85,16 +85,18 @@ const EditMember = ({ member, onSuccess }: EditMemberProps) => {
   const { showSuccessToast, showErrorToast } = useCustomToast()
 
   const { data: roles } = useSuspenseQuery({
-    queryFn: () =>
-      CrewMemberRolesService.readCrewMemberRoles(),
+    queryFn: () => CrewMemberRolesService.readCrewMemberRoles(),
     queryKey: ["crew_member_roles"],
   })
 
-  const roleOptions = useMemo(() => roles.data.map((role) => ({
-      label: role.name,
-      value: role.id,
-    })),
-  [roles.data])
+  const roleOptions = useMemo(
+    () =>
+      roles.data.map((role) => ({
+        label: role.name,
+        value: role.id,
+      })),
+    [roles.data],
+  )
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -111,7 +113,7 @@ const EditMember = ({ member, onSuccess }: EditMemberProps) => {
         background: member.background,
         motto: member.motto,
       },
-      image: undefined
+      image: undefined,
     },
   })
 
@@ -136,7 +138,6 @@ const EditMember = ({ member, onSuccess }: EditMemberProps) => {
     mutation.mutate(data)
   }
 
-
   const image = form.watch("image")
 
   const previewUrl = useMemo(() => {
@@ -144,9 +145,7 @@ const EditMember = ({ member, onSuccess }: EditMemberProps) => {
       return URL.createObjectURL(image)
     }
 
-    return member.image?.url
-      ? `${OpenAPI.BASE}/media${member.image.url}`
-      : null
+    return member.image?.url ? `${OpenAPI.BASE}/media${member.image.url}` : null
   }, [image, member.image?.url])
 
   return (
@@ -177,11 +176,7 @@ const EditMember = ({ member, onSuccess }: EditMemberProps) => {
                       First name <span className="text-destructive">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="First name"
-                        type="text"
-                        {...field}
-                      />
+                      <Input placeholder="First name" type="text" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -197,11 +192,7 @@ const EditMember = ({ member, onSuccess }: EditMemberProps) => {
                       Last name <span className="text-destructive">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Last name"
-                        type="text"
-                        {...field}
-                      />
+                      <Input placeholder="Last name" type="text" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -216,15 +207,10 @@ const EditMember = ({ member, onSuccess }: EditMemberProps) => {
                     <FormLabel>
                       Role <span className="text-destructive">*</span>
                     </FormLabel>
-                    <Select
-                      value={field.value}
-                      onValueChange={field.onChange}
-                      >
+                    <Select value={field.value} onValueChange={field.onChange}>
                       <FormControl>
                         <SelectTrigger className="w-full max-w-48">
-                          <SelectValue
-                            placeholder="Select a role"
-                          />
+                          <SelectValue placeholder="Select a role" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -232,17 +218,14 @@ const EditMember = ({ member, onSuccess }: EditMemberProps) => {
                           <SelectLabel>Roles</SelectLabel>
 
                           {roleOptions.map((role) => (
-                            <SelectItem
-                              key={role.value}
-                              value={role.value}
-                            >
+                            <SelectItem key={role.value} value={role.value}>
                               {role.label}
                             </SelectItem>
                           ))}
                         </SelectGroup>
                       </SelectContent>
                     </Select>
-                    
+
                     <FormMessage />
                   </FormItem>
                 )}
@@ -257,17 +240,13 @@ const EditMember = ({ member, onSuccess }: EditMemberProps) => {
                       Color <span className="text-destructive">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Color"
-                        type="text"
-                        {...field}
-                      />
+                      <Input placeholder="Color" type="text" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              
+
               <FormField
                 control={form.control}
                 name="crew_member_base.email"
@@ -319,10 +298,7 @@ const EditMember = ({ member, onSuccess }: EditMemberProps) => {
                       Background <span className="text-destructive">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Textarea
-                        placeholder="Member background"
-                        {...field}
-                      />
+                      <Textarea placeholder="Member background" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -338,10 +314,7 @@ const EditMember = ({ member, onSuccess }: EditMemberProps) => {
                       Motto <span className="text-destructive">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Textarea
-                        placeholder="Member motto"
-                        {...field}
-                      />
+                      <Textarea placeholder="Member motto" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -381,7 +354,6 @@ const EditMember = ({ member, onSuccess }: EditMemberProps) => {
                   className="w-32 object-cover rounded-md"
                 />
               )}
-
             </div>
 
             <DialogFooter>

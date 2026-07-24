@@ -7,12 +7,11 @@ import { CrewMembersService } from "@/client"
 import { DataTable } from "@/components/Common/DataTable"
 import AddMember from "@/components/CrewMembers/AddMember"
 import { columns } from "@/components/CrewMembers/columns"
-import PendingCrewMembers from '@/components/Pending/PendingCrewMembers';
+import PendingCrewMembers from "@/components/Pending/PendingCrewMembers"
 
 function getCrewMembersQueryOptions() {
   return {
-    queryFn: () =>
-      CrewMembersService.readCrewMembers({ skip: 0, limit: 100 }),
+    queryFn: () => CrewMembersService.readCrewMembers({ skip: 0, limit: 100 }),
     queryKey: ["crew_members"],
   }
 }
@@ -37,8 +36,12 @@ function CrewMembersTableContent() {
         <div className="rounded-full bg-muted p-4 mb-4">
           <Search className="h-8 w-8 text-muted-foreground" />
         </div>
-        <h3 className="text-lg font-semibold">You don't have any crew members yet</h3>
-        <p className="text-muted-foreground">Add a new crew member to get started</p>
+        <h3 className="text-lg font-semibold">
+          You don't have any crew members yet
+        </h3>
+        <p className="text-muted-foreground">
+          Add a new crew member to get started
+        </p>
       </div>
     )
   }
@@ -59,9 +62,7 @@ function CrewMembers() {
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">
-            Crew Members
-          </h1>
+          <h1 className="text-2xl font-bold tracking-tight">Crew Members</h1>
           <p className="text-muted-foreground">
             Create and manage your crew members
           </p>

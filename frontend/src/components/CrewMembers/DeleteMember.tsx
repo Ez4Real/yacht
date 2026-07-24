@@ -66,8 +66,8 @@ const DeleteMember = ({ id, onSuccess }: DeleteMemberProps) => {
           <DialogHeader>
             <DialogTitle>Delete Member</DialogTitle>
             <DialogDescription>
-              This crew member will be permanently deleted. Are you sure? You will not
-              be able to undo this action.
+              This crew member will be permanently deleted. Are you sure? You
+              will not be able to undo this action.
             </DialogDescription>
           </DialogHeader>
 

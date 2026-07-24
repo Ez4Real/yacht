@@ -2,11 +2,10 @@ import type { ColumnDef } from "@tanstack/react-table"
 import { Check, Copy } from "lucide-react"
 
 import type { CrewMemberPublic } from "@/client"
+import { OpenAPI } from "@/client"
 import { Button } from "@/components/ui/button"
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard"
 import { MemberActionsMenu } from "./MembersActionsMenu"
-import { OpenAPI } from "@/client"
-
 
 function CopyId({ id }: { id: string }) {
   const [copiedText, copy] = useCopyToClipboard()
@@ -41,37 +40,53 @@ export const columns: ColumnDef<CrewMemberPublic>[] = [
   {
     accessorKey: "first_name",
     header: "First name",
-    cell: ({ row }) => <span className="font-medium">{row.original.first_name}</span>,
+    cell: ({ row }) => (
+      <span className="font-medium">{row.original.first_name}</span>
+    ),
   },
   {
     accessorKey: "last_name",
     header: "Last name",
-    cell: ({ row }) => <span className="font-medium">{row.original.last_name}</span>,
+    cell: ({ row }) => (
+      <span className="font-medium">{row.original.last_name}</span>
+    ),
   },
   {
     accessorKey: "role.name",
     header: "Role",
-    cell: ({ row }) => <span className="font-medium">{row.original.role.name}</span>,
+    cell: ({ row }) => (
+      <span className="font-medium">{row.original.role.name}</span>
+    ),
   },
   {
     accessorKey: "created_at",
     header: "Created",
-    cell: ({ row }) => <span className="font-medium">{new Date(row.original.created_at).toLocaleString()}</span>,
+    cell: ({ row }) => (
+      <span className="font-medium">
+        {new Date(row.original.created_at).toLocaleString()}
+      </span>
+    ),
   },
   {
     accessorKey: "color",
     header: "Color",
-    cell: ({ row }) => <span className="font-medium">{row.original.color}</span>,
+    cell: ({ row }) => (
+      <span className="font-medium">{row.original.color}</span>
+    ),
   },
   {
     accessorKey: "email",
     header: "Email",
-    cell: ({ row }) => <span className="font-medium">{row.original.email}</span>,
+    cell: ({ row }) => (
+      <span className="font-medium">{row.original.email}</span>
+    ),
   },
   {
     accessorKey: "instagram",
     header: "Instagram",
-    cell: ({ row }) => <span className="font-medium">{row.original.instagram}</span>,
+    cell: ({ row }) => (
+      <span className="font-medium">{row.original.instagram}</span>
+    ),
   },
   // {
   //   accessorKey: "background",
@@ -88,11 +103,11 @@ export const columns: ColumnDef<CrewMemberPublic>[] = [
     header: "Image",
     cell: ({ row }) => (
       <img
-        src={`${OpenAPI.BASE}/media${row.original.image.url}`} 
+        src={`${OpenAPI.BASE}/media${row.original.image.url}`}
         alt={row.original.image.alt_text || ""}
         className="h-16 w-16 object-cover rounded-md"
       />
-    ) // <span className="font-medium">{row.original.image.url}</span>,
+    ), // <span className="font-medium">{row.original.image.url}</span>,
   },
   {
     id: "actions",

@@ -1,11 +1,19 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query"
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query"
 import { Plus } from "lucide-react"
 import { useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
-import { type Body_crew_members_create_crew_member, CrewMemberRolesService, CrewMembersService } from "@/client"
+import {
+  type Body_crew_members_create_crew_member,
+  CrewMemberRolesService,
+  CrewMembersService,
+} from "@/client"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -40,34 +48,27 @@ import useCustomToast from "@/hooks/useCustomToast"
 import { handleError } from "@/utils"
 import { Textarea } from "../ui/textarea"
 
-
 const formSchema = z.object({
   crew_member_base: z.object({
     first_name: z.string().min(1, { message: "First name is required" }),
     last_name: z.string().min(1, { message: "Last name is required" }),
-    role_id: z
-      .uuid("Invalid role id")
-      .min(1, "Role is required"),
+    role_id: z.uuid("Invalid role id").min(1, "Role is required"),
     color: z.string().min(1, { message: "Color is required" }),
     email: z
       .email("Invalid email address")
       .min(1, { message: "Email is required" })
       .trim()
-      .toLowerCase(), 
-    instagram: z
-      .string()
-      .trim()
-      .min(1, { message: "Instagram is required" }),
+      .toLowerCase(),
+    instagram: z.string().trim().min(1, { message: "Instagram is required" }),
     background: z.string().min(1, { message: "Background is required" }),
-    motto: z.string().min(1, { message: "Background is required" })
+    motto: z.string().min(1, { message: "Background is required" }),
   }),
   image: z
     .instanceof(File, { message: "Image is required" })
     .refine(
-    (file) =>
-      ["image/jpeg", "image/png", "image/webp"].includes(file.type),
-    "Only JPG, PNG, and WebP images are allowed"
-  )
+      (file) => ["image/jpeg", "image/png", "image/webp"].includes(file.type),
+      "Only JPG, PNG, and WebP images are allowed",
+    ),
 })
 
 type FormData = z.infer<typeof formSchema>
@@ -78,16 +79,18 @@ const AddMember = () => {
   const { showSuccessToast, showErrorToast } = useCustomToast()
 
   const { data: roles } = useSuspenseQuery({
-    queryFn: () =>
-      CrewMemberRolesService.readCrewMemberRoles(),
+    queryFn: () => CrewMemberRolesService.readCrewMemberRoles(),
     queryKey: ["crew_member_roles"],
   })
 
-  const roleOptions = useMemo(() => roles.data.map((role) => ({
-      label: role.name,
-      value: role.id,
-    })),
-  [roles.data])
+  const roleOptions = useMemo(
+    () =>
+      roles.data.map((role) => ({
+        label: role.name,
+        value: role.id,
+      })),
+    [roles.data],
+  )
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -112,20 +115,19 @@ const AddMember = () => {
     mutationFn: (data: Body_crew_members_create_crew_member) =>
       CrewMembersService.createCrewMember({ formData: data }),
     onSuccess: () => {
-      showSuccessToast("Item created successfully")
+      showSuccessToast("Crew Member created successfully")
       form.reset()
       setIsOpen(false)
     },
     onError: handleError.bind(showErrorToast),
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["items"] })
+      queryClient.invalidateQueries({ queryKey: ["crew_members"] })
     },
   })
 
   const onSubmit = (data: FormData) => {
     mutation.mutate(data)
   }
-
 
   const image = form.watch("image")
 
@@ -142,9 +144,7 @@ const AddMember = () => {
           Add Member
         </Button>
       </DialogTrigger>
-      <DialogContent
-        className="sm:max-w-4xl"
-      >
+      <DialogContent className="sm:max-w-4xl">
         <DialogHeader>
           <DialogTitle>Add Member</DialogTitle>
           <DialogDescription>
@@ -204,15 +204,10 @@ const AddMember = () => {
                     <FormLabel>
                       Role <span className="text-destructive">*</span>
                     </FormLabel>
-                    <Select
-                      value={field.value}
-                      onValueChange={field.onChange}
-                      >
+                    <Select value={field.value} onValueChange={field.onChange}>
                       <FormControl>
                         <SelectTrigger className="w-full max-w-48">
-                          <SelectValue
-                            placeholder="Select a role"
-                          />
+                          <SelectValue placeholder="Select a role" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -220,17 +215,14 @@ const AddMember = () => {
                           <SelectLabel>Roles</SelectLabel>
 
                           {roleOptions.map((role) => (
-                            <SelectItem
-                              key={role.value}
-                              value={role.value}
-                            >
+                            <SelectItem key={role.value} value={role.value}>
                               {role.label}
                             </SelectItem>
                           ))}
                         </SelectGroup>
                       </SelectContent>
                     </Select>
-                    
+
                     <FormMessage />
                   </FormItem>
                 )}
@@ -301,7 +293,6 @@ const AddMember = () => {
                 )}
               />
 
-              
               <FormField
                 control={form.control}
                 name="crew_member_base.background"
@@ -342,7 +333,6 @@ const AddMember = () => {
                 )}
               />
 
-
               <FormField
                 control={form.control}
                 name="image"
@@ -376,7 +366,6 @@ const AddMember = () => {
                   className="w-32 object-cover rounded-md"
                 />
               )}
-              
             </div>
 
             <DialogFooter>
