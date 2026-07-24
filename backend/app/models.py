@@ -4,10 +4,10 @@ from datetime import datetime, timezone
 
 from typing import Annotated
 from pydantic import EmailStr, StringConstraints, model_validator
-from sqlalchemy import DateTime
+from sqlalchemy import DateTime, UniqueConstraint
 from sqlmodel import Field, Relationship, SQLModel
-
 from fastapi import UploadFile, File
+from enum import Enum
 
 
 def get_datetime_utc() -> datetime:
@@ -69,6 +69,7 @@ class User(UserBase, table=True):
     items: list["Item"] = Relationship(back_populates="owner", cascade_delete=True)
     crew_member_roles: list["CrewMemberRole"] = Relationship(back_populates="owner", cascade_delete=True)
     crew_members: list["CrewMember"] = Relationship(back_populates="owner", cascade_delete=True)
+    destinations: list["Destination"] = Relationship(back_populates="owner", cascade_delete=True)
 
 
 # Properties to return via API, id is always required
@@ -216,7 +217,7 @@ class CrewMemberBase(SQLModel):
     background: str = Field(min_length=1, max_length=512)
     role_id: uuid.UUID
     color: HexColor
-    motto: str = Field(min_length=1, max_length=510)
+    motto: str = Field(min_length=1, max_length=512)
     email: EmailStr = Field(unique=True, index=True, max_length=255)
     instagram: str = Field(unique=True, index=True, min_length=1, max_length=30)
     
@@ -236,7 +237,7 @@ class CrewMemberUpdateBase(SQLModel):
     background: str | None = Field(default=None, min_length=1, max_length=512)
     role_id: uuid.UUID | None = Field(default=None) 
     color: HexColor | None = None
-    motto: str | None = Field(default=None, min_length=1, max_length=510) 
+    motto: str | None = Field(default=None, min_length=1, max_length=512) 
     instagram: str | None = Field(default=None, unique=True, index=True, min_length=1, max_length=30) 
     email: EmailStr | None = Field(default=None, unique=True, index=True, max_length=255) 
 
@@ -291,3 +292,117 @@ class CrewMembersPublic(SQLModel):
     count: int
     
 #---------------------
+
+#-----Destination-----
+class DestinationImageType(str, Enum):
+    banner = "banner"
+    side = "side"
+    
+class DestinationImage(ImageBase, table=True):
+    __tablename__ = "destination_image" # type: ignore[assignment]
+    __table_args__ = (UniqueConstraint("destination_id", "type", name="uq_destination_image_type"),)
+
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    destination_id: uuid.UUID = Field(
+        foreign_key="destination.id",
+        ondelete="CASCADE"
+    )
+    destination: "Destination" = Relationship(back_populates="images")
+    type: DestinationImageType = Field(index=True)
+    
+class DestinationImagePublic(ImageBase):
+    id: uuid.UUID
+    type: DestinationImageType
+    
+
+class DestinationBase(SQLModel):
+    region: str = Field(min_length=1, max_length=64)
+    country: str = Field(min_length=1, max_length=64)
+    destination: str = Field(min_length=1, max_length=64, unique=True, index=True)
+    description: str = Field(min_length=1, max_length=512)
+    content1: str = Field(min_length=1, max_length=1024)
+    content2: str | None = Field(default=None, max_length=1024)
+    
+    @model_validator(mode='before')
+    @classmethod
+    def validate_to_json(cls, value):
+        if isinstance(value, str):
+            return json.loads(value)
+        return value
+    
+class DestinationCreate(DestinationBase):
+    banner_image: UploadFile
+    side_image: UploadFile
+    
+class DestinationUpdateBase(SQLModel):
+    region: str | None = Field(default=None, min_length=1, max_length=64)
+    country: str | None = Field(default=None, min_length=1, max_length=64)
+    destination: str | None = Field(
+        unique=True,
+        index=True,
+        default=None,
+        min_length=1,
+        max_length=64
+    )
+    description: str | None = Field(default=None, min_length=1, max_length=512)
+    content1: str | None = Field(default=None, min_length=1, max_length=1024)
+    content2: str | None = Field(default=None, max_length=1024)
+    
+    @model_validator(mode='before')
+    @classmethod
+    def validate_to_json(cls, value):
+        if isinstance(value, str):
+            return json.loads(value)
+        return value
+    
+    
+class DestinationUpdate(DestinationUpdateBase):
+    banner_image: UploadFile | None = File(default=None)
+    side_image: UploadFile | None = File(default=None)
+    
+    
+class Destination(DestinationBase, table=True):
+    __tablename__ = "destination" # type: ignore[assignment]
+    
+    id: uuid.UUID = Field(
+        default_factory=uuid.uuid4,
+        primary_key=True
+    )
+    created_at: datetime | None = Field(
+        default_factory=get_datetime_utc,
+        sa_type=DateTime(timezone=True),  # type: ignore
+    )
+    owner_id: uuid.UUID = Field(
+        foreign_key="user.id", nullable=False, ondelete="CASCADE"
+    )
+    owner: User | None = Relationship(back_populates="destinations")
+    images: list[DestinationImage] = Relationship(
+        back_populates="destination",
+        cascade_delete=True
+    )
+    
+    # @property
+    # def banner_desktop(self) -> DestinationImage:
+    #     return next(img for img in self.images if img.type == "banner")
+    # @property
+    # def banner_mobile(self) -> DestinationImage:
+    #     return next(img for img in self.images if img.type == "side")
+    @property
+    def banner_image(self) -> DestinationImage:
+        return next((b for b in self.images if b.type == DestinationImageType.banner))
+    @property
+    def side_image(self) -> DestinationImage:
+        return next((b for b in self.images if b.type == DestinationImageType.side))
+    
+    
+class DestinationPublic(DestinationBase):
+    id: uuid.UUID
+    owner_id: uuid.UUID
+    created_at: datetime
+    banner_image: DestinationImagePublic
+    side_image: DestinationImagePublic
+    
+class DestinationsPublic(SQLModel):
+    data: list[DestinationPublic]
+    count: int
+    

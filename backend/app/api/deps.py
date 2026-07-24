@@ -11,7 +11,9 @@ from sqlmodel import Session
 from app.core import security
 from app.core.config import settings
 from app.core.db import engine
-from app.models import TokenPayload, User, CrewMemberBase, CrewMemberCreate, CrewMemberUpdateBase, CrewMemberUpdate
+from app.models import TokenPayload, User, \
+    CrewMemberBase, CrewMemberCreate, CrewMemberUpdateBase, CrewMemberUpdate, \
+    DestinationBase, DestinationCreate, DestinationUpdateBase, DestinationUpdate
 
 reusable_oauth2 = OAuth2PasswordBearer(
     tokenUrl=f"{settings.API_V1_STR}/login/access-token"
@@ -78,3 +80,28 @@ def parse_crew_member_update(
         **crew_member_data)
     return crew_member
 
+
+def parse_destination_create(
+    destination_base: DestinationBase = Form(...),
+    banner_image: UploadFile = File(),
+    side_image: UploadFile = File(),
+) -> DestinationCreate:
+    destination_data = destination_base.model_dump()
+    destination = DestinationCreate(
+        banner_image=banner_image,
+        side_image=side_image,
+        **destination_data
+    )
+    return destination
+
+def parse_destination_update(
+    destination_base: DestinationUpdateBase = Form(...),
+    banner_image: UploadFile | None = File(default=None),
+    side_image: UploadFile | None = File(default=None)
+) -> DestinationUpdate:
+    destination_data = destination_base.model_dump()
+    destination = DestinationUpdate( 
+        banner_image=banner_image, 
+        side_image=side_image, 
+        **destination_data)
+    return destination

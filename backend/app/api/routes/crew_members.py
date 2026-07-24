@@ -160,9 +160,7 @@ def delete_crew_member(
         raise HTTPException(status_code=403, detail="Not enough permissions")
     
     if crew_member.image:
-        print("\n\n", "Image Detected", '\n\n')
-        deleted = delete_image_from_local(crew_member.image.url)
-        print("\n\nDelete Status: ", deleted, '\n\n')
+        delete_image_from_local(crew_member.image.url)
 
     session.delete(crew_member)
     session.commit()

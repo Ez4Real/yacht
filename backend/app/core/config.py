@@ -143,6 +143,14 @@ class Settings(BaseSettings):
         """Ensure the crew member images upload directory exists."""
         Path(self.UPLOAD_DIR / self.CREW_MEMBER_IMAGES_DIR).mkdir(parents=True, exist_ok=True)
         return self
+    
+    
+    DESTINATION_IMAGES_DIR: Path = Path("destination-images")
+    @model_validator(mode="after")
+    def _ensure_destination_images_dir_exists(self) -> Self:
+        """Ensure the destination images upload directory exists."""
+        Path(self.UPLOAD_DIR / self.DESTINATION_IMAGES_DIR).mkdir(parents=True, exist_ok=True)
+        return self
 
     
 
