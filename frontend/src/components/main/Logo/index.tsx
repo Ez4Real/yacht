@@ -1,18 +1,20 @@
-import { useTheme } from "@/components/theme-provider";
+import { useTheme } from "@/components/theme-provider"
 
 type LogoProps = {
-  className?: string;
-};
+  className?: string
+}
 
 export function Logo({ className = "" }: LogoProps) {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+  const { theme } = useTheme()
+  const isDark = theme === "dark"
 
   return (
     <img
-      src={isDark ? "/assets/icons/logo-dark.svg" : "/assets/icons/logo-light.svg"}
+      src={
+        isDark ? "/assets/icons/logo-dark.svg" : "/assets/icons/logo-light.svg"
+      }
       alt="BMA Yachts"
       className={className}
     />
-  );
+  )
 }

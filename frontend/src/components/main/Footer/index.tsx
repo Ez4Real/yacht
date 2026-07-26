@@ -1,5 +1,4 @@
 import { useTheme } from "@/components/theme-provider"
-// import { OpenAPI } from '../../../client/core/OpenAPI';
 
 type FooterProps = {
   instagram: string 

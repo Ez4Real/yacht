@@ -8,14 +8,14 @@ import {
 } from "@/components/ui/breadcrumb"
 
 type Destination = {
-  id: number;
-  title: string;
-  country: string;
-  region?: string;
-  image: string;
-  cardDescription?: string;
-  description?: string;
-};
+  id: number
+  title: string
+  country: string
+  region?: string
+  image: string
+  cardDescription?: string
+  description?: string
+}
 
 type DestinationCardProps = {
   destination: Destination
@@ -117,7 +117,8 @@ export function DestinationCard({ destination }: DestinationCardProps) {
         className="
           text-main-style
           mt-[10px]
-        ">
+        "
+      >
         {destination.cardDescription ?? destination.description}
       </p>
     </div>

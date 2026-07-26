@@ -11,7 +11,8 @@ import PendingDestinations from "@/components/Pending/PendingDestinations"
 
 function getDestinationsQueryOptions() {
   return {
-    queryFn: () => DestinationsService.readDestinations({ skip: 0, limit: 100 }),
+    queryFn: () =>
+      DestinationsService.readDestinations({ skip: 0, limit: 100 }),
     queryKey: ["destinations"],
   }
 }
@@ -37,10 +38,10 @@ function DestinationsTableContent() {
           <Search className="h-8 w-8 text-muted-foreground" />
         </div>
         <h3 className="text-lg font-semibold">
-          You don't have any crew destinations yet
+          You don't have any destinations yet
         </h3>
         <p className="text-muted-foreground">
-          Add a new crew member to get started
+          Add a new destination to get started
         </p>
       </div>
     )
@@ -62,9 +63,11 @@ function Destinations() {
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Crew Destinations</h1>
+          <h1 className="text-2xl font-bold tracking-tight">
+            Destinations
+          </h1>
           <p className="text-muted-foreground">
-            Create and manage your crew destinations
+            Create and manage your destinations
           </p>
         </div>
         <AddDestination />
