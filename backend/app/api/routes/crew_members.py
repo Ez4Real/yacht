@@ -7,8 +7,8 @@ from app.core.config import settings
 from app.api.deps import CurrentUser, SessionDep, parse_crew_member_create, \
   parse_crew_member_update
 from app.models import CrewMember, CrewMemberCreate, CrewMemberUpdate, \
-    CrewMemberImage, CrewMemberPublic, CrewMembersPublic, \
-    Message
+    CrewMemberImage, CrewMemberPublic, CrewMembersPublic, Message, \
+    CrewMemberDetail, CrewMemberNavigation
 from app.utils import save_image_to_local, delete_image_from_local
 
 
@@ -53,17 +53,82 @@ def read_crew_members(
     return CrewMembersPublic(data=crew_members_public, count=count)
 
 
-@router.get("/{id}", response_model=CrewMemberPublic)
-def read_crew_member(session: SessionDep, current_user: CurrentUser, id: UUID) -> Any:
+@router.get("/{id}", response_model=CrewMemberDetail)
+def read_crew_member(
+    session: SessionDep,
+    current_user: CurrentUser,
+    id: UUID
+) -> Any:
     """
-    Get crew member by ID.
+    Get crew member by ID with navigation metadata.
     """
     crew_member = session.get(CrewMember, id)
+    
     if not crew_member:
         raise HTTPException(status_code=404, detail="Crew member not found")
     if not current_user.is_superuser and (crew_member.owner_id != current_user.id):
         raise HTTPException(status_code=403, detail="Not enough permissions")
-    return crew_member
+    
+    statement = (
+        select(CrewMember)
+        .where(CrewMember.order < crew_member.order)
+        .order_by(col(CrewMember.order).desc())
+        .limit(1)
+    )
+    previous_member = session.exec(statement).first()
+    
+    statement = (
+        select(CrewMember)
+        .where(CrewMember.order > crew_member.order)
+        .order_by(col(CrewMember.order).asc())
+        .limit(1)
+    )
+    next_member = session.exec(statement).first()
+    
+    statement = (
+        select(CrewMember)
+        .order_by(col(CrewMember.order).desc())
+        .limit(1)
+    )
+    if previous_member is None:
+        previous_member = session.exec(statement).first()
+    
+    statement = (
+        select(CrewMember)
+        .order_by(col(CrewMember.order).asc())
+        .limit(1)
+    )
+    if next_member is None:
+        next_member = session.exec(statement).first()
+    
+    count_statement = select(func.count()).select_from(CrewMember)
+    total = session.exec(count_statement).one()
+    
+    position_statement = (
+        select(func.count())
+        .select_from(CrewMember)
+        .where(CrewMember.order <= crew_member.order)
+    )
+    position = session.exec(position_statement).one()
+    
+    if previous_member is None or next_member is None:
+        raise HTTPException(
+            status_code=500,
+            detail="Navigation could not be determined."
+        )
+    
+    navigation = CrewMemberNavigation(
+        previous=previous_member.id,
+        next=next_member.id,
+        position=position,
+        total=total
+    )
+    
+    crew_member_public = CrewMemberPublic.model_validate(crew_member)
+    return CrewMemberDetail(
+        member=crew_member_public,
+        navigation=navigation,
+    )
 
 
 @router.post("/", response_model=CrewMemberPublic)
@@ -76,9 +141,19 @@ def create_crew_member(
     """
     Create new crew member.
     """
+    max_order_statement = (
+        select(func.max(CrewMember.order))
+        .select_from(CrewMember)
+    )
+    max_order = session.exec(max_order_statement).one()
+    next_order = (max_order or 0) + 1
+
     crew_member = CrewMember.model_validate(
         crew_member_in.model_dump(exclude={"image"}),
-        update={"owner_id": current_user.id}
+        update={
+            "owner_id": current_user.id,
+            "order": next_order
+        }
     )
     
     image_url = save_image_to_local(

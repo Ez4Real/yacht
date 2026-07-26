@@ -267,6 +267,7 @@ class CrewMember(CrewMemberBase, table=True):
         foreign_key="user.id", nullable=False, ondelete="CASCADE"
     )
     owner: User | None = Relationship(back_populates="crew_members")
+    order: int = Field(index=True, unique=True, gt=0) 
     role_id: uuid.UUID = Field(
         foreign_key="crew_member_role.id",
         index=True,
@@ -280,6 +281,7 @@ class CrewMember(CrewMemberBase, table=True):
         sa_relationship_kwargs={"cascade": "all, delete-orphan"}
     )
     
+    
 class CrewMemberPublic(CrewMemberBase):
     id: uuid.UUID
     owner_id: uuid.UUID
@@ -290,7 +292,18 @@ class CrewMemberPublic(CrewMemberBase):
 class CrewMembersPublic(SQLModel):
     data: list[CrewMemberPublic]
     count: int
+
+
+class CrewMemberNavigation(SQLModel):
+    previous: uuid.UUID
+    next: uuid.UUID
+
+    position: int
+    total: int
     
+class CrewMemberDetail(SQLModel):
+    member: CrewMemberPublic
+    navigation: CrewMemberNavigation
 #---------------------
 
 #-----Destination-----
