@@ -71,7 +71,11 @@ export const columns: ColumnDef<CrewMemberPublic>[] = [
     accessorKey: "color",
     header: "Color",
     cell: ({ row }) => (
-      <span className="font-medium">{row.original.color}</span>
+      // <span className="font-medium">{row.original.color}</span>
+      <div
+        className="size-8 rounded-md border justify-self-center"
+        style={{ backgroundColor: row.original.color }}
+      />
     ),
   },
   {

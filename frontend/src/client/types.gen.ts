@@ -42,10 +42,22 @@ export type CrewMemberBase = {
     instagram: string;
 };
 
+export type CrewMemberDetail = {
+    member: CrewMemberPublic;
+    navigation: CrewMemberNavigation;
+};
+
 export type CrewMemberImagePublic = {
     url: string;
     alt_text?: (string | null);
     id: string;
+};
+
+export type CrewMemberNavigation = {
+    previous: string;
+    next: string;
+    position: number;
+    total: number;
 };
 
 export type CrewMemberPublic = {
@@ -299,7 +311,7 @@ export type CrewMembersReadCrewMemberData = {
     id: string;
 };
 
-export type CrewMembersReadCrewMemberResponse = (CrewMemberPublic);
+export type CrewMembersReadCrewMemberResponse = (CrewMemberDetail);
 
 export type CrewMembersUpdateCrewMemberData = {
     formData: Body_crew_members_update_crew_member;

@@ -25,6 +25,8 @@ export class Interceptors<T> {
 }
 
 export type OpenAPIConfig = {
+	INSTAGRAM: "bmayachts",
+	EMAIL: "broker@bmayachts.com",
 	BASE: string;
 	CREDENTIALS: 'include' | 'omit' | 'same-origin';
 	ENCODE_PATH?: ((path: string) => string) | undefined;
@@ -41,7 +43,9 @@ export type OpenAPIConfig = {
 };
 
 export const OpenAPI: OpenAPIConfig = {
-	BASE: '',
+	INSTAGRAM: "bmayachts",
+	EMAIL: "broker@bmayachts.com",
+	BASE: "",
 	CREDENTIALS: 'include',
 	ENCODE_PATH: undefined,
 	HEADERS: undefined,

@@ -1,4 +1,4 @@
-import { Sailboat, UserCog, UserStar, Users, TreePalm } from "lucide-react"
+import { Sailboat, TreePalm, UserCog, UserStar, Users } from "lucide-react"
 
 import { SidebarAppearance } from "@/components/Common/Appearance"
 import { Logo } from "@/components/Common/Logo"

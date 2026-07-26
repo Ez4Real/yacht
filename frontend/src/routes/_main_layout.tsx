@@ -1,16 +1,24 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router"
-// import Footer from "@/components/Footer"
+import { createFileRoute, Outlet, useMatches } from "@tanstack/react-router"
 import { ThemeProvider } from "../components/theme-provider"
 import "../index.css"
 import { Footer } from "@/components/main/Footer"
 import { Header } from "@/components/main/Header"
 import { ThemeSwitcher } from "@/components/main/ThemeSwitcher"
+import { OpenAPI } from "@/client"
 
 export const Route = createFileRoute("/_main_layout")({
   component: MainLayout,
 })
 
 function MainLayout() {
+  const matches = useMatches()
+  const detailMatch = matches.find(
+    (match) => match.routeId === "/_main_layout/crew-members/$id"
+  )
+
+  const instagram = detailMatch?.loaderData?.member.instagram ?? OpenAPI.INSTAGRAM
+  const email = detailMatch?.loaderData?.member.email ?? OpenAPI.EMAIL
+
   return (
     <ThemeProvider defaultTheme="light" storageKey="main-ui-theme">
       <div
@@ -32,17 +40,21 @@ function MainLayout() {
           tablet:pb-[20px]
           desktop:pb-[30px]
           wide:pb-[50px]
-        ">
-
+        "
+      >
         <Header />
 
         <main className="flex-1 pb-[50px] tablet:pb-[50px] desktop:pb-[60px]">
           <Outlet />
         </main>
 
+        <Footer
+          instagram={instagram}
+          email={email}
+        />
 
-        <Footer />
-        <ThemeSwitcher className="
+        <ThemeSwitcher
+          className="
           fixed
 
           right-[20px]
@@ -55,8 +67,8 @@ function MainLayout() {
           wide:bottom-[50px]
 
           z-[40]
-        "/>
-
+        "
+        />
       </div>
     </ThemeProvider>
   )

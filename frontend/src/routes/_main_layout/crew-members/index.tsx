@@ -1,13 +1,24 @@
+import { useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute, Link } from "@tanstack/react-router"
-import { team } from "@/lib/members"
+import { CrewMembersService, OpenAPI } from "@/client"
 
-export const Route = createFileRoute("/_main_layout/members/")({
-  component: MembersPage,
+function getCrewMembersQueryOptions() {
+  return {
+    queryFn: () => CrewMembersService.readCrewMembers({ skip: 0, limit: 100 }),
+    queryKey: ["crew_members"],
+  }
+}
+
+export const Route = createFileRoute("/_main_layout/crew-members/")({
+  component: CrewMembers,
 })
 
-function MembersPage() {
+function CrewMembers() {
+  const { data: members } = useSuspenseQuery(getCrewMembersQueryOptions())
+  
   return (
-    <div className="
+    <div
+      className="
       grid 
       mobile:pt-[24px]
       tablet:pt-[0]
@@ -22,18 +33,19 @@ function MembersPage() {
       tablet:grid-cols-3 
       laptop:grid-cols-5 
       desktop:grid-cols-6
-      ">
-      {team.map((member, index) => (
+      "
+    >
+      {members.data?.map((member, index) => (
         <div key={`${member.id}-${index}`}>
           {member.image ? (
             <Link
-              to="/members/$id"
+              to="/crew-members/$id"
               params={{ id: String(member.id) }}
               className="block"
             >
               <img
-                src={member.image}
-                alt={member.name}
+                src={`${OpenAPI.BASE}/media${member.image.url}`}
+                alt={member.first_name}
                 className="
                 w-full 
                 object-cover
@@ -41,21 +53,24 @@ function MembersPage() {
                 tablet:aspect-[229/329]
                 laptop:aspect-[213/303]
                 wide:aspect-[293/411]
-                "/>
+                "
+              />
             </Link>
           ) : (
-            <div className="
+            <div
+              className="
             w-full 
             aspect-[180/250]
             tablet:aspect-[229/329]
             laptop:aspect-[213/303]
             wide:aspect-[293/411]
             bg-[#FFF3DB]
-            "/>
+            "
+            />
           )}
 
           <p className="mt-[15px] tablet:mt-20px text-small">
-            {member.name}, {member.role}
+            {member.first_name}, {member.role.name}
           </p>
         </div>
       ))}

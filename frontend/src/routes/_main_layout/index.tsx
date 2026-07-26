@@ -1,17 +1,17 @@
-import { useTheme } from "@/components/theme-provider";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router"
+import { useTheme } from "@/components/theme-provider"
 
 export const Route = createFileRoute("/_main_layout/")({
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+  const { theme } = useTheme()
+  const isDark = theme === "dark"
 
   const logoSrc = isDark
     ? "/assets/icons/logo-dark.svg"
-    : "/assets/icons/logo-light.svg";
+    : "/assets/icons/logo-light.svg"
 
   return (
     <div className="relative">
@@ -48,33 +48,36 @@ function RouteComponent() {
           max-w-full
           mb-[20px]
           mt-[11px]
-        "/>
+        "
+      />
 
-      <div className="
+      <div
+        className="
         flex 
         flex-col 
         tablet:flex-row 
         tablet:justify-end
-      ">
-
+      "
+      >
         <div className="tablet:w-[66%] laptop:w-[49.1%]">
-
-
-          <p className="
+          <p
+            className="
             text-main-style 
             max-w-[359px] 
             tablet:max-w-[415px]
             laptop:max-w-[518px] 
             desktop:max-w-[610px]
             wide:max-w-[730px]
-           ">
-            Our mission is to curate superyacht experiences that align with modern
-            values — intentional living, human connection, aesthetic clarity, and
-            respect for nature — transforming chartering from a transaction into a
-            long-term lifestyle.
+           "
+          >
+            Our mission is to curate superyacht experiences that align with
+            modern values — intentional living, human connection, aesthetic
+            clarity, and respect for nature — transforming chartering from a
+            transaction into a long-term lifestyle.
           </p>
 
-          <p className="
+          <p
+            className="
             mt-[40px] 
             laptop:mt-[50px] 
             text-main-style 
@@ -83,12 +86,14 @@ function RouteComponent() {
             laptop:max-w-[518px] 
             desktop:max-w-[610px]
             wide:max-w-[730px]
-          ">
+          "
+          >
             BMA Yachts redefines superyacht charter as a modern lifestyle rather
             than a symbol of excess.
           </p>
 
-          <p className="
+          <p
+            className="
           mt-[40px] 
             laptop:mt-[50px] 
             font-cursive 
@@ -98,15 +103,14 @@ function RouteComponent() {
             laptop:max-w-[450px] 
             desktop:max-w-[390px]
             wide:max-w-[426px]
-          ">
-            Don&apos;t waste your time for
-            things that other people like
+          "
+          >
+            Don&apos;t waste your time for things that other people like
           </p>
 
           <img
             src="/assets/images/homePage.svg"
             alt="Monaco yacht view"
-
             className="
               object-cover
               mt-[40px]
@@ -124,9 +128,9 @@ function RouteComponent() {
               tablet:max-h-[129px]
               desktop:max-h-[150px]
               wide:max-h-[233px] 
-              "/>
+              "
+          />
         </div>
-
       </div>
     </div>
   )

@@ -166,7 +166,7 @@ const EditMember = ({ member, onSuccess }: EditMemberProps) => {
                 Update the member details below.
               </DialogDescription>
             </DialogHeader>
-            <div className="grid grid-cols-2 gap-4 py-4">
+            <div className="grid grid-cols-2 gap-4 py-4 items-start overflow-y-auto max-h-[80vh] scrollbar-hide">
               <FormField
                 control={form.control}
                 name="crew_member_base.first_name"

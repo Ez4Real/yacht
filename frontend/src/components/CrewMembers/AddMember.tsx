@@ -153,7 +153,7 @@ const AddMember = () => {
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="grid grid-cols-2 gap-4 py-4">
+            <div className="grid grid-cols-2 gap-4 py-4 items-start overflow-y-auto max-h-[80vh] scrollbar-hide">
               <FormField
                 control={form.control}
                 name="crew_member_base.first_name"
@@ -363,7 +363,7 @@ const AddMember = () => {
                 <img
                   src={previewUrl}
                   alt="Upload preview"
-                  className="w-32 object-cover rounded-md"
+                  className="object-cover rounded-md"
                 />
               )}
             </div>

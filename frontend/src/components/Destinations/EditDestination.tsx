@@ -1,17 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import {
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Pencil } from "lucide-react"
 import { useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import {
-  type DestinationPublic,
-  DestinationsService,
-  OpenAPI,
-} from "@/client"
+import { type DestinationPublic, DestinationsService, OpenAPI } from "@/client"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -37,45 +30,44 @@ import useCustomToast from "@/hooks/useCustomToast"
 import { handleError } from "@/utils"
 import { Textarea } from "../ui/textarea"
 
-
 const formSchema = z.object({
   destination_base: z.object({
-      region: z.string().min(1, { message: "Region is required" }),
-      country: z.string().min(1, { message: "Country is required" }),
-      destination: z.string().min(1, { message: "Destination is required" }),
-      description: z
-        .string()
-        .min(1, { message: "Description is required" })
-        .max(512, { message: "Description must be at most 512 characters" }),
-      content1: z
-        .string()
-        .min(1, { message: "Content 1 is required" })
-        .max(1024, { message: "Content 1 must be at most 1024 characters" }),
-      content2: z
-        .string()
-        .min(1, { message: "Content 2 is required" })
-        .max(2024, { message: "Content 2 must be at most 1024 characters" }),
-    }),
-    banner_image: z
-      .instanceof(File, { message: "Banner image is required" })
-      .optional()
-      .refine(
-        (file) => 
-          !file || ["image/jpeg", "image/png", "image/webp"].includes(file.type),
-        {
-          message: "Only JPG, PNG, and WebP images are allowed",
-        }
+    region: z.string().min(1, { message: "Region is required" }),
+    country: z.string().min(1, { message: "Country is required" }),
+    destination: z.string().min(1, { message: "Destination is required" }),
+    description: z
+      .string()
+      .min(1, { message: "Description is required" })
+      .max(512, { message: "Description must be at most 512 characters" }),
+    content1: z
+      .string()
+      .min(1, { message: "Content 1 is required" })
+      .max(1024, { message: "Content 1 must be at most 1024 characters" }),
+    content2: z
+      .string()
+      .min(1, { message: "Content 2 is required" })
+      .max(2024, { message: "Content 2 must be at most 1024 characters" }),
+  }),
+  banner_image: z
+    .instanceof(File, { message: "Banner image is required" })
+    .optional()
+    .refine(
+      (file) =>
+        !file || ["image/jpeg", "image/png", "image/webp"].includes(file.type),
+      {
+        message: "Only JPG, PNG, and WebP images are allowed",
+      },
     ),
-    side_image: z
-      .instanceof(File, { message: "Side image is required" })
-      .optional()
-      .refine(
-        (file) => 
-          !file || ["image/jpeg", "image/png", "image/webp"].includes(file.type),
-        {
-          message: "Only JPG, PNG, and WebP images are allowed",
-        }
-    )
+  side_image: z
+    .instanceof(File, { message: "Side image is required" })
+    .optional()
+    .refine(
+      (file) =>
+        !file || ["image/jpeg", "image/png", "image/webp"].includes(file.type),
+      {
+        message: "Only JPG, PNG, and WebP images are allowed",
+      },
+    ),
 })
 
 type FormData = z.infer<typeof formSchema>
@@ -101,10 +93,10 @@ const EditDestination = ({ destination, onSuccess }: EditDestinationProps) => {
         destination: destination.destination,
         description: destination.description,
         content1: destination.content1,
-        content2: destination.content2 ?? undefined
+        content2: destination.content2 ?? undefined,
       },
       banner_image: undefined,
-      side_image: undefined
+      side_image: undefined,
     },
   })
 
@@ -138,8 +130,8 @@ const EditDestination = ({ destination, onSuccess }: EditDestinationProps) => {
     }
 
     return destination.banner_image?.url
-             ? `${OpenAPI.BASE}/media${destination.banner_image.url}`
-             : null
+      ? `${OpenAPI.BASE}/media${destination.banner_image.url}`
+      : null
   }, [bannerImage, destination.banner_image?.url])
 
   const sideImagePreviewUrl = useMemo(() => {
@@ -148,8 +140,8 @@ const EditDestination = ({ destination, onSuccess }: EditDestinationProps) => {
     }
 
     return destination.side_image?.url
-             ? `${OpenAPI.BASE}/media${destination.side_image.url}`
-             : null
+      ? `${OpenAPI.BASE}/media${destination.side_image.url}`
+      : null
   }, [sideImage, destination.side_image?.url])
 
   return (
@@ -202,7 +194,7 @@ const EditDestination = ({ destination, onSuccess }: EditDestinationProps) => {
                   </FormItem>
                 )}
               />
-      
+
               <FormField
                 control={form.control}
                 name="destination_base.destination"
@@ -218,7 +210,7 @@ const EditDestination = ({ destination, onSuccess }: EditDestinationProps) => {
                   </FormItem>
                 )}
               />
-              
+
               <FormItem />
 
               <FormField
@@ -300,7 +292,10 @@ const EditDestination = ({ destination, onSuccess }: EditDestinationProps) => {
                 {bannerImagePreviewUrl && (
                   <img
                     src={bannerImagePreviewUrl}
-                    alt={destination.banner_image?.alt_text || "Destination banner image"}
+                    alt={
+                      destination.banner_image?.alt_text ||
+                      "Destination banner image"
+                    }
                     className="object-cover rounded-md"
                   />
                 )}
@@ -335,12 +330,14 @@ const EditDestination = ({ destination, onSuccess }: EditDestinationProps) => {
                 {sideImagePreviewUrl && (
                   <img
                     src={sideImagePreviewUrl}
-                    alt={destination.banner_image?.alt_text || "Destination banner image"}
+                    alt={
+                      destination.banner_image?.alt_text ||
+                      "Destination banner image"
+                    }
                     className="object-cover rounded-md"
                   />
                 )}
               </div>
-
             </div>
 
             <DialogFooter>

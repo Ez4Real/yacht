@@ -15,7 +15,9 @@ interface DestinationActionsMenuProps {
   destination: DestinationPublic
 }
 
-export const DestinationActionsMenu = ({ destination }: DestinationActionsMenuProps) => {
+export const DestinationActionsMenu = ({
+  destination,
+}: DestinationActionsMenuProps) => {
   const [open, setOpen] = useState(false)
 
   return (
@@ -26,8 +28,14 @@ export const DestinationActionsMenu = ({ destination }: DestinationActionsMenuPr
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <EditDestination destination={destination} onSuccess={() => setOpen(false)} />
-        <DeleteDestination id={destination.id} onSuccess={() => setOpen(false)} />
+        <EditDestination
+          destination={destination}
+          onSuccess={() => setOpen(false)}
+        />
+        <DeleteDestination
+          id={destination.id}
+          onSuccess={() => setOpen(false)}
+        />
       </DropdownMenuContent>
     </DropdownMenu>
   )

@@ -7,11 +7,9 @@ export const Route = createFileRoute("/_main_layout/destinations/$id")({
 })
 
 function DestinationPage() {
-  const { id } = Route.useParams();
+  const { id } = Route.useParams()
 
-  const destination = destinations.find(
-    (item) => item.id === Number(id)
-  );
+  const destination = destinations.find((item) => item.id === Number(id))
 
   if (!destination) {
     return <div>Destination not found</div>

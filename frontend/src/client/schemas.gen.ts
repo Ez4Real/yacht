@@ -208,6 +208,20 @@ export const CrewMemberBaseSchema = {
     title: 'CrewMemberBase'
 } as const;
 
+export const CrewMemberDetailSchema = {
+    properties: {
+        member: {
+            '$ref': '#/components/schemas/CrewMemberPublic'
+        },
+        navigation: {
+            '$ref': '#/components/schemas/CrewMemberNavigation'
+        }
+    },
+    type: 'object',
+    required: ['member', 'navigation'],
+    title: 'CrewMemberDetail'
+} as const;
+
 export const CrewMemberImagePublicSchema = {
     properties: {
         url: {
@@ -234,6 +248,32 @@ export const CrewMemberImagePublicSchema = {
     type: 'object',
     required: ['url', 'id'],
     title: 'CrewMemberImagePublic'
+} as const;
+
+export const CrewMemberNavigationSchema = {
+    properties: {
+        previous: {
+            type: 'string',
+            format: 'uuid',
+            title: 'Previous'
+        },
+        next: {
+            type: 'string',
+            format: 'uuid',
+            title: 'Next'
+        },
+        position: {
+            type: 'integer',
+            title: 'Position'
+        },
+        total: {
+            type: 'integer',
+            title: 'Total'
+        }
+    },
+    type: 'object',
+    required: ['previous', 'next', 'position', 'total'],
+    title: 'CrewMemberNavigation'
 } as const;
 
 export const CrewMemberPublicSchema = {

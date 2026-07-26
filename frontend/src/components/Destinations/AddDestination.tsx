@@ -1,8 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import {
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Plus } from "lucide-react"
 import { useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
@@ -10,7 +7,7 @@ import { z } from "zod"
 
 import {
   type Body_destinations_create_destination,
-  DestinationsService
+  DestinationsService,
 } from "@/client"
 import { Button } from "@/components/ui/button"
 import {
@@ -37,7 +34,6 @@ import useCustomToast from "@/hooks/useCustomToast"
 import { handleError } from "@/utils"
 import { Textarea } from "../ui/textarea"
 
-
 const formSchema = z.object({
   destination_base: z.object({
     region: z.string().min(1, { message: "Region is required" }),
@@ -61,13 +57,13 @@ const formSchema = z.object({
     .refine(
       (file) => ["image/jpeg", "image/png", "image/webp"].includes(file.type),
       "Only JPG, PNG, and WebP images are allowed",
-  ),
+    ),
   side_image: z
     .instanceof(File, { message: "Side image is required" })
     .refine(
       (file) => ["image/jpeg", "image/png", "image/webp"].includes(file.type),
       "Only JPG, PNG, and WebP images are allowed",
-  ),
+    ),
 })
 
 type FormData = z.infer<typeof formSchema>
@@ -76,7 +72,6 @@ const AddDestination = () => {
   const [isOpen, setIsOpen] = useState(false)
   const queryClient = useQueryClient()
   const { showSuccessToast, showErrorToast } = useCustomToast()
-
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -89,10 +84,10 @@ const AddDestination = () => {
         destination: "",
         description: "",
         content1: "",
-        content2: ""
+        content2: "",
       },
       banner_image: undefined as File | undefined,
-      side_image: undefined as File | undefined
+      side_image: undefined as File | undefined,
     },
   })
 
@@ -207,7 +202,7 @@ const AddDestination = () => {
                   </FormItem>
                 )}
               />
-              
+
               <FormItem />
 
               <FormField
@@ -219,17 +214,13 @@ const AddDestination = () => {
                       Description <span className="text-destructive">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Textarea
-                        placeholder="Description"
-                        {...field}
-                        required
-                      />
+                      <Textarea placeholder="Description" {...field} required />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              
+
               <FormItem />
 
               <FormField
@@ -241,11 +232,7 @@ const AddDestination = () => {
                       Content 1 <span className="text-destructive">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Textarea
-                        placeholder="Content 1"
-                        {...field}
-                        required
-                      />
+                      <Textarea placeholder="Content 1" {...field} required />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -261,11 +248,7 @@ const AddDestination = () => {
                       Content 2 <span className="text-destructive">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Textarea
-                        placeholder="Content 2"
-                        {...field}
-                        required
-                      />
+                      <Textarea placeholder="Content 2" {...field} required />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -300,9 +283,9 @@ const AddDestination = () => {
 
                 {bannerImagePreviewUrl && (
                   <img
-                  src={bannerImagePreviewUrl}
-                  alt="Upload preview"
-                  className="object-cover rounded-md"
+                    src={bannerImagePreviewUrl}
+                    alt="Upload preview"
+                    className="object-cover rounded-md"
                   />
                 )}
               </div>
@@ -335,13 +318,12 @@ const AddDestination = () => {
 
                 {sideImagePreviewUrl && (
                   <img
-                  src={sideImagePreviewUrl}
-                  alt="Upload preview"
-                  className="object-cover rounded-md"
+                    src={sideImagePreviewUrl}
+                    alt="Upload preview"
+                    className="object-cover rounded-md"
                   />
                 )}
               </div>
-
             </div>
 
             <DialogFooter>

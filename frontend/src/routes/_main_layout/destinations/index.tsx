@@ -22,10 +22,7 @@ function DestinationsPage() {
       "
     >
       {destinations.map((destination) => (
-        <DestinationCard
-          key={destination.id}
-          destination={destination}
-        />
+        <DestinationCard key={destination.id} destination={destination} />
       ))}
     </div>
   )

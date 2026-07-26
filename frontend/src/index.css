@@ -212,7 +212,7 @@
 
       leading-[25px]
       tablet:leading-[24px]
-      wide:leading-[29px]
+      wide:leading-[29px];
   }
 
   .text-main-style {
@@ -226,7 +226,7 @@
       leading-[27px]
       tablet:leading-[30px]
       desktop:leading-[35px]
-      wide:leading-[31px]
+      wide:leading-[31px];
   }
   
   .text-quote {
@@ -239,9 +239,8 @@
 
       leading-[30px]
       tablet:leading-[35px]
-      wide:leading-[40px]
+      wide:leading-[40px];
   }
-
     .text-menu {
     font-weight: 400;
     @apply
@@ -253,7 +252,7 @@
       leading-[35px]
       tablet:leading-[44px]
       desktop:leading-[48px]
-      wide:leading-[60px]
+      wide:leading-[60px];
   }
 
 
@@ -268,7 +267,7 @@
       wide:text-[26px]
 
       leading-[38px]
-      tablet:leading-[44px]
+      tablet:leading-[44px];
   }
 
   .text-title-style {
@@ -276,7 +275,7 @@
     font-weight: 400;
     @apply
       text-[32px]
-      laptop:text-[36px]
+      laptop:text-[36px];
   }
 
   .text-h2 {
@@ -287,7 +286,7 @@
       desktop:text-[36px]
 
       leading-[34px]
-      desktop:leading-[44px]
+      desktop:leading-[44px];
   }
 
   .nav-btn-detail {
@@ -296,6 +295,6 @@
       desktop:text-[26px]
       wide:text-[26px]
 
-      leading-[30px]
+      leading-[30px];
   }
 }

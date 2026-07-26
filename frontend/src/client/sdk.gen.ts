@@ -162,10 +162,10 @@ export class CrewMembersService {
     
     /**
      * Read Crew Member
-     * Get crew member by ID.
+     * Get crew member by ID with navigation metadata.
      * @param data The data for the request.
      * @param data.id
-     * @returns CrewMemberPublic Successful Response
+     * @returns CrewMemberDetail Successful Response
      * @throws ApiError
      */
     public static readCrewMember(data: CrewMembersReadCrewMemberData): CancelablePromise<CrewMembersReadCrewMemberResponse> {
