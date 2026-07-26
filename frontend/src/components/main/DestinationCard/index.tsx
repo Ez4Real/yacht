@@ -84,16 +84,19 @@ export function DestinationCard({ destination }: DestinationCardProps) {
       >
         <BreadcrumbList className="text-h2">
           <BreadcrumbItem>
-            <BreadcrumbPage className="text-h2">
+
+            <BreadcrumbPage>
               {destination.title}
             </BreadcrumbPage>
-            <span className="text-h2">/</span>
+
+            <span>/</span>
+            
           </BreadcrumbItem>
 
           <BreadcrumbItem>
             <BreadcrumbLink
               href="#"
-              className="text-h2 text-role hover:text-foreground transition-colors"
+              className="text-role hover:text-foreground transition-colors"
             >
               {destination.country}
             </BreadcrumbLink>
@@ -101,13 +104,16 @@ export function DestinationCard({ destination }: DestinationCardProps) {
 
           {destination.region && (
             <BreadcrumbItem>
-              <span className="text-h2 text-role">/</span>
+
+              <span className="text-role">/</span>
+
               <BreadcrumbLink
                 href="#"
-                className="text-h2 text-role hover:text-foreground transition-colors"
+                className="text-role hover:text-foreground transition-colors"
               >
                 {destination.region}
               </BreadcrumbLink>
+              
             </BreadcrumbItem>
           )}
         </BreadcrumbList>

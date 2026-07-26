@@ -170,20 +170,27 @@ export const Menu = () => {
               {menuItems.map((item) => {
                 const isActive = currentPath === item.to
 
-                return (
-                  <SheetClose asChild key={item.label}>
-                    <Link
-                      to={item.to}
-                      className={`text-menu ${
-                        isActive ? "text-foreground" : "text-role"
-                      }`}
-                    >
-                      {item.label}
-                    </Link>
-                  </SheetClose>
-                )
-              })}
-            </nav>
+                                return (
+                                <SheetClose asChild key={item.label}>
+                                    <Link
+                                    to={item.to}
+                                    className={`text-menu flex ${
+                                        isActive ? "text-foreground" : "text-role"
+                                    }`}
+                                    >
+                                    <span>{item.label}</span>
+
+                                    {item.icon && (
+                                        <img
+                                            src={item.icon}
+                                            alt="arrow-icon"
+                                        />
+                                    )}
+                                    </Link>
+                                </SheetClose>
+                                );
+                            })}
+                            </nav>
 
             <div className="mt-auto flex justify-between items-end w-[100%]">
               <div className="flex items-end justify-end">
