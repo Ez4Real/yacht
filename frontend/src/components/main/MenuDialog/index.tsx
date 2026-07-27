@@ -9,28 +9,43 @@ import {
   SheetTitle
 } from "@/components/ui/sheet"
 import { ThemeSwitcher } from "../ThemeSwitcher"
+import { OpenAPI } from "@/client"
 
 const menuItems = [
-  { label: "home", to: "/"},
-  { label: "team", to: "/crew-members"},
-  { label: "sales", to: "/sales"},
-  { label: "charters", to: "/charters"},
-  { label: "about us", to: "/about"},
-  { label: "destinations", to: "/destinations"},
-  { label: "concierge", to: "/concierge"},
-  { label: "charter management", to: "/charter-management"},
-  { label: "owner representation", to: "/owner-representation"},
-  { label: "spinnaker magazine",to: "/spinnaker-magazine"}
+  { label: "home", to: "/" },
+  { label: "team", to: "/crew-members" },
+  { label: "sales", to: "#" },
+  { label: "charters", to: "/charters" },
+  { label: "about us", to: "/about" },
+  { label: "destinations", to: "/destinations" },
+  { label: "concierge", to: "/concierge" },
+  { label: "charter management", to: "/charter-management" },
+  { label: "owner representation", to: "/owner-representation" },
+  { label: "spinnaker magazine", to: "/spinnaker-magazine", icon: "assets/icons/icon-menu-right.svg" }
 ]
 
-export const Menu = () => {
+type MenuDialogProps = {
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  onShowEnquire: () => void;
+};
+
+export const MenuDialog = ({
+  open,
+  onOpenChange,
+  onShowEnquire
+}: MenuDialogProps) => {
   const { theme } = useTheme()
   const isDark = theme === "dark"
   const router = useRouterState()
   const currentPath = router.location.pathname
 
+  const instagram = OpenAPI.INSTAGRAM
+  const email = OpenAPI.EMAIL
+
+
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetTrigger asChild>
         <Button variant="ghost" className="flex items-center transition-none">
           <p className="text-main-nav">menu</p>
@@ -130,16 +145,17 @@ export const Menu = () => {
               </SheetClose>
 
               <Button
+                onClick={onShowEnquire}
                 variant="ghost"
                 className="
-                                flex 
-                                items-center 
-                                p-0 
-                                gap-0 
-                                transition-none
-                                mr-[-11px]
-                                tablet:mr-[0]
-                                "
+                  flex 
+                  items-center 
+                  p-0 
+                  gap-0 
+                  transition-none
+                  mr-[-11px]
+                  tablet:mr-[0]
+                "
               >
                 <p className="text-main-nav">enquire</p>
                 <img
@@ -152,6 +168,8 @@ export const Menu = () => {
                   className="w-[38px]"
                 />
               </Button>
+
+
             </div>
             <nav
               className="
@@ -169,34 +187,40 @@ export const Menu = () => {
             >
               {menuItems.map((item) => {
                 const isActive = currentPath === item.to
+                return (
+                  <SheetClose asChild key={item.label}>
+                    <Link
+                      to={item.to}
+                      className={`text-menu flex ${isActive ? "text-foreground" : "text-role"
+                        }`}
+                    >
+                      <span>{item.label}</span>
 
-                                return (
-                                <SheetClose asChild key={item.label}>
-                                    <Link
-                                    to={item.to}
-                                    className={`text-menu flex ${
-                                        isActive ? "text-foreground" : "text-role"
-                                    }`}
-                                    >
-                                    <span>{item.label}</span>
-
-                                    {item.icon && (
-                                        <img
-                                            src={item.icon}
-                                            alt="arrow-icon"
-                                        />
-                                    )}
-                                    </Link>
-                                </SheetClose>
-                                );
-                            })}
-                            </nav>
+                      {item.icon && (
+                        <img
+                          src={item.icon}
+                          alt="arrow-icon"
+                        />
+                      )}
+                    </Link>
+                  </SheetClose>
+                );
+              })}
+            </nav>
 
             <div className="mt-auto flex justify-between items-end w-[100%]">
               <div className="flex items-end justify-end">
                 <div className="flex flex-col items-start gap-[20px] tablet:gap-[10px] desktop:gap-[30px]">
-                  <Link to="/" className="flex justify-center items-center">
-                    <p className="text-main-nav">instagram</p>
+                  <a
+                    className="flex justify-center items-center"
+                    href={`https://www.instagram.com/${instagram}`}
+                    target="_blank"
+                  >
+                    <p
+                      className="text-main-nav"
+                    >
+                      instagram
+                    </p>
                     <img
                       className="w-[38px] tablet:w-[44px] laptop:w-[38px] desktop:w-[44px]"
                       src={
@@ -206,11 +230,15 @@ export const Menu = () => {
                       }
                       alt="instagramIcon"
                     />
-                  </Link>
+                  </a>
 
-                  <Link to="/" className="">
-                    <p className="text-main-nav">broker@bmayachts.com</p>
-                  </Link>
+                  <a
+                    className="text-main-nav"
+                    href={`mailto:${email}`}
+                    target="_blank"
+                  >
+                    {email}
+                  </a>
                 </div>
               </div>
               <ThemeSwitcher />

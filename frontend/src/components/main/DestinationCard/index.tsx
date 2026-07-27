@@ -6,19 +6,10 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
 } from "@/components/ui/breadcrumb"
-
-type Destination = {
-  id: number
-  title: string
-  country: string
-  region?: string
-  image: string
-  cardDescription?: string
-  description?: string
-}
+import { DestinationPublic, OpenAPI } from "@/client"
 
 type DestinationCardProps = {
-  destination: Destination
+  destination: DestinationPublic
 }
 
 export function DestinationCard({ destination }: DestinationCardProps) {
@@ -31,8 +22,8 @@ export function DestinationCard({ destination }: DestinationCardProps) {
       >
         <div className="group relative overflow-hidden">
           <img
-            src={destination.image}
-            alt={destination.title}
+            src={`${OpenAPI.BASE}/media${destination.banner_image.url}`}
+            alt={destination.banner_image.alt_text ?? ""}
             className="
               object-cover
               transition-transform duration-700 ease-out
@@ -86,7 +77,7 @@ export function DestinationCard({ destination }: DestinationCardProps) {
           <BreadcrumbItem>
 
             <BreadcrumbPage>
-              {destination.title}
+              {destination.destination}
             </BreadcrumbPage>
 
             <span>/</span>
@@ -125,7 +116,7 @@ export function DestinationCard({ destination }: DestinationCardProps) {
           mt-[10px]
         "
       >
-        {destination.cardDescription ?? destination.description}
+        {destination.description ?? destination.description}
       </p>
     </div>
   )

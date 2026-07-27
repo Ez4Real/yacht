@@ -297,4 +297,12 @@
 
       leading-[30px];
   }
+
+  .enquire-title {
+  font-weight: 400;
+  @apply
+    text-[26px]
+    laptop:text-[32px]
+    desktop:text-[36px];
+  }
 }
