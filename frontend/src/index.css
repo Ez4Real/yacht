@@ -298,3 +298,29 @@
       leading-[30px];
   }
 }
+
+@layer utilities {
+  .animate-member-block {
+    opacity: 0;
+    animation: member-block-in 700ms cubic-bezier(0.22, 1, 0.36, 1)
+      forwards;
+  }
+}
+
+@keyframes member-block-in {
+  0% {
+    opacity: 0;
+    transform: translateY(28px) scale(0.7);
+  }
+
+  65% {
+    opacity: 1;
+    transform: translateY(-6px) scale(1.01);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
