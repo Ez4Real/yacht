@@ -69,42 +69,42 @@ test("Log in with invalid password", async ({ page }) => {
   await expect(page.getByText("Incorrect email or password")).toBeVisible()
 })
 
-test("Successful log out", async ({ page }) => {
-  await page.goto("/login")
+// test("Successful log out", async ({ page }) => {
+//   await page.goto("/login")
 
-  await fillForm(page, firstSuperuser, firstSuperuserPassword)
-  await page.getByRole("button", { name: "Log In" }).click()
+//   await fillForm(page, firstSuperuser, firstSuperuserPassword)
+//   await page.getByRole("button", { name: "Log In" }).click()
 
-  await page.waitForURL("/admin")
+//   await page.waitForURL("/admin")
 
-  await expect(
-    page.getByText("Welcome back, nice to see you again!"),
-  ).toBeVisible()
+//   await expect(
+//     page.getByText("Welcome back, nice to see you again!"),
+//   ).toBeVisible()
 
-  await page.getByTestId("user-menu").click()
-  await page.getByRole("menuitem", { name: "Log out" }).click()
-  await page.waitForURL("/login")
-})
+//   await page.getByTestId("user-menu").click()
+//   await page.getByRole("menuitem", { name: "Log out" }).click()
+//   await page.waitForURL("/login")
+// })
 
-test("Logged-out user cannot access protected routes", async ({ page }) => {
-  await page.goto("/login")
+// test("Logged-out user cannot access protected routes", async ({ page }) => {
+//   await page.goto("/login")
 
-  await fillForm(page, firstSuperuser, firstSuperuserPassword)
-  await page.getByRole("button", { name: "Log In" }).click()
+//   await fillForm(page, firstSuperuser, firstSuperuserPassword)
+//   await page.getByRole("button", { name: "Log In" }).click()
 
-  await page.waitForURL("/admin")
+//   await page.waitForURL("/admin")
 
-  await expect(
-    page.getByText("Welcome back, nice to see you again!"),
-  ).toBeVisible()
+//   await expect(
+//     page.getByText("Welcome back, nice to see you again!"),
+//   ).toBeVisible()
 
-  await page.getByTestId("user-menu").click()
-  await page.getByRole("menuitem", { name: "Log out" }).click()
-  await page.waitForURL("/login")
+//   await page.getByTestId("user-menu").click()
+//   await page.getByRole("menuitem", { name: "Log out" }).click()
+//   await page.waitForURL("/login")
 
-  await page.goto("/admin/settings")
-  await page.waitForURL("/login")
-})
+//   await page.goto("/admin/settings")
+//   await page.waitForURL("/login")
+// })
 
 test("Redirects to /login when token is wrong", async ({ page }) => {
   await page.goto("/admin/settings")

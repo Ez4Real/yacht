@@ -1,22 +1,3 @@
-type DestinationDetailProps = {
-  destination: {
-    id: number
-    title: string
-    country: string
-    region?: string
-    image: string
-    imageBig?: string
-    imageDetail?: string
-    description?: string
-    highlightedDescription?: string
-    descriptionEnd?: string
-    cardDescription?: string
-    descriptionSecond?: string
-    quote?: string
-    detailImageText?: string
-  }
-}
-
 import { Link, useRouterState } from "@tanstack/react-router"
 import { useTheme } from "@/components/theme-provider"
 import { Button } from "@/components/ui/button"

@@ -67,9 +67,9 @@ export const EnquireDialog = ({
     //     },
     // })
 
-    const onSubmit = (data: FormData) => {
-        // mutation.mutate(data)
-    }
+    // const onSubmit = (data: FormData) => {
+    //     mutation.mutate(data)
+    // }
 
     return (
         <Sheet open={open} onOpenChange={onOpenChange}>
@@ -233,7 +233,7 @@ export const EnquireDialog = ({
                         <Form {...form}>
 
                             <form
-                                onSubmit={form.handleSubmit(onSubmit)}
+                                // onSubmit={form.handleSubmit(onSubmit)}
                             >
                                 <div
                                   className="
