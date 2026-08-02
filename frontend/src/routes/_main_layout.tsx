@@ -5,6 +5,7 @@ import { Footer } from "@/components/main/Footer"
 import { Header } from "@/components/main/Header"
 import { ThemeSwitcher } from "@/components/main/ThemeSwitcher"
 import { OpenAPI } from "@/client"
+import { ChatWidget } from "@/components/Ai/ChatWidget";
 
 export const Route = createFileRoute("/_main_layout")({
   component: MainLayout,
@@ -69,6 +70,7 @@ function MainLayout() {
           z-[40]
         "
         />
+        <ChatWidget />
       </div>
     </ThemeProvider>
   )

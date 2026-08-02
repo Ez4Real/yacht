@@ -21,7 +21,7 @@ const menuItems = [
   { label: "concierge", to: "/concierge" },
   { label: "charter management", to: "/charter-management" },
   { label: "owner representation", to: "/owner-representation" },
-  { label: "spinnaker magazine", to: "/spinnaker-magazine", icon: "assets/icons/icon-menu-right.svg" }
+  { label: "spinnaker magazine", to: "/spinnaker-magazine", icon: "/assets/icons/icon-menu-right.svg" }
 ]
 
 type MenuDialogProps = {
@@ -191,7 +191,7 @@ export const MenuDialog = ({
                   <SheetClose asChild key={item.label}>
                     <Link
                       to={item.to}
-                      className={`text-menu flex ${isActive ? "text-foreground" : "text-role"
+                      className={`text-menu flex items-center ${isActive ? "text-foreground" : "text-role"
                         }`}
                     >
                       <span>{item.label}</span>

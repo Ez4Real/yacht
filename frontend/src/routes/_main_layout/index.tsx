@@ -63,7 +63,7 @@ function RouteComponent() {
           <p
             className="
             text-main-style 
-            max-w-[359px] 
+            max-w-[100%] 
             tablet:max-w-[415px]
             laptop:max-w-[518px] 
             desktop:max-w-[610px]
@@ -81,7 +81,7 @@ function RouteComponent() {
             mt-[40px] 
             laptop:mt-[50px] 
             text-main-style 
-            max-w-[359px] 
+            max-w-[100%] 
             tablet:max-w-[415px] 
             laptop:max-w-[518px] 
             desktop:max-w-[610px]
@@ -94,11 +94,11 @@ function RouteComponent() {
 
           <p
             className="
-          mt-[40px] 
-            laptop:mt-[50px] 
+            mt-[40px] 
+            laptop:mt-[50px]
             font-cursive 
             text-quote 
-            max-w-[359px] 
+            max-w-[100%] 
             tablet:max-w-[415px] 
             laptop:max-w-[450px] 
             desktop:max-w-[390px]
@@ -118,7 +118,7 @@ function RouteComponent() {
               desktop:mt-[54px]
               wide:mt-[55px] 
               
-              w-[369px]
+              w-[100%]
               tablet:w-[447px]
               laptop:w-[569px]
               desktop:w-[648px]
