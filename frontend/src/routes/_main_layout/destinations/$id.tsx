@@ -33,12 +33,12 @@ function DestinationPage() {
         "
       >
         <img
-          src={`${OpenAPI.BASE}/media${destination.banner_image.url}`} 
+          src={`${OpenAPI.BASE}/media${destination.banner_image.url}`}
           alt={destination.banner_image.alt_text ?? ""}
           className="
             object-cover 
-            w-[390px]
-            tablet:w-[200px]
+            w-[100%]
+            tablet:w-[220px]
             laptop:w-[424px]
             desktop:w-[530px]
             wide:w-[737px]
@@ -55,8 +55,9 @@ function DestinationPage() {
               laptop:w-[424px]
               desktop:w-[530px]
               wide:w-[737px]
-              mobile:hidden 
+              hidden 
               laptop:block
+              text-main-style
             "
           >
             {destination.description}
@@ -66,54 +67,57 @@ function DestinationPage() {
 
       <div className="tablet:w-[66%] laptop:w-[49.1%]">
 
-        <p className="text-h2 mt-[40px] tablet:mt-[0px]">
-          {destination.destination} /{" "}
+        
+          <p className="text-h2 mt-[40px] tablet:mt-[0px]">
+            {destination.destination} /{" "}
 
-          <span>
-            {destination.country}
-            {destination.region ? ` / ${destination.region}` : ""}
-          </span>
+            <span>
+              {destination.country}
+              {destination.region ? ` / ${destination.region}` : ""}
+            </span>
 
-        </p>
+          </p>
 
-        <p className="
+          <p className="
           mt-[40px]
           text-main-style
           whitespace-pre-line
+          wide:w-[617px]
+          desktop:w-[617px]
         "
-        >
-          {destination.content1}{" "}
-          {/* <span className="text-role text-main-style">
+          >
+            {destination.content1}{" "}
+            {/* <span className="text-role text-main-style whitespace-pre-line wide:w-[617px] desktop:w-[617px]">
             {destination.highlightedDescription}
           </span>{" "}
           {destination.descriptionEnd} */}
-        </p>
-
-        <p className="mt-[40px] text-main-style">
-          {destination.description}
-        </p>
-
-        {destination.content2 && (
-          <p className="mt-[40px] text-main-style">
-            {destination.content2}
           </p>
-        )}
 
-        {destination.side_image && (
-          <>
-            <img
-              src={`${OpenAPI.BASE}/media${destination.side_image.url}`}
-              alt={destination.side_image.alt_text ?? ""}
-              className="mt-[40px] object-cover "
-            />
+          <p className="mt-[40px] text-main-style whitespace-pre-line wide:w-[617px] desktop:w-[617px]">
+            {destination.description}
+          </p>
 
-            {destination.content2 && (
-              <p className="mt-[40px] text-main-style">
-                {destination.content2}
-              </p>
-            )}
-          </>
-        )}
+          {destination.content2 && (
+            <p className="mt-[40px] text-main-style whitespace-pre-line wide:w-[617px] desktop:w-[617px]">
+              {destination.content2}
+            </p>
+          )}
+
+          {destination.side_image && (
+            <>
+              <img
+                src={`${OpenAPI.BASE}/media${destination.side_image.url}`}
+                alt={destination.side_image.alt_text ?? ""}
+                className="mt-[40px] object-cover wide:w-[617px] desktop:w-[617px]"
+              />
+
+              {destination.content2 && (
+                <p className="mt-[40px] text-main-style whitespace-pre-line wide:w-[617px] desktop:w-[617px]">
+                  {destination.content2}
+                </p>
+              )}
+            </>
+          )}
       </div>
     </div>
   )
