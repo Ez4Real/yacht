@@ -1,11 +1,11 @@
 // import type { ColumnDef } from "@tanstack/react-table"
 // import { Check, Copy } from "lucide-react"
 
-// import type { DestinationPublic } from "@/client"
+// import type { CharterPublic } from "@/client"
 // import { OpenAPI } from "@/client"
 // import { Button } from "@/components/ui/button"
 // import { useCopyToClipboard } from "@/hooks/useCopyToClipboard"
-// import { DestinationActionsMenu } from "./DestinationsActionsMenu"
+// import { CharterActionsMenu } from "./ChartersActionsMenu"
 
 // function CopyId({ id }: { id: string }) {
 //   const [copiedText, copy] = useCopyToClipboard()
@@ -31,7 +31,7 @@
 //   )
 // }
 
-// export const columns: ColumnDef<DestinationPublic>[] = [
+// export const columns: ColumnDef<CharterPublic>[] = [
 //   {
 //     accessorKey: "id",
 //     header: "ID",
@@ -53,7 +53,7 @@
 //   },
 //   {
 //     accessorKey: "destination",
-//     header: "Destination",
+//     header: "Charter",
 //     cell: ({ row }) => (
 //       <span className="font-medium">{row.original.destination}</span>
 //     ),
@@ -108,7 +108,7 @@
 //     header: () => <span className="sr-only">Actions</span>,
 //     cell: ({ row }) => (
 //       <div className="flex justify-end">
-//         <DestinationActionsMenu destination={row.original} />
+//         <CharterActionsMenu destination={row.original} />
 //       </div>
 //     ),
 //   },

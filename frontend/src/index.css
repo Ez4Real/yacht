@@ -205,113 +205,55 @@
   .text-main-style {
     line-height: 35px;
     font-weight: 400;
-    @apply
-      text-[18px]
-      tablet:text-[20px]
-      wide:text-[24px]
-
-      leading-[25px]
-      tablet:leading-[24px]
-      wide:leading-[29px];
+    @apply text-[18px] tablet:text-[20px] wide:text-[24px] leading-[25px] tablet:leading-[24px] wide:leading-[29px];
   }
 
   .text-main-style {
     line-height: 35px;
     font-weight: 400;
-    @apply
-      text-[20px]
-      tablet:text-[22px]
-      desktop:text-[26px]
-
-      leading-[27px]
-      tablet:leading-[30px]
-      desktop:leading-[35px]
-      wide:leading-[31px];
+    @apply text-[20px] tablet:text-[22px] desktop:text-[26px] leading-[27px] tablet:leading-[30px] desktop:leading-[35px] wide:leading-[31px];
   }
-  
+
   .text-quote {
     line-height: 35px;
     font-weight: 400;
-    @apply
-      text-[24px]
-      tablet:text-[28px]
-      desktop:text-[32px]
-
-      leading-[30px]
-      tablet:leading-[35px]
-      wide:leading-[40px];
+    @apply text-[24px] tablet:text-[28px] desktop:text-[32px] leading-[30px] tablet:leading-[35px] wide:leading-[40px];
   }
-    .text-menu {
+  .text-menu {
     font-weight: 400;
-    @apply
-      text-[32px]
-      tablet:text-[36px]
-      desktop:text-[40px]
-      wide:text-[50px]
-
-      leading-[35px]
-      tablet:leading-[44px]
-      desktop:leading-[48px]
-      wide:leading-[60px];
+    @apply text-[32px] tablet:text-[36px] desktop:text-[40px] wide:text-[50px] leading-[35px] tablet:leading-[44px] desktop:leading-[48px] wide:leading-[60px];
   }
-
-
 
   .text-main-nav {
     font-weight: 400;
-    @apply
-      text-[20px]
-      tablet:text-[22px]
-      laptop:text-[22px]
-      desktop:text-[26px]
-      wide:text-[26px]
-
-      leading-[38px]
-      tablet:leading-[44px];
+    @apply text-[20px] tablet:text-[22px] laptop:text-[22px] desktop:text-[26px] wide:text-[26px] leading-[38px] tablet:leading-[44px];
   }
 
   .text-title-style {
     line-height: 41px;
     font-weight: 400;
-    @apply
-      text-[32px]
-      laptop:text-[36px];
+    @apply text-[32px] laptop:text-[36px];
   }
 
   .text-h2 {
     font-weight: 400;
-    @apply
-      text-[30px]
-      laptop:text-[32px]
-      desktop:text-[36px]
-
-      leading-[34px]
-      desktop:leading-[44px];
+    @apply text-[30px] laptop:text-[32px] desktop:text-[36px] leading-[34px] desktop:leading-[44px];
   }
 
   .nav-btn-detail {
-    @apply
-      text-[22px]
-      desktop:text-[26px]
-      wide:text-[26px]
-
-      leading-[30px];
+    @apply text-[22px] desktop:text-[26px] wide:text-[26px] leading-[30px];
   }
 
   .enquire-title {
     font-weight: 400;
-    @apply
-      text-[26px]
-      laptop:text-[32px]
-      desktop:text-[36px];
+    @apply text-[26px] laptop:text-[32px] desktop:text-[36px];
   }
 }
 
 @layer utilities {
   .animate-member-block {
     opacity: 0;
-    animation: member-block-in 700ms cubic-bezier(0.22, 1, 0.36, 1)
-      forwards;
+    animation: member-block-in 700ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
 }
 
@@ -331,4 +273,3 @@
     transform: translateY(0) scale(1);
   }
 }
-

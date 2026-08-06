@@ -1,7 +1,6 @@
+import { useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { DestinationsService, OpenAPI } from "@/client"
-import { useSuspenseQuery } from "@tanstack/react-query"
-
 
 function getDestinationByIdQueryOptions(id: string) {
   return {
@@ -17,15 +16,19 @@ export const Route = createFileRoute("/_main_layout/destinations/$id")({
 function DestinationPage() {
   const { id } = Route.useParams()
 
-  const { data: destination } = useSuspenseQuery(getDestinationByIdQueryOptions(id))
+  const { data: destination } = useSuspenseQuery(
+    getDestinationByIdQueryOptions(id),
+  )
 
   return (
-    <div className="
+    <div
+      className="
           flex 
           flex-col 
           tablet:flex-row 
           justify-between 
-        ">
+        "
+    >
       <div
         className="
           mt-[24px]
@@ -33,7 +36,7 @@ function DestinationPage() {
         "
       >
         <img
-          src={`${OpenAPI.BASE}/media${destination.banner_image.url}`} 
+          src={`${OpenAPI.BASE}/media${destination.banner_image.url}`}
           alt={destination.banner_image.alt_text ?? ""}
           className="
             object-cover 
@@ -65,18 +68,16 @@ function DestinationPage() {
       </div>
 
       <div className="tablet:w-[66%] laptop:w-[49.1%]">
-
         <p className="text-h2 mt-[40px] tablet:mt-[0px]">
           {destination.destination} /{" "}
-
           <span>
             {destination.country}
             {destination.region ? ` / ${destination.region}` : ""}
           </span>
-
         </p>
 
-        <p className="
+        <p
+          className="
           mt-[40px]
           text-main-style
           whitespace-pre-line
@@ -89,14 +90,10 @@ function DestinationPage() {
           {destination.descriptionEnd} */}
         </p>
 
-        <p className="mt-[40px] text-main-style">
-          {destination.description}
-        </p>
+        <p className="mt-[40px] text-main-style">{destination.description}</p>
 
         {destination.content2 && (
-          <p className="mt-[40px] text-main-style">
-            {destination.content2}
-          </p>
+          <p className="mt-[40px] text-main-style">{destination.content2}</p>
         )}
 
         {destination.side_image && (

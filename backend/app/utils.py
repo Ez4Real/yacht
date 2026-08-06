@@ -1,4 +1,3 @@
-import os
 import logging
 from uuid import uuid4
 from dataclasses import dataclass
@@ -137,7 +136,6 @@ def save_image_to_local(
     if image.filename is None:
         raise ValueError("Uploaded image has no filename")
     
-    # extension = os.path.splitext(image.filename)[1]
     extension = Path(image.filename).suffix 
     filename = f"{uuid4().hex}{extension}"
     

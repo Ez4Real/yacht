@@ -15,7 +15,7 @@ export const Route = createFileRoute("/_main_layout/crew-members/")({
 
 function CrewMembers() {
   const { data: members } = useSuspenseQuery(getCrewMembersQueryOptions())
-  
+
   return (
     <div
       className="

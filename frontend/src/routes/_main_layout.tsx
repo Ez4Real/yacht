@@ -1,10 +1,10 @@
 import { createFileRoute, Outlet, useMatches } from "@tanstack/react-router"
 import { ThemeProvider } from "../components/theme-provider"
 import "../index.css"
+import { OpenAPI } from "@/client"
 import { Footer } from "@/components/main/Footer"
 import { Header } from "@/components/main/Header"
 import { ThemeSwitcher } from "@/components/main/ThemeSwitcher"
-import { OpenAPI } from "@/client"
 
 export const Route = createFileRoute("/_main_layout")({
   component: MainLayout,
@@ -13,10 +13,11 @@ export const Route = createFileRoute("/_main_layout")({
 function MainLayout() {
   const matches = useMatches()
   const detailMatch = matches.find(
-    (match) => match.routeId === "/_main_layout/crew-members/$id"
+    (match) => match.routeId === "/_main_layout/crew-members/$id",
   )
 
-  const instagram = detailMatch?.loaderData?.member.instagram ?? OpenAPI.INSTAGRAM
+  const instagram =
+    detailMatch?.loaderData?.member.instagram ?? OpenAPI.INSTAGRAM
   const email = detailMatch?.loaderData?.member.email ?? OpenAPI.EMAIL
 
   return (
@@ -48,10 +49,7 @@ function MainLayout() {
           <Outlet />
         </main>
 
-        <Footer
-          instagram={instagram}
-          email={email}
-        />
+        <Footer instagram={instagram} email={email} />
 
         <ThemeSwitcher
           className="

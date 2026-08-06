@@ -60,9 +60,13 @@ const formSchema = z.object({
     ),
   side_image: z
     .instanceof(File, { message: "Side image is required" })
+    .optional()
     .refine(
-      (file) => ["image/jpeg", "image/png", "image/webp"].includes(file.type),
-      "Only JPG, PNG, and WebP images are allowed",
+      (file) =>
+        !file || ["image/jpeg", "image/png", "image/webp"].includes(file.type),
+      {
+        message: "Only JPG, PNG, and WebP images are allowed",
+      },
     ),
 })
 
