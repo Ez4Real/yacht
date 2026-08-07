@@ -202,7 +202,7 @@
     }
   }
 
-  .text-main-style {
+  .crew-title {
     line-height: 35px;
     font-weight: 400;
     @apply text-[18px] tablet:text-[20px] wide:text-[24px] leading-[25px] tablet:leading-[24px] wide:leading-[29px];
@@ -211,7 +211,13 @@
   .text-main-style {
     line-height: 35px;
     font-weight: 400;
-    @apply text-[20px] tablet:text-[22px] desktop:text-[26px] leading-[27px] tablet:leading-[30px] desktop:leading-[35px] wide:leading-[31px];
+    @apply
+      text-[20px]
+      tablet:text-[22px]
+      desktop:text-[26px]
+
+      leading-[135%]
+      wide:leading-[120%];
   }
 
   .text-quote {
@@ -223,7 +229,7 @@
     font-weight: 400;
     @apply text-[32px] tablet:text-[36px] desktop:text-[40px] wide:text-[50px] leading-[35px] tablet:leading-[44px] desktop:leading-[48px] wide:leading-[60px];
   }
-
+  
   .text-main-nav {
     font-weight: 400;
     @apply text-[20px] tablet:text-[22px] laptop:text-[22px] desktop:text-[26px] wide:text-[26px] leading-[38px] tablet:leading-[44px];

@@ -22,8 +22,8 @@ function RouteComponent() {
           alt="About BMA Yachts"
           className="
             object-cover
-            w-[390px]
-            tablet:w-[160px]
+            w-[408px]
+            tablet:w-[210px]
             laptop:w-[424px]
             desktop:w-[530px]
             wide:w-[737px]
@@ -56,7 +56,7 @@ function RouteComponent() {
           <img
             src="/assets/images/about-brian.svg"
             alt="Brian Muston"
-            className="object-cover mobile:w-[370px] tablet:w-[358px]"
+            className="object-cover w-[408px]"
           />
 
           <p

@@ -26,7 +26,7 @@ function MemberPage() {
         tablet:pt-0
       "
     >
-      <div className="flex flex-col items-center gap-[30px]">
+      <div>
         {crewMember.image && (
           <div
             className="animate-member-block"
@@ -38,17 +38,17 @@ function MemberPage() {
               className="
                 object-cover
 
-                w-[370px]
+                w-[100%]
                 tablet:w-[160px]
                 laptop:w-[320px]
                 desktop:w-[360px]
                 wide:w-[470px]
 
-                h-[440px]
+                h-[500px]
                 tablet:h-[225px]
                 laptop:h-[450px]
                 desktop:h-[506px]
-                wide:h-[660px]
+                wide:h-[100%]
               "
             />
           </div>
@@ -63,6 +63,7 @@ function MemberPage() {
             text-main-nav
             w-full
             animate-member-block
+            mt-[30px]
           "
           style={{ animationDelay: "450ms" }}
         >
@@ -137,6 +138,8 @@ function MemberPage() {
               tablet:mt-[20px]
               laptop:mt-[30px]
               animate-member-block
+              leading-[120%]!
+              whitespace-pre-line
             "
             style={{ animationDelay: "200ms" }}
           >
@@ -144,7 +147,7 @@ function MemberPage() {
           </p>
 
           {/* {member.descriptionSecond && (
-            <p className="mt-[40px] laptop:mt-[50px] wide:mt-[55px] text-main-style">
+            <p className="mt-[40px] laptop:mt-[50px] wide:mt-[55px] text-main-style leading-[120%]!">
               {member.descriptionSecond}
             </p>
           )} */}
@@ -158,6 +161,8 @@ function MemberPage() {
                 font-cursive
                 text-quote
                 animate-member-block
+                leading-[125%]!
+                whitespace-pre-line
               "
               style={{ animationDelay: "320ms" }}
             >

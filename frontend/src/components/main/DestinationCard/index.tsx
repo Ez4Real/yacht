@@ -20,16 +20,12 @@ export function DestinationCard({ destination }: DestinationCardProps) {
         params={{ id: String(destination.id) }}
         className="block"
       >
-        <div className="group relative overflow-hidden">
-          <img
-            src={`${OpenAPI.BASE}/media${destination.banner_image.url}`}
-            alt={destination.banner_image.alt_text ?? ""}
-            className="
-              object-cover
-              transition-transform duration-700 ease-out
-              group-hover:scale-110
-
-              w-[367px]
+        <div className="
+              group 
+              relative 
+              overflow-hidden
+              
+              w-[100%]
               tablet:w-[727px]
               laptop:w-[560px]
               desktop:w-[881px]
@@ -39,6 +35,18 @@ export function DestinationCard({ destination }: DestinationCardProps) {
               tablet:h-[349px]
               desktop:h-[393px]
               wide:h-[437px]
+            ">
+          <img
+            src={`${OpenAPI.BASE}/media${destination.banner_image.url}`}
+            alt={destination.banner_image.alt_text ?? ""}
+            className="
+              w-full
+              h-full
+              object-cover
+              transition-transform
+              duration-700
+              ease-out
+              group-hover:scale-110
             "
           />
 

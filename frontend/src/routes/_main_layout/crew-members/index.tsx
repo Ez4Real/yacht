@@ -59,17 +59,17 @@ function CrewMembers() {
           ) : (
             <div
               className="
-            w-full 
-            aspect-[180/250]
-            tablet:aspect-[229/329]
-            laptop:aspect-[213/303]
-            wide:aspect-[293/411]
-            bg-[#FFF3DB]
+              w-full 
+              aspect-[180/250]
+              tablet:aspect-[229/329]
+              laptop:aspect-[213/303]
+              wide:aspect-[293/411]
+              bg-[#FFF3DB]
             "
             />
           )}
 
-          <p className="mt-[15px] tablet:mt-20px text-small">
+          <p className="mt-[15px] tablet:mt-20px crew-title">
             {member.first_name}, {member.role.name}
           </p>
         </div>

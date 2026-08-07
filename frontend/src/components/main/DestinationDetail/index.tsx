@@ -14,18 +14,18 @@ import { ThemeSwitcher } from "../ThemeSwitcher"
 const menuItems = [
   { label: "home", to: "/" },
   { label: "team", to: "/crew-members" },
-  { label: "sales", to: "#" },
-  { label: "charters", to: "/charters" },
+  // { label: "sales", to: "#" },
+  // { label: "charters", to: "/charters" },
   { label: "about us", to: "/about" },
   { label: "destinations", to: "/destinations" },
-  { label: "concierge", to: "/concierge" },
-  { label: "charter management", to: "/charter-management" },
-  { label: "owner representation", to: "/owner-representation" },
-  {
-    label: "spinnaker magazine",
-    to: "/spinnaker-magazine",
-    icon: "assets/icons/icon-menu-right.svg",
-  },
+  // { label: "concierge", to: "/concierge" },
+  // { label: "charter management", to: "/charter-management" },
+  // { label: "owner representation", to: "/owner-representation" },
+  // {
+  //   label: "spinnaker magazine",
+  //   to: "/spinnaker-magazine",
+  //   icon: "assets/icons/icon-menu-right.svg",
+  // },
 ]
 
 export const Menu = () => {
@@ -185,7 +185,7 @@ export const Menu = () => {
                     >
                       <span>{item.label}</span>
 
-                      {item.icon && <img src={item.icon} alt="arrow-icon" />}
+                      {/* {item.icon && <img src={item.icon} alt="arrow-icon" />} */}
                     </Link>
                   </SheetClose>
                 )

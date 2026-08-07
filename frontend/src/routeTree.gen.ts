@@ -27,7 +27,6 @@ import { Route as Admin_layoutAdminItemsRouteImport } from './routes/_admin_layo
 import { Route as Admin_layoutAdminDestinationsRouteImport } from './routes/_admin_layout/admin/destinations'
 import { Route as Admin_layoutAdminCrewMembersRouteImport } from './routes/_admin_layout/admin/crew-members'
 import { Route as Admin_layoutAdminCrewMemberRolesRouteImport } from './routes/_admin_layout/admin/crew-member-roles'
-import { Route as Admin_layoutAdminChartersRouteImport } from './routes/_admin_layout/admin/charters'
 import { Route as Admin_layoutAdminAdminManagementRouteImport } from './routes/_admin_layout/admin/admin-management'
 
 const SignupRoute = SignupRouteImport.update({
@@ -126,12 +125,6 @@ const Admin_layoutAdminCrewMemberRolesRoute =
     path: '/admin/crew-member-roles',
     getParentRoute: () => Admin_layoutRoute,
   } as any)
-const Admin_layoutAdminChartersRoute =
-  Admin_layoutAdminChartersRouteImport.update({
-    id: '/admin/charters',
-    path: '/admin/charters',
-    getParentRoute: () => Admin_layoutRoute,
-  } as any)
 const Admin_layoutAdminAdminManagementRoute =
   Admin_layoutAdminAdminManagementRouteImport.update({
     id: '/admin/admin-management',
@@ -147,7 +140,6 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/about': typeof Main_layoutAboutRoute
   '/admin/admin-management': typeof Admin_layoutAdminAdminManagementRoute
-  '/admin/charters': typeof Admin_layoutAdminChartersRoute
   '/admin/crew-member-roles': typeof Admin_layoutAdminCrewMemberRolesRoute
   '/admin/crew-members': typeof Admin_layoutAdminCrewMembersRoute
   '/admin/destinations': typeof Admin_layoutAdminDestinationsRoute
@@ -167,7 +159,6 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/about': typeof Main_layoutAboutRoute
   '/admin/admin-management': typeof Admin_layoutAdminAdminManagementRoute
-  '/admin/charters': typeof Admin_layoutAdminChartersRoute
   '/admin/crew-member-roles': typeof Admin_layoutAdminCrewMemberRolesRoute
   '/admin/crew-members': typeof Admin_layoutAdminCrewMembersRoute
   '/admin/destinations': typeof Admin_layoutAdminDestinationsRoute
@@ -190,7 +181,6 @@ export interface FileRoutesById {
   '/_main_layout/about': typeof Main_layoutAboutRoute
   '/_main_layout/': typeof Main_layoutIndexRoute
   '/_admin_layout/admin/admin-management': typeof Admin_layoutAdminAdminManagementRoute
-  '/_admin_layout/admin/charters': typeof Admin_layoutAdminChartersRoute
   '/_admin_layout/admin/crew-member-roles': typeof Admin_layoutAdminCrewMemberRolesRoute
   '/_admin_layout/admin/crew-members': typeof Admin_layoutAdminCrewMembersRoute
   '/_admin_layout/admin/destinations': typeof Admin_layoutAdminDestinationsRoute
@@ -212,7 +202,6 @@ export interface FileRouteTypes {
     | '/signup'
     | '/about'
     | '/admin/admin-management'
-    | '/admin/charters'
     | '/admin/crew-member-roles'
     | '/admin/crew-members'
     | '/admin/destinations'
@@ -232,7 +221,6 @@ export interface FileRouteTypes {
     | '/signup'
     | '/about'
     | '/admin/admin-management'
-    | '/admin/charters'
     | '/admin/crew-member-roles'
     | '/admin/crew-members'
     | '/admin/destinations'
@@ -254,7 +242,6 @@ export interface FileRouteTypes {
     | '/_main_layout/about'
     | '/_main_layout/'
     | '/_admin_layout/admin/admin-management'
-    | '/_admin_layout/admin/charters'
     | '/_admin_layout/admin/crew-member-roles'
     | '/_admin_layout/admin/crew-members'
     | '/_admin_layout/admin/destinations'
@@ -404,13 +391,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Admin_layoutAdminCrewMemberRolesRouteImport
       parentRoute: typeof Admin_layoutRoute
     }
-    '/_admin_layout/admin/charters': {
-      id: '/_admin_layout/admin/charters'
-      path: '/admin/charters'
-      fullPath: '/admin/charters'
-      preLoaderRoute: typeof Admin_layoutAdminChartersRouteImport
-      parentRoute: typeof Admin_layoutRoute
-    }
     '/_admin_layout/admin/admin-management': {
       id: '/_admin_layout/admin/admin-management'
       path: '/admin/admin-management'
@@ -423,7 +403,6 @@ declare module '@tanstack/react-router' {
 
 interface Admin_layoutRouteChildren {
   Admin_layoutAdminAdminManagementRoute: typeof Admin_layoutAdminAdminManagementRoute
-  Admin_layoutAdminChartersRoute: typeof Admin_layoutAdminChartersRoute
   Admin_layoutAdminCrewMemberRolesRoute: typeof Admin_layoutAdminCrewMemberRolesRoute
   Admin_layoutAdminCrewMembersRoute: typeof Admin_layoutAdminCrewMembersRoute
   Admin_layoutAdminDestinationsRoute: typeof Admin_layoutAdminDestinationsRoute
@@ -434,7 +413,6 @@ interface Admin_layoutRouteChildren {
 
 const Admin_layoutRouteChildren: Admin_layoutRouteChildren = {
   Admin_layoutAdminAdminManagementRoute: Admin_layoutAdminAdminManagementRoute,
-  Admin_layoutAdminChartersRoute: Admin_layoutAdminChartersRoute,
   Admin_layoutAdminCrewMemberRolesRoute: Admin_layoutAdminCrewMemberRolesRoute,
   Admin_layoutAdminCrewMembersRoute: Admin_layoutAdminCrewMembersRoute,
   Admin_layoutAdminDestinationsRoute: Admin_layoutAdminDestinationsRoute,
