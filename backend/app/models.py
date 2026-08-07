@@ -68,8 +68,9 @@ class User(UserBase, table=True):
     )
     items: list["Item"] = Relationship(back_populates="owner", cascade_delete=True)
     crew_member_roles: list["CrewMemberRole"] = Relationship(back_populates="owner", cascade_delete=True)
-    crew_members: list["CrewMember"] = Relationship(back_populates="owner", cascade_delete=True)
+    crew_members: list["CrewMember"] = Relationship(back_populates="owner", cascade_delete=True, passive_deletes=True)
     destinations: list["Destination"] = Relationship(back_populates="owner", cascade_delete=True)
+    # charters: list["Charter"] = Relationship(back_populates="owner", cascade_delete=True)
 
 
 # Properties to return via API, id is always required
@@ -203,7 +204,8 @@ class CrewMemberImage(ImageBase, table=True):
         primary_key=True
     )
     crew_member_id: uuid.UUID = Field(
-        foreign_key="crew_member.id"
+        foreign_key="crew_member.id",
+        ondelete="CASCADE"
     )
     crew_member: "CrewMember" = Relationship(back_populates="image")
     
@@ -214,7 +216,7 @@ class CrewMemberImagePublic(ImageBase):
 class CrewMemberBase(SQLModel):
     first_name: str = Field(min_length=1, max_length=64)
     last_name: str = Field(min_length=1, max_length=64)
-    background: str = Field(min_length=1, max_length=512)
+    background: str = Field(min_length=1, max_length=1024)
     role_id: uuid.UUID
     color: HexColor
     motto: str = Field(min_length=1, max_length=512)
@@ -234,7 +236,7 @@ class CrewMemberCreate(CrewMemberBase):
 class CrewMemberUpdateBase(SQLModel):
     first_name: str | None = Field(default=None, min_length=1, max_length=64) 
     last_name: str | None = Field(default=None, min_length=1, max_length=64) 
-    background: str | None = Field(default=None, min_length=1, max_length=512)
+    background: str | None = Field(default=None, min_length=1, max_length=1024)
     role_id: uuid.UUID | None = Field(default=None) 
     color: HexColor | None = None
     motto: str | None = Field(default=None, min_length=1, max_length=512) 
@@ -278,7 +280,10 @@ class CrewMember(CrewMemberBase, table=True):
     )
     image: CrewMemberImage = Relationship(
         back_populates="crew_member",
-        sa_relationship_kwargs={"cascade": "all, delete-orphan"}
+        sa_relationship_kwargs={
+            "cascade": "all, delete-orphan",
+            "passive_deletes": True,
+        }
     )
     
     
@@ -345,7 +350,7 @@ class DestinationBase(SQLModel):
     
 class DestinationCreate(DestinationBase):
     banner_image: UploadFile
-    side_image: UploadFile
+    side_image: UploadFile | None = File(default=None)
     
 class DestinationUpdateBase(SQLModel):
     region: str | None = Field(default=None, min_length=1, max_length=64)
@@ -394,18 +399,12 @@ class Destination(DestinationBase, table=True):
         cascade_delete=True
     )
     
-    # @property
-    # def banner_desktop(self) -> DestinationImage:
-    #     return next(img for img in self.images if img.type == "banner")
-    # @property
-    # def banner_mobile(self) -> DestinationImage:
-    #     return next(img for img in self.images if img.type == "side")
     @property
     def banner_image(self) -> DestinationImage:
         return next((b for b in self.images if b.type == DestinationImageType.banner))
     @property
-    def side_image(self) -> DestinationImage:
-        return next((b for b in self.images if b.type == DestinationImageType.side))
+    def side_image(self) -> DestinationImage | None:
+        return next((b for b in self.images if b.type == DestinationImageType.side), None)
     
     
 class DestinationPublic(DestinationBase):
@@ -413,9 +412,115 @@ class DestinationPublic(DestinationBase):
     owner_id: uuid.UUID
     created_at: datetime
     banner_image: DestinationImagePublic
-    side_image: DestinationImagePublic
+    side_image: DestinationImagePublic | None = None
     
 class DestinationsPublic(SQLModel):
     data: list[DestinationPublic]
     count: int
     
+
+# #-----Charter-----
+# class CharterImageType(str, Enum):
+#     banner = "banner"
+#     block_1 = "block_1"
+#     block_2 = "block_2"
+    
+# class CharterImage(ImageBase, table=True):
+#     __tablename__ = "charter_image" # type: ignore[assignment]
+#     __table_args__ = (UniqueConstraint("charter_id", "type", name="uq_charter_image_type"),)
+
+#     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+#     charter_id: uuid.UUID = Field(
+#         foreign_key="charter.id",
+#         ondelete="CASCADE"
+#     )
+#     charter: "Charter" = Relationship(back_populates="images")
+#     type: CharterImageType = Field(index=True)
+    
+# class CharterImagePublic(ImageBase):
+#     id: uuid.UUID
+#     type: CharterImageType
+    
+
+# class CharterBase(SQLModel):
+#     title: str = Field(default=None, min_length=1, max_length=64, unique=True, index=True)
+#     description: str = Field(default=None, min_length=1, max_length=512)
+#     content1: str = Field(default=None, min_length=1, max_length=1024)
+#     content2: str | None = Field(default=None, max_length=1024)
+#     content3: str | None = Field(default=None, max_length=1024)
+    
+#     @model_validator(mode='before')
+#     @classmethod
+#     def validate_to_json(cls, value):
+#         if isinstance(value, str):
+#             return json.loads(value)
+#         return value
+    
+# class CharterCreate(CharterBase):
+#     banner_image: UploadFile
+#     block_1_image: UploadFile | None = File(default=None)
+#     block_2_image: UploadFile | None = File(default=None)
+    
+# class CharterUpdateBase(SQLModel):
+#     title: str | None = Field(min_length=1, max_length=64, unique=True, index=True)
+#     description: str | None = Field(min_length=1, max_length=512)
+#     content1: str | None = Field(min_length=1, max_length=1024)
+#     content2: str | None = Field(default=None, max_length=1024)
+#     content3: str | None = Field(default=None, max_length=1024)
+    
+#     @model_validator(mode='before')
+#     @classmethod
+#     def validate_to_json(cls, value):
+#         if isinstance(value, str):
+#             return json.loads(value)
+#         return value
+    
+    
+# class CharterUpdate(CharterUpdateBase):
+#     banner_image: UploadFile | None = File(default=None)
+#     block_1_image: UploadFile | None = File(default=None)
+#     block_2_image: UploadFile | None = File(default=None)
+    
+    
+# class Charter(CharterBase, table=True):
+#     __tablename__ = "charter" # type: ignore[assignment]
+    
+#     id: uuid.UUID = Field(
+#         default_factory=uuid.uuid4,
+#         primary_key=True
+#     )
+#     created_at: datetime | None = Field(
+#         default_factory=get_datetime_utc,
+#         sa_type=DateTime(timezone=True),  # type: ignore
+#     )
+#     owner_id: uuid.UUID = Field(
+#         foreign_key="user.id", nullable=False, ondelete="CASCADE"
+#     )
+#     owner: User | None = Relationship(back_populates="charters")
+#     images: list[CharterImage] = Relationship(
+#         back_populates="charter",
+#         cascade_delete=True
+#     )
+
+#     @property
+#     def banner_image(self) -> CharterImage:
+#         return next((b for b in self.images if b.type == DestinationImageType.banner))
+#     @property
+#     def block_1_image(self) -> CharterImage | None:
+#         return next((b for b in self.images if b.type == CharterImageType.block_1), None)
+#     @property
+#     def block_2_image(self) -> CharterImage | None:
+#         return next((b for b in self.images if b.type == CharterImageType.block_2), None)
+    
+    
+# class CharterPublic(CharterBase):
+#     id: uuid.UUID
+#     owner_id: uuid.UUID
+#     created_at: datetime
+#     banner_image: CharterImagePublic
+#     block_1_image: CharterImagePublic | None = None
+#     block_2_image: CharterImagePublic | None = None
+    
+# class ChartersPublic(SQLModel):
+#     data: list[CharterPublic]
+#     count: int

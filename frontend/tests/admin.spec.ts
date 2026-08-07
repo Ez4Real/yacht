@@ -4,7 +4,9 @@ import { createUser } from "./utils/privateApi"
 import { randomEmail, randomPassword } from "./utils/random"
 import { logInUser } from "./utils/user"
 
-test("User management page is accessible and shows correct title", async ({ page }) => {
+test("User management page is accessible and shows correct title", async ({
+  page,
+}) => {
   await page.goto("/admin/admin-management")
   await expect(page.getByRole("heading", { name: "Users" })).toBeVisible()
   await expect(

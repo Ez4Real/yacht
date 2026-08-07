@@ -1,16 +1,15 @@
-import { createFileRoute } from "@tanstack/react-router"
-import { DestinationCard } from "@/components/main/DestinationCard"
-import { DestinationPublic, DestinationsService } from "@/client"
 import { useSuspenseQuery } from "@tanstack/react-query"
+import { createFileRoute } from "@tanstack/react-router"
+import { type DestinationPublic, DestinationsService } from "@/client"
+import { DestinationCard } from "@/components/main/DestinationCard"
 
 function getDestinationsQueryOptions() {
   return {
-    queryFn: () => DestinationsService.readDestinations({ skip: 0, limit: 100 }),
+    queryFn: () =>
+      DestinationsService.readDestinations({ skip: 0, limit: 100 }),
     queryKey: ["destinations"],
   }
 }
-
-
 
 export const Route = createFileRoute("/_main_layout/destinations/")({
   component: DestinationsPage,
@@ -20,7 +19,7 @@ function DestinationsPage() {
   const { data: destinations } = useSuspenseQuery(getDestinationsQueryOptions())
 
   console.log(destinations)
-   
+
   return (
     <div
       className="

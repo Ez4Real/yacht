@@ -7,26 +7,39 @@ from sqlmodel import Session, delete
 from app.core.config import settings
 from app.core.db import engine, init_db
 from app.main import app
-from app.models import Item, User, CrewMemberImage, CrewMember, DestinationImage, Destination
+from app.models import Item, User
+# CrewMemberImage, CrewMember, DestinationImage, Destination
 from tests.utils.user import authentication_token_from_email
 from tests.utils.utils import get_superuser_token_headers
 
 
+# @pytest.fixture(scope="session", autouse=True)
+# def db() -> Generator[Session, None, None]:
+#     with Session(engine) as session:
+#         init_db(session)
+#         yield session
+#         objects = [
+#             Item,
+#             CrewMemberImage,
+#             CrewMember,
+#             DestinationImage,
+#             Destination
+#         ]
+        
+#         for object in objects:
+#             session.execute(delete(object))
+#         session.commit()
+
+
 @pytest.fixture(scope="session", autouse=True)
-def db() -> Generator[Session, None, None]:
+def db() -> Generator[Session]:
     with Session(engine) as session:
         init_db(session)
         yield session
-        objects = [
-            Item,
-            CrewMemberImage,
-            CrewMember,
-            DestinationImage,
-            Destination
-        ]
-        
-        for object in objects:
-            session.execute(delete(object))
+        statement = delete(Item)
+        session.execute(statement)
+        statement = delete(User)
+        session.execute(statement)
         session.commit()
 
 

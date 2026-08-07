@@ -1,27 +1,31 @@
 import { Link, useRouterState } from "@tanstack/react-router"
+import { OpenAPI } from "@/client"
 import { useTheme } from "@/components/theme-provider"
 import { Button } from "@/components/ui/button"
 import {
   Sheet,
   SheetClose,
   SheetContent,
+  SheetTitle,
   SheetTrigger,
-  SheetTitle
 } from "@/components/ui/sheet"
 import { ThemeSwitcher } from "../ThemeSwitcher"
-import { OpenAPI } from "@/client"
 
 const menuItems = [
   { label: "home", to: "/" },
   { label: "team", to: "/crew-members" },
-  { label: "sales", to: "#" },
-  { label: "charters", to: "/charters" },
+  // { label: "sales", to: "#" },
+  // { label: "charters", to: "/charters" },
   { label: "about us", to: "/about" },
   { label: "destinations", to: "/destinations" },
-  { label: "concierge", to: "/concierge" },
-  { label: "charter management", to: "/charter-management" },
-  { label: "owner representation", to: "/owner-representation" },
-  { label: "spinnaker magazine", to: "/spinnaker-magazine", icon: "assets/icons/icon-menu-right.svg" }
+  // { label: "concierge", to: "/concierge" },
+  // { label: "charter management", to: "/charter-management" },
+  // { label: "owner representation", to: "/owner-representation" },
+  // {
+  //   label: "spinnaker magazine",
+  //   to: "/spinnaker-magazine",
+  //   icon: "assets/icons/icon-menu-right.svg",
+  // },
 ]
 
 export const Menu = () => {
@@ -32,7 +36,6 @@ export const Menu = () => {
 
   const instagram = OpenAPI.INSTAGRAM
   const email = OpenAPI.EMAIL
-
 
   return (
     <Sheet>
@@ -66,9 +69,7 @@ export const Menu = () => {
         "
         aria-describedby={undefined}
       >
-        <SheetTitle className="sr-only">
-          Navigation menu
-        </SheetTitle>
+        <SheetTitle className="sr-only">Navigation menu</SheetTitle>
         <div className="flex h-screen justify-end">
           <SheetClose asChild>
             <button
@@ -178,20 +179,16 @@ export const Menu = () => {
                   <SheetClose asChild key={item.label}>
                     <Link
                       to={item.to}
-                      className={`text-menu flex ${isActive ? "text-foreground" : "text-role"
-                        }`}
+                      className={`text-menu flex ${
+                        isActive ? "text-foreground" : "text-role"
+                      }`}
                     >
                       <span>{item.label}</span>
 
-                      {item.icon && (
-                        <img
-                          src={item.icon}
-                          alt="arrow-icon"
-                        />
-                      )}
+                      {/* {item.icon && <img src={item.icon} alt="arrow-icon" />} */}
                     </Link>
                   </SheetClose>
-                );
+                )
               })}
             </nav>
 
@@ -203,11 +200,7 @@ export const Menu = () => {
                     href={`https://www.instagram.com/${instagram}`}
                     target="_blank"
                   >
-                    <p
-                      className="text-main-nav"
-                    >
-                      instagram
-                    </p>
+                    <p className="text-main-nav">instagram</p>
                     <img
                       className="w-[38px] tablet:w-[44px] laptop:w-[38px] desktop:w-[44px]"
                       src={

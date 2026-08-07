@@ -1,6 +1,6 @@
 from uuid import UUID
 from typing import Any
-from fastapi import APIRouter, HTTPException, Depends, Form, Query
+from fastapi import APIRouter, HTTPException, Depends
 from sqlmodel import col, func, select
 
 from app.core.config import settings
@@ -18,36 +18,18 @@ router = APIRouter(prefix="/crew-members", tags=["crew members"])
 @router.get("/", response_model=CrewMembersPublic)
 def read_crew_members(
   session: SessionDep,
-  current_user: CurrentUser,
   skip: int = 0,
   limit: int = 100
 ) -> CrewMembersPublic:
     """
     Retrieve crew members.
     """
-
-    if current_user.is_superuser:
-        count_statement = select(func.count()).select_from(CrewMember)
-        count = session.exec(count_statement).one()
-        statement = (
-            select(CrewMember).order_by(col(CrewMember.created_at).desc()).offset(skip).limit(limit)
-        )
-        crew_members = session.exec(statement).all()
-    else:
-        count_statement = (
-            select(func.count())
-            .select_from(CrewMember)
-            .where(CrewMember.owner_id == current_user.id)
-        )
-        count = session.exec(count_statement).one()
-        statement = (
-            select(CrewMember)
-            .where(CrewMember.owner_id == current_user.id)
-            .order_by(col(CrewMember.created_at).desc())
-            .offset(skip)
-            .limit(limit)
-        )
-        crew_members = session.exec(statement).all()
+    count_statement = select(func.count()).select_from(CrewMember)
+    count = session.exec(count_statement).one()
+    statement = (
+        select(CrewMember).order_by(col(CrewMember.created_at).desc()).offset(skip).limit(limit)
+    )
+    crew_members = session.exec(statement).all()
 
     crew_members_public = [CrewMemberPublic.model_validate(member) for member in crew_members]
     return CrewMembersPublic(data=crew_members_public, count=count)
@@ -56,7 +38,6 @@ def read_crew_members(
 @router.get("/{id}", response_model=CrewMemberDetail)
 def read_crew_member(
     session: SessionDep,
-    current_user: CurrentUser,
     id: UUID
 ) -> Any:
     """
@@ -66,9 +47,7 @@ def read_crew_member(
     
     if not crew_member:
         raise HTTPException(status_code=404, detail="Crew member not found")
-    if not current_user.is_superuser and (crew_member.owner_id != current_user.id):
-        raise HTTPException(status_code=403, detail="Not enough permissions")
-    
+
     statement = (
         select(CrewMember)
         .where(CrewMember.order < crew_member.order)
