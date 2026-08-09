@@ -186,6 +186,7 @@ export const MenuDialog = ({
                   <SheetClose asChild key={item.label}>
                     <Link
                       to={item.to}
+                      hash="root"
                       className={`text-menu flex items-center ${isActive ? "text-foreground" : "text-role"
                         }`}
                     >
