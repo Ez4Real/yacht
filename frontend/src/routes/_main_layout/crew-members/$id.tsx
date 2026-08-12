@@ -72,10 +72,7 @@ function MemberPage() {
             params={{ id: navigation.previous }}
             className="transition-opacity hover:opacity-60"
           >
-            <img
-              src="/assets/icons/arrow-left.svg"
-              alt="Previous member"
-            />
+            <img src="/assets/icons/arrow-left.svg" alt="Previous member" />
           </Link>
 
           <div className="flex items-center w-[35px]">
@@ -93,10 +90,7 @@ function MemberPage() {
             params={{ id: navigation.next }}
             className="transition-opacity hover:opacity-60"
           >
-            <img
-              src="/assets/icons/arrow-right.svg"
-              alt="Next member"
-            />
+            <img src="/assets/icons/arrow-right.svg" alt="Next member" />
           </Link>
         </div>
       </div>
@@ -112,9 +106,7 @@ function MemberPage() {
           "
           style={{ animationDelay: "100ms" }}
         >
-          <span className="text-h2 mr-[10px]">
-            {crewMember.first_name}
-          </span>
+          <span className="text-h2 mr-[10px]">{crewMember.first_name}</span>
 
           <span
             className="
@@ -196,10 +188,7 @@ function MemberPage() {
             params={{ id: navigation.previous }}
             className="transition-opacity hover:opacity-60"
           >
-            <img
-              src="/assets/icons/arrow-left.svg"
-              alt="Previous member"
-            />
+            <img src="/assets/icons/arrow-left.svg" alt="Previous member" />
           </Link>
 
           <div className="flex items-center w-[35px]">
@@ -217,10 +206,7 @@ function MemberPage() {
             params={{ id: navigation.next }}
             className="transition-opacity hover:opacity-60"
           >
-            <img
-              src="/assets/icons/arrow-right.svg"
-              alt="Next member"
-            />
+            <img src="/assets/icons/arrow-right.svg" alt="Next member" />
           </Link>
         </div>
       </div>

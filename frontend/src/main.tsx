@@ -18,7 +18,7 @@ OpenAPI.TOKEN = async () => {
   return localStorage.getItem("access_token") || ""
 }
 OpenAPI.INSTAGRAM = "bmayachts"
-OpenAPI.EMAIL= "broker@bmayachts.com"
+OpenAPI.EMAIL = "broker@bmayachts.com"
 
 const handleApiError = (error: Error) => {
   if (error instanceof ApiError && [401, 403].includes(error.status)) {

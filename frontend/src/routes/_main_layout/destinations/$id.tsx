@@ -1,7 +1,6 @@
+import { useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { DestinationsService, OpenAPI } from "@/client"
-import { useSuspenseQuery } from "@tanstack/react-query"
-
 
 function getDestinationByIdQueryOptions(id: string) {
   return {
@@ -17,15 +16,19 @@ export const Route = createFileRoute("/_main_layout/destinations/$id")({
 function DestinationPage() {
   const { id } = Route.useParams()
 
-  const { data: destination } = useSuspenseQuery(getDestinationByIdQueryOptions(id))
+  const { data: destination } = useSuspenseQuery(
+    getDestinationByIdQueryOptions(id),
+  )
 
   return (
-    <div className="
+    <div
+      className="
           flex 
           flex-col 
           tablet:flex-row 
           justify-between 
-        ">
+        "
+    >
       <div
         className="
           mt-[24px]

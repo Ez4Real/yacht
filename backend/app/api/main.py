@@ -12,6 +12,7 @@ api_router.include_router(items.router)
 api_router.include_router(crew_member_roles.router)
 api_router.include_router(crew_members.router)
 api_router.include_router(destinations.router)
+# api_router.include_router(charters.router)
 
 
 if settings.ENVIRONMENT == "local":

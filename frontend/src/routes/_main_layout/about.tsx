@@ -6,15 +6,16 @@ export const Route = createFileRoute("/_main_layout/about")({
 
 function RouteComponent() {
   return (
-    <div className="
+    <div
+      className="
         flex 
         flex-col 
         tablet:flex-row 
         justify-between
         mt-[24px]
         tablet:mt-[0px]
-      ">
-
+      "
+    >
       <div>
         <img
           src="/assets/images/about-main.svg"
@@ -35,17 +36,20 @@ function RouteComponent() {
       </div>
 
       <div className="w-full tablet:w-[66%] laptop:w-[49.1%]">
-
         <p className="text-main-style mt-[40px] tablet:mt-[0] w-[100%] wide:w-[617px]">
-          Since 2013, BMA Yachts has been delivering bespoke yacht experiences, brokerage expertise, 
-          and strategic yacht management services to clients worldwide.<br></br>
-          Based in Fort Lauderdale and operating globally, our approach is rooted 
-          in individuality, trust, and a deep understanding of the yachting lifestyle.
+          Since 2013, BMA Yachts has been delivering bespoke yacht experiences,
+          brokerage expertise, and strategic yacht management services to
+          clients worldwide.
+          <br />
+          Based in Fort Lauderdale and operating globally, our approach is
+          rooted in individuality, trust, and a deep understanding of the
+          yachting lifestyle.
         </p>
 
         <p className="mt-[40px] wide:mt-[55px] text-main-style w-[100%] wide:w-[617px]">
-          Whether assisting with a yacht purchase, managing a charter program, or designing a custom cruising 
-          itinerary, our team is committed to delivering guidance and support at every stage of the journey.
+          Whether assisting with a yacht purchase, managing a charter program,
+          or designing a custom cruising itinerary, our team is committed to
+          delivering guidance and support at every stage of the journey.
         </p>
 
         <div className="mt-[40px] wide:mt-[55px]">
@@ -55,26 +59,28 @@ function RouteComponent() {
             className="object-cover w-[408px]"
           />
 
-          <p className="
+          <p
+            className="
             text-role 
             mt-[20px]
             text-[18px]
             tablet:text-[22px]
             leading-[25px]
-            ">
+            "
+          >
             Brian Muston 2011
           </p>
 
           <p className="mt-[55px] text-main-style w-[100%] wide:w-[617px]">
-            For us, yachting is not simply about a vessel or destination. It is about freedom, connection, exploration, 
-            and the unforgettable moments created along the way. From the first conversation to the final 
-            day on board, we strive to provide an experience that is effortless, personalized, and memorable.
+            For us, yachting is not simply about a vessel or destination. It is
+            about freedom, connection, exploration, and the unforgettable
+            moments created along the way. From the first conversation to the
+            final day on board, we strive to provide an experience that is
+            effortless, personalized, and memorable.
           </p>
         </div>
 
-        <p className="text-[36px] mb-[55px] mt-[100px]">
-          Services
-        </p>
+        <p className="text-[36px] mb-[55px] mt-[100px]">Services</p>
 
         <div className="w-[100%] wide:w-[617px]">
           <p className="mb-[25px] text-main-style">
@@ -82,8 +88,9 @@ function RouteComponent() {
           </p>
 
           <p className="mb-[55px] text-main-style">
-            Access to an exclusive portfolio of luxury yachts in the world's most sought-after
-            destinations, supported by personalized planning and concierge-level service.
+            Access to an exclusive portfolio of luxury yachts in the world's
+            most sought-after destinations, supported by personalized planning
+            and concierge-level service.
           </p>
 
           <p className="mb-[25px] text-main-style">
@@ -91,26 +98,25 @@ function RouteComponent() {
           </p>
 
           <p className="mb-[55px] text-main-style">
-            Professional representation for buyers and sellers, supported by market expertise, 
-            strategic negotiation, and access to both listed and off-market opportunities.
+            Professional representation for buyers and sellers, supported by
+            market expertise, strategic negotiation, and access to both listed
+            and off-market opportunities.
           </p>
 
-          <p className="mb-[25px] text-main-style">
-            03 / Charter Management
-          </p>
-
-          <p className="mb-[55px] text-main-style">
-            Comprehensive charter management solutions designed to maximize yacht performance, 
-            optimize charter revenue, and ensure exceptional guest experiences.
-          </p>
-
-          <p className="mb-[25px] text-main-style">
-            04 / Concierge Services
-          </p>
+          <p className="mb-[25px] text-main-style">03 / Charter Management</p>
 
           <p className="mb-[55px] text-main-style">
-            Dedicated support before, during, and after your charter, including travel arrangements, reservations, 
-            special requests, and onboard experiences.
+            Comprehensive charter management solutions designed to maximize
+            yacht performance, optimize charter revenue, and ensure exceptional
+            guest experiences.
+          </p>
+
+          <p className="mb-[25px] text-main-style">04 / Concierge Services</p>
+
+          <p className="mb-[55px] text-main-style">
+            Dedicated support before, during, and after your charter, including
+            travel arrangements, reservations, special requests, and onboard
+            experiences.
           </p>
 
           <p className="mb-[25px] text-main-style">
@@ -118,12 +124,10 @@ function RouteComponent() {
           </p>
 
           <p className="mb-[55px] text-main-style">
-            Independent guidance and long-term support for yacht owners, helping protect their interests and maximize 
-            the value of their investment.
+            Independent guidance and long-term support for yacht owners, helping
+            protect their interests and maximize the value of their investment.
           </p>
         </div>
-        
-
       </div>
     </div>
   )

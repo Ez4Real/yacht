@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router"
+import { type DestinationPublic, OpenAPI } from "@/client"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -6,7 +7,6 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
 } from "@/components/ui/breadcrumb"
-import { DestinationPublic, OpenAPI } from "@/client"
 
 type DestinationCardProps = {
   destination: DestinationPublic
@@ -83,13 +83,9 @@ export function DestinationCard({ destination }: DestinationCardProps) {
       >
         <BreadcrumbList className="text-h2">
           <BreadcrumbItem>
-
-            <BreadcrumbPage>
-              {destination.destination}
-            </BreadcrumbPage>
+            <BreadcrumbPage>{destination.destination}</BreadcrumbPage>
 
             <span>/</span>
-            
           </BreadcrumbItem>
 
           <BreadcrumbItem>
@@ -103,7 +99,6 @@ export function DestinationCard({ destination }: DestinationCardProps) {
 
           {destination.region && (
             <BreadcrumbItem>
-
               <span className="text-role">/</span>
 
               <BreadcrumbLink
@@ -112,7 +107,6 @@ export function DestinationCard({ destination }: DestinationCardProps) {
               >
                 {destination.region}
               </BreadcrumbLink>
-              
             </BreadcrumbItem>
           )}
         </BreadcrumbList>

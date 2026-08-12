@@ -13,7 +13,8 @@ from app.core.config import settings
 from app.core.db import engine
 from app.models import TokenPayload, User, \
     CrewMemberBase, CrewMemberCreate, CrewMemberUpdateBase, CrewMemberUpdate, \
-    DestinationBase, DestinationCreate, DestinationUpdateBase, DestinationUpdate
+    DestinationBase, DestinationCreate, DestinationUpdateBase, DestinationUpdate \
+    # CharterBase, CharterCreate, CharterUpdateBase, CharterUpdate
 
 reusable_oauth2 = OAuth2PasswordBearer(
     tokenUrl=f"{settings.API_V1_STR}/login/access-token"
@@ -84,7 +85,7 @@ def parse_crew_member_update(
 def parse_destination_create(
     destination_base: DestinationBase = Form(...),
     banner_image: UploadFile = File(),
-    side_image: UploadFile = File(),
+    side_image: UploadFile | None = File(default=None),
 ) -> DestinationCreate:
     destination_data = destination_base.model_dump()
     destination = DestinationCreate(
@@ -105,3 +106,33 @@ def parse_destination_update(
         side_image=side_image, 
         **destination_data)
     return destination
+
+
+# def parse_charter_create(
+#     charter_base: CharterBase = Form(...),
+#     banner_image: UploadFile = File(),
+#     block_1_image: UploadFile | None = File(default=None), 
+#     block_2_image: UploadFile | None = File(default=None), 
+# ) -> CharterCreate:
+#     charter_data = charter_base.model_dump()
+#     charter = CharterCreate(
+#         banner_image=banner_image,
+#         block_1_image=block_1_image,
+#         block_2_image=block_2_image,
+#         **charter_data
+#     )
+#     return charter
+
+# def parse_charter_update(
+#     charter_base: CharterUpdateBase = Form(...),
+#     banner_image: UploadFile | None = File(default=None),
+#     block_1_image: UploadFile | None = File(default=None), 
+#     block_2_image: UploadFile | None = File(default=None), 
+# ) -> CharterUpdate:
+#     charter_data = charter_base.model_dump()
+#     charter = CharterUpdate( 
+#         banner_image=banner_image,
+#         block_1_image=block_1_image,
+#         block_2_image=block_2_image,
+#         **charter_data)
+#     return charter

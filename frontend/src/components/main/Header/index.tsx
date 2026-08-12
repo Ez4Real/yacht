@@ -1,16 +1,19 @@
-import { useLocation } from "@tanstack/react-router"
+import { useLocation, useNavigate } from "@tanstack/react-router"
+import { useState } from "react"
 import { MenuDialog } from "@/components/main/MenuDialog"
 import { Button } from "@/components/ui/button"
 import { EnquireDialog } from "../EnquireDialog"
-import { useState } from "react"
 
 export const Header = () => {
   const location = useLocation()
   const isHomePage = location.pathname === "/"
   // const [menuOpen, setMenuOpen] = useState(false)
   // const [enquireOpen, setEnquireOpen] = useState(false)
+  const navigate = useNavigate()
 
-  const [activeSheet, setActiveSheet] = useState<"menu" | "enquire" | null>(null);
+  const [activeSheet, setActiveSheet] = useState<"menu" | "enquire" | null>(
+    null,
+  )
 
   return (
     <header>
@@ -39,7 +42,12 @@ export const Header = () => {
           >
             {!isHomePage && (
               <Button
-                onClick={() => window.history.back()}
+                // onClick={() => window.history.back()}
+                onClick={() =>
+                  navigate({
+                    to: "..",
+                  })
+                }
                 variant="ghost"
                 className="p-0 gap-0"
               >
@@ -51,16 +59,12 @@ export const Header = () => {
           <div className="flex justify-between w-[100%] tablet:w-[66%] laptop:w-[49.1%]">
             <MenuDialog
               open={activeSheet === "menu"}
-              onOpenChange={(open) =>
-                setActiveSheet(open ? "menu" : null)
-              }
+              onOpenChange={(open) => setActiveSheet(open ? "menu" : null)}
               onShowEnquire={() => setActiveSheet("enquire")}
             />
             <EnquireDialog
               open={activeSheet === "enquire"}
-              onOpenChange={(open) =>
-                setActiveSheet(open ? "enquire" : null)
-              }
+              onOpenChange={(open) => setActiveSheet(open ? "enquire" : null)}
               onShowMenu={() => setActiveSheet("menu")}
             />
           </div>

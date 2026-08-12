@@ -18,51 +18,34 @@ router = APIRouter(prefix="/destinations", tags=["destinations"])
 @router.get("/", response_model=DestinationsPublic)
 def read_destinations(
   session: SessionDep,
-  current_user: CurrentUser,
   skip: int = 0,
   limit: int = 100
 ) -> DestinationsPublic:
     """
     Retrieve destinations.
     """
-
-    if current_user.is_superuser:
-        count_statement = select(func.count()).select_from(Destination)
-        count = session.exec(count_statement).one()
-        statement = (
-            select(Destination).order_by(col(Destination.created_at).desc()).offset(skip).limit(limit)
-        )
-        destinations = session.exec(statement).all()
-    else:
-        count_statement = (
-            select(func.count())
-            .select_from(Destination)
-            .where(Destination.owner_id == current_user.id)
-        )
-        count = session.exec(count_statement).one()
-        statement = (
-            select(Destination)
-            .where(Destination.owner_id == current_user.id)
-            .order_by(col(Destination.created_at).desc())
-            .offset(skip)
-            .limit(limit)
-        )
-        destinations = session.exec(statement).all()
+    count_statement = select(func.count()).select_from(Destination)
+    count = session.exec(count_statement).one()
+    statement = (
+        select(Destination)
+        .order_by(col(Destination.created_at).desc())
+        .offset(skip)
+        .limit(limit)
+    )
+    destinations = session.exec(statement).all()
 
     destinations_public = [DestinationPublic.model_validate(destination) for destination in destinations]
     return DestinationsPublic(data=destinations_public, count=count)
 
 
 @router.get("/{id}", response_model=DestinationPublic)
-def read_destination(session: SessionDep, current_user: CurrentUser, id: UUID) -> Any:
+def read_destination(session: SessionDep, id: UUID) -> Any:
     """
     Get destination by ID.
     """
     destination = session.get(Destination, id)
     if not destination:
         raise HTTPException(status_code=404, detail="Destination not found")
-    if not current_user.is_superuser and (destination.owner_id != current_user.id):
-        raise HTTPException(status_code=403, detail="Not enough permissions")
     return destination
 
 
@@ -85,26 +68,29 @@ def create_destination(
         destination_in.banner_image,
         settings.DESTINATION_IMAGES_DIR
     )
-    side_image_url = save_image_to_local(
-        destination_in.side_image,
-        settings.DESTINATION_IMAGES_DIR
-    )
     banner_image = DestinationImage(
         url=banner_image_url,
         destination_id=destination.id,
         type=DestinationImageType.banner,
         alt_text=f"Destination banner image - {destination.destination}/{destination.country}/{destination.region}",
     )
-    side_image = DestinationImage(
-        url=side_image_url,
-        destination_id=destination.id,
-        type=DestinationImageType.side,
-        alt_text=f"Destination side image - {destination.destination}/{destination.country}/{destination.region}",
-    )
     session.add(banner_image)
-    session.add(side_image)
+    destination.images.append(banner_image)
     
-    destination.images = [banner_image, side_image]
+    if destination_in.side_image:
+        side_image_url = save_image_to_local(
+            destination_in.side_image,
+            settings.DESTINATION_IMAGES_DIR
+        )
+        side_image = DestinationImage(
+            url=side_image_url,
+            destination_id=destination.id,
+            type=DestinationImageType.side,
+            alt_text=f"Destination side image - {destination.destination}/{destination.country}/{destination.region}",
+        )
+        session.add(side_image)
+        destination.images.append(side_image)
+        
     session.add(destination)
     
     session.commit()
@@ -129,31 +115,46 @@ def update_destination(
     if not current_user.is_superuser and (destination.owner_id != current_user.id):
         raise HTTPException(status_code=403, detail="Not enough permissions")
     
-    destination_image_keys = {"banner_image", "side_image"}
+    destination.sqlmodel_update(
+        destination_in.model_dump(
+            exclude_unset=True,
+            exclude_none=True,
+            exclude={"banner_image", "side_image"}
+        )
+    ) 
     
-    update_dict = destination_in.model_dump(
-        exclude_unset=True,
-        exclude_none=True,
-        exclude=destination_image_keys
-    )
-    destination.sqlmodel_update(update_dict) 
+    images = {image.type: image for image in destination.images}
     
-    for key in destination_image_keys:
-        image_type = key.split("_")[0]
-        destination_image = getattr(destination_in, key)
+    for image_type in DestinationImageType:
+        uploaded = getattr(destination_in, f"{image_type.value}_image")
+        if uploaded is None:
+            continue
         
-        if destination_image:
-            existing_image = cast(DestinationImage | None, getattr(destination, key))
-            if existing_image:
-                delete_image_from_local(existing_image.url)
-                
-                existing_image.url = save_image_to_local(
-                    destination_image,
-                    settings.DESTINATION_IMAGES_DIR,
-                )
-                
-                existing_image.alt_text = f"Destination {image_type} image - {destination.destination}/{destination.country}/{destination.region}"
-   
+        image = images.setdefault(
+            image_type,
+            DestinationImage(
+                destination_id=destination.id,
+                type=image_type,
+                url="",
+            ),
+        )
+        
+        if image not in destination.images:
+            destination.images.append(image)
+        elif image.url:
+            delete_image_from_local(image.url)
+        
+        image.url = save_image_to_local(
+            uploaded,
+            settings.DESTINATION_IMAGES_DIR,
+        )
+        image.alt_text = (
+            f"Destination {image_type.value} image - "
+            f"{destination.destination}/"
+            f"{destination.country}/"
+            f"{destination.region}"
+        )
+        
     session.add(destination)
     session.commit()
     session.refresh(destination)
@@ -184,3 +185,5 @@ def delete_destination(
     session.delete(destination)
     session.commit()
     return Message(message="Destination deleted successfully")
+
+

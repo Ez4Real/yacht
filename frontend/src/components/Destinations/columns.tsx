@@ -90,13 +90,18 @@ export const columns: ColumnDef<DestinationPublic>[] = [
   {
     accessorKey: "side_image.url",
     header: "Side image",
-    cell: ({ row }) => (
-      <img
-        src={`${OpenAPI.BASE}/media${row.original.side_image.url}`}
-        alt={row.original.side_image.alt_text || ""}
-        className="h-24 w-24 object-cover rounded-md"
-      />
-    ),
+    cell: ({ row }) => {
+      if (!row.original.side_image)
+        return <div className="flex justify-center">N/A</div>
+
+      return (
+        <img
+          src={`${OpenAPI.BASE}/media${row.original.side_image.url}`}
+          alt={row.original.side_image.alt_text || ""}
+          className="h-24 w-24 object-cover rounded-md"
+        />
+      )
+    },
   },
   {
     id: "actions",

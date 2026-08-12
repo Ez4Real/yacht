@@ -1,14 +1,11 @@
 import { useTheme } from "@/components/theme-provider"
 
 type FooterProps = {
-  instagram: string 
+  instagram: string
   email: string
 }
 
-export const Footer = ({
-  instagram,
-  email
-}: FooterProps) => {
+export const Footer = ({ instagram, email }: FooterProps) => {
   const { theme } = useTheme()
   const isDark = theme === "dark"
 
@@ -20,11 +17,7 @@ export const Footer = ({
           href={`https://www.instagram.com/${instagram}`}
           target="_blank"
         >
-          <p
-            className="text-main-nav"
-          >
-            instagram
-          </p>
+          <p className="text-main-nav">instagram</p>
           <img
             className="w-[38px]"
             src={
@@ -36,12 +29,8 @@ export const Footer = ({
           />
         </a>
 
-        <a
-          className="text-main-nav"
-          href={`mailto:${email}`}
-          target="_blank"
-        >
-          { email }
+        <a className="text-main-nav" href={`mailto:${email}`} target="_blank">
+          {email}
         </a>
       </div>
     </footer>
