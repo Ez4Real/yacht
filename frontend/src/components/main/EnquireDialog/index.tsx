@@ -127,35 +127,40 @@ export const EnquireDialog = ({
           </SheetClose>
           <div
             className="
-                            w-[calc(100%)]
-                            tablet:w-[calc(66%+35px)] 
-                            laptop:w-[calc(50%+40px)]
-                            desktop:w-[calc(50%+45px)]
+              w-[calc(100%)]
+              tablet:w-[calc(66%+35px)] 
+              laptop:w-[calc(50%+40px)]
+              desktop:w-[calc(50%+45px)]
 
-                            h-full
-                            bg-background 
-                            flex 
-                            flex-col 
+              h-full
+              h-dvh
+              min-h-0
+              overflow-y-auto
+              overscroll-contain
+              
+              bg-background 
+              flex 
+              flex-col 
 
-                            pt-[13px] 
-                            tablet:pt-[20px]
-                            desktop:pt-[30px]
+              pt-[13px] 
+              tablet:pt-[20px]
+              desktop:pt-[30px]
 
-                            pr-[11px]
-                            tablet:pr-[20px]
-                            laptop:pr-[40px]
-                            desktop:pr-[30px]
-                            wide:pr-[50px]
+              pr-[11px]
+              tablet:pr-[20px]
+              laptop:pr-[40px]
+              desktop:pr-[30px]
+              wide:pr-[50px]
 
-                            pb-[40px]
-                            tablet:pb-[20px]
-                            desktop:pb-[40px]
-                            wide:pb-[50px]
+              pb-[40px]
+              tablet:pb-[20px]
+              desktop:pb-[40px]
+              wide:pb-[50px]
 
-                            pl-[10px]
-                            tablet:pl-[42px]
-                            desktop:pl-[50px]
-                        "
+              pl-[10px]
+              tablet:pl-[42px]
+              desktop:pl-[50px]
+            "
           >
             <div className="flex justify-between pb-[13px] mobile:pb-[0]">
               <Button
@@ -387,16 +392,11 @@ export const EnquireDialog = ({
                 <EnquireButton
                   type="submit"
                   className="
-                                      mt-[20px]
-                                      desktop:mt-[30px]
-                                      wide:mt-[50px]
-
-
-                                      w-[120px]
-                                      
-                                      mobile:hidden
-                                      laptop:block
-                                    "
+                  mt-[20px]
+                  desktop:mt-[30px]
+                  wide:mt-[50px]
+                  w-[120px]
+                "
                 >
                   send
                 </EnquireButton>

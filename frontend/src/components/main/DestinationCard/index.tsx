@@ -25,16 +25,6 @@ export function DestinationCard({ destination }: DestinationCardProps) {
               relative 
               overflow-hidden
               
-              w-[100%]
-              tablet:w-[727px]
-              laptop:w-[560px]
-              desktop:w-[881px]
-              wide:w-[881px]
-
-              h-[352px]
-              tablet:h-[349px]
-              desktop:h-[393px]
-              wide:h-[437px]
             ">
           <img
             src={`${OpenAPI.BASE}/media${destination.banner_image.url}`}
