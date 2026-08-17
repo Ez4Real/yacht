@@ -149,9 +149,11 @@ export const EnquireDialog = ({
               desktop:w-[calc(50%+45px)]
 
               h-full
+              h-dvh
               min-h-0
               overflow-y-auto
-
+              overscroll-contain
+              
               bg-background 
               flex 
               flex-col 
@@ -440,12 +442,11 @@ export const EnquireDialog = ({
                 <EnquireButton
                   type="submit"
                   className="
-                    mt-[20px]
-                    desktop:mt-[30px]
-                    wide:mt-[50px]
-
-                    w-[120px]
-                  "
+                  mt-[20px]
+                  desktop:mt-[30px]
+                  wide:mt-[50px]
+                  w-[120px]
+                "
                 >
                   send
                 </EnquireButton>

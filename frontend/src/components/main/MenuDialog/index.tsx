@@ -105,6 +105,11 @@ export const MenuDialog = ({
               desktop:w-[calc(50%+45px)]
 
               h-full
+              h-dvh
+              min-h-0
+              overflow-y-auto
+              overscroll-contain
+              
               bg-background 
               flex 
               flex-col 
