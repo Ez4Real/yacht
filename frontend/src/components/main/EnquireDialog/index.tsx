@@ -1,9 +1,15 @@
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { OpenAPI } from "@/client"
 import { useTheme } from "@/components/theme-provider"
 import { Button } from "@/components/ui/button"
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible"
 import { EnquireButton } from "@/components/ui/enquire-button"
 import { EnquireInput } from "@/components/ui/enquire-input"
 // import { useMutation } from "@tanstack/react-query";
@@ -23,7 +29,9 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { SolidCheckbox } from "@/components/ui/solid checkbox"
+import { cn } from "@/lib/utils"
 import { ThemeSwitcher } from "../ThemeSwitcher"
+import { SelectIcon } from "./selectIcon"
 
 const formSchema = z.object({
   full_name: z.string().min(1, { message: "Full name is required" }),
@@ -53,6 +61,14 @@ export const EnquireDialog = ({
   const isDark = theme === "dark"
 
   const email = OpenAPI.EMAIL
+
+  const [selectOpen, setSelectOpen] = useState<boolean>(false)
+  const enquiryReasonOptions = [
+    { label: "charter", value: "charter" },
+    { label: "sale", value: "sale" },
+    { label: "management", value: "management" },
+    { label: "other", value: "other" },
+  ]
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -127,48 +143,51 @@ export const EnquireDialog = ({
           </SheetClose>
           <div
             className="
-                            w-[calc(100%)]
-                            tablet:w-[calc(66%+35px)] 
-                            laptop:w-[calc(50%+40px)]
-                            desktop:w-[calc(50%+45px)]
+              w-[calc(100%)]
+              tablet:w-[calc(66%+35px)] 
+              laptop:w-[calc(50%+40px)]
+              desktop:w-[calc(50%+45px)]
 
-                            h-full
-                            bg-background 
-                            flex 
-                            flex-col 
+              h-full
+              min-h-0
+              overflow-y-auto
 
-                            pt-[13px] 
-                            tablet:pt-[20px]
-                            desktop:pt-[30px]
+              bg-background 
+              flex 
+              flex-col 
 
-                            pr-[11px]
-                            tablet:pr-[20px]
-                            laptop:pr-[40px]
-                            desktop:pr-[30px]
-                            wide:pr-[50px]
+              pt-[13px] 
+              tablet:pt-[20px]
+              desktop:pt-[30px]
 
-                            pb-[40px]
-                            tablet:pb-[20px]
-                            desktop:pb-[40px]
-                            wide:pb-[50px]
+              pr-[11px]
+              tablet:pr-[20px]
+              laptop:pr-[40px]
+              desktop:pr-[30px]
+              wide:pr-[50px]
 
-                            pl-[10px]
-                            tablet:pl-[42px]
-                            desktop:pl-[50px]
-                        "
+              pb-[40px]
+              tablet:pb-[20px]
+              desktop:pb-[40px]
+              wide:pb-[50px]
+
+              pl-[10px]
+              tablet:pl-[42px]
+              desktop:pl-[50px]
+            "
           >
             <div className="flex justify-between pb-[13px] mobile:pb-[0]">
               <Button
                 variant="ghost"
                 className="
-                                    flex
-                                    items-center
-                                    p-0
-                                    gap-0
-                                    transition-none
-                                    mr-[-11px]
-                                    tablet:mr-[0]
-                                "
+                  flex
+                  items-center
+                  p-0
+                  gap-0
+                  transition-none
+                  mr-[-11px]
+                  tablet:mr-[0]
+                "
                 onClick={onShowMenu}
               >
                 <p className="text-main-nav">menu</p>
@@ -187,11 +206,11 @@ export const EnquireDialog = ({
                 <Button
                   variant="ghost"
                   className="
-                                    flex items-center 
-                                    p-0 
-                                    gap-0 
-                                    transition-none
-                                "
+                    flex items-center 
+                    p-0 
+                    gap-0 
+                    transition-none
+                  "
                 >
                   <p className="text-main-nav">enquire</p>
                   <img
@@ -209,28 +228,28 @@ export const EnquireDialog = ({
 
             <p
               className="
-                            enquire-title
-                            mt-[42.5px]
-                            tablet:mt-[27px]
-                            laptop:mt-[18px]
-                            desktop:mt-[30px]
-                            wide:mt-[54.5px]
-                          "
+                enquire-title
+                mt-[42.5px]
+                tablet:mt-[27px]
+                laptop:mt-[18px]
+                desktop:mt-[30px]
+                wide:mt-[54.5px]
+              "
             >
               Let's Chat
             </p>
             <p
               className="
-                            text-role
-                            text-[18px]
-                            desktop:text-[22px]
+                text-role
+                text-[18px]
+                desktop:text-[22px]
 
-                            mt-[10px]
-                            tracking-[0.02em]
+                mt-[10px]
+                tracking-[0.02em]
 
-                            whitespace-pre-line
-                            tablet:whitespace-normal
-                        "
+                whitespace-pre-line
+                tablet:whitespace-normal
+              "
             >
               Get in touch with one of our teams{"\n"}around the world
             </p>
@@ -241,29 +260,24 @@ export const EnquireDialog = ({
               >
                 <div
                   className="
-                                    flex
-                                    flex-col
-                                    mt-[20px]
-                                    tablet:mt-[45px]
-                                    laptop:mt-[20px]
-                                    desktop:mt-[30px]
-                                    wide:mt-[50px]
-
-                                    gap-[20px]
-                                    laptop:gap-[15px]
-                                    desktop:gap-[20px]
-                                    wide:gap-[30px]
-                                  "
+                    flex
+                    flex-col
+                    mt-[20px]
+                    tablet:mt-[45px]
+                    laptop:mt-[20px]
+                    desktop:mt-[30px]
+                    wide:mt-[50px]
+                    gap-[20px]
+                    laptop:gap-[15px]
+                    desktop:gap-[20px]
+                    wide:gap-[30px]
+                  "
                 >
                   <FormField
                     control={form.control}
                     name="full_name"
                     render={({ field }) => (
-                      <FormItem
-                        className="
-                                                border-0
-                                            "
-                      >
+                      <FormItem className="border-0">
                         <FormControl>
                           <EnquireInput
                             type="text"
@@ -279,11 +293,7 @@ export const EnquireDialog = ({
                     control={form.control}
                     name="email"
                     render={({ field }) => (
-                      <FormItem
-                        className="
-                                                border-0
-                                            "
-                      >
+                      <FormItem className="border-0">
                         <FormControl>
                           <EnquireInput
                             type="email"
@@ -299,16 +309,12 @@ export const EnquireDialog = ({
                     control={form.control}
                     name="full_name"
                     render={({ field }) => (
-                      <FormItem
-                        className="
-                                                border-0
-                                            "
-                      >
+                      <FormItem className="border-0">
                         <FormControl>
                           <EnquireInput
                             type="text"
                             {...field}
-                            placeholder="first and last name*"
+                            placeholder="phone*"
                           />
                         </FormControl>
                       </FormItem>
@@ -318,32 +324,80 @@ export const EnquireDialog = ({
                   <FormField
                     control={form.control}
                     name="reason"
-                    render={({ field }) => (
-                      <FormItem
-                        className="
-                                                border-0
-                                            "
-                      >
-                        <FormControl>
-                          <EnquireInput
-                            type="text"
-                            {...field}
-                            placeholder="reason for enquiry*"
-                          />
-                        </FormControl>
-                      </FormItem>
-                    )}
+                    render={({ field }) => {
+                      const selectedReason = enquiryReasonOptions.find(
+                        (option) => option.value === field.value,
+                      )
+
+                      return (
+                        <FormItem>
+                          <Collapsible
+                            open={selectOpen}
+                            onOpenChange={setSelectOpen}
+                            className="rounded-md"
+                          >
+                            <CollapsibleTrigger asChild>
+                              <button
+                                type="button"
+                                className="
+                                  flex items-center relative w-full justify-between
+                                  text-[18px] text-role
+                                  after:absolute
+                                  after:inset-x-0
+                                  after:bottom-0
+                                  after:h-px
+                                  after:bg-foreground
+                                  after:content-['']
+                                "
+                              >
+                                {selectedReason?.label || "reason for enquiry*"}
+
+                                <SelectIcon collapsed={selectOpen} />
+                              </button>
+                            </CollapsibleTrigger>
+
+                            <CollapsibleContent>
+                              <div className="flex flex-col items-start">
+                                {enquiryReasonOptions.map((option) => {
+                                  const isSelected =
+                                    field.value === option.value
+
+                                  return (
+                                    <Button
+                                      variant="ghost"
+                                      key={option.value}
+                                      onClick={() => {
+                                        field.onChange(option.value)
+                                        setSelectOpen(false)
+                                      }}
+                                      className={cn(
+                                        "w-full justify-start items-start",
+                                        "text-[18px] leading-[23px]",
+                                        "rounded-none",
+                                        "py-[10px]",
+                                        "border-0 border-b",
+                                        isSelected
+                                          ? "border-foreground"
+                                          : "border-role",
+                                      )}
+                                    >
+                                      {option.label}
+                                    </Button>
+                                  )
+                                })}
+                              </div>
+                            </CollapsibleContent>
+                          </Collapsible>
+                        </FormItem>
+                      )
+                    }}
                   />
 
                   <FormField
                     control={form.control}
                     name="additional_info"
                     render={({ field }) => (
-                      <FormItem
-                        className="
-                                                border-0
-                                            "
-                      >
+                      <FormItem className="border-0">
                         <FormControl>
                           <EnquireTextarea
                             {...field}
@@ -369,11 +423,10 @@ export const EnquireDialog = ({
                         </FormControl>
                         <FormLabel
                           className="
-                                                font-normal
-                                                text-[18px]
-
-                                                wide:text-[20px]
-                                              "
+                            font-normal
+                            text-[18px]
+                            wide:text-[20px]
+                          "
                         >
                           I confirm that I consent to being contacted by BMA in
                           relation to the interests and details I have indicated
@@ -387,23 +440,28 @@ export const EnquireDialog = ({
                 <EnquireButton
                   type="submit"
                   className="
-                                      mt-[20px]
-                                      desktop:mt-[30px]
-                                      wide:mt-[50px]
+                    mt-[20px]
+                    desktop:mt-[30px]
+                    wide:mt-[50px]
 
-
-                                      w-[120px]
-                                      
-                                      mobile:hidden
-                                      laptop:block
-                                    "
+                    w-[120px]
+                  "
                 >
                   send
                 </EnquireButton>
               </form>
             </Form>
 
-            <div className="mt-auto flex justify-between items-end w-[100%]">
+            <div
+              className="
+                flex justify-between items-end w-[100%] bg-red
+                mt-[68px]
+                tablet:mt-[34px]
+                laptop:mt-[32px]
+                desktop:mt-[26px]
+                wide:mt-[108px]
+              "
+            >
               <div className="flex items-end justify-end">
                 <div className="flex flex-col items-start gap-[20px] tablet:gap-[10px] desktop:gap-[30px]">
                   <a

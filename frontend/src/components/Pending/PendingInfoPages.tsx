@@ -8,18 +8,16 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-const PendingDestinations = () => (
+const PendingInfoPages = () => (
   <Table>
     <TableHeader>
       <TableRow>
         <TableHead>ID</TableHead>
-        <TableHead>Region</TableHead>
-        <TableHead>Country</TableHead>
-        <TableHead>Destination</TableHead>
-        <TableHead>Created at</TableHead>
+        <TableHead>Title</TableHead>
         <TableHead>Description</TableHead>
         <TableHead>Banner Image</TableHead>
-        <TableHead>Side Image</TableHead>
+        <TableHead>Block 1 Image</TableHead>
+        <TableHead>Block 2 Image</TableHead>
         <TableHead>
           <span className="sr-only">Actions</span>
         </TableHead>
@@ -38,22 +36,18 @@ const PendingDestinations = () => (
             <Skeleton className="h-4 w-32" />
           </TableCell>
           <TableCell>
-            <Skeleton className="h-4 w-32" />
-          </TableCell>
-          <TableCell>
-            <Skeleton className="h-4 w-32" />
-          </TableCell>
-          <TableCell>
-            <Skeleton className="h-4 w-32" />
-          </TableCell>
-          <TableCell>
             <div className="flex justify-end">
               <Skeleton className="size-16 rounded-md" /> {/* banner image */}
             </div>
           </TableCell>
           <TableCell>
             <div className="flex justify-end">
-              <Skeleton className="size-16 rounded-md" /> {/* side image */}
+              <Skeleton className="size-16 rounded-md" /> {/* block 1 image */}
+            </div>
+          </TableCell>
+          <TableCell>
+            <div className="flex justify-end">
+              <Skeleton className="size-16 rounded-md" /> {/* block 2 image */}
             </div>
           </TableCell>
           <TableCell>
@@ -67,4 +61,4 @@ const PendingDestinations = () => (
   </Table>
 )
 
-export default PendingDestinations
+export default PendingInfoPages

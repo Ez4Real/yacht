@@ -12,7 +12,7 @@ export function ThemeSwitcher({ className = "" }: ThemeSwitcherProps) {
   return (
     <Button
       variant="ghost"
-      className={`p-0  mobile:hidden tablet:block ${className}`}
+      className={`p-0 mobile:hidden tablet:block ${className}`}
       onClick={() => setTheme(isDark ? "light" : "dark")}
     >
       <span className="text-main-nav">

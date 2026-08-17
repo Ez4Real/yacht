@@ -70,7 +70,7 @@ class User(UserBase, table=True):
     crew_member_roles: list["CrewMemberRole"] = Relationship(back_populates="owner", cascade_delete=True)
     crew_members: list["CrewMember"] = Relationship(back_populates="owner", cascade_delete=True, passive_deletes=True)
     destinations: list["Destination"] = Relationship(back_populates="owner", cascade_delete=True)
-    # charters: list["Charter"] = Relationship(back_populates="owner", cascade_delete=True)
+    info_pages: list["InfoPage"] = Relationship(back_populates="owner", cascade_delete=True)
 
 
 # Properties to return via API, id is always required
@@ -338,8 +338,8 @@ class DestinationBase(SQLModel):
     country: str = Field(min_length=1, max_length=64)
     destination: str = Field(min_length=1, max_length=64, unique=True, index=True)
     description: str = Field(min_length=1, max_length=512)
-    content1: str = Field(min_length=1, max_length=1024)
-    content2: str | None = Field(default=None, max_length=1024)
+    content1: str = Field(min_length=1, max_length=2048)
+    content2: str | None = Field(default=None, max_length=2048)
     
     @model_validator(mode='before')
     @classmethod
@@ -363,8 +363,8 @@ class DestinationUpdateBase(SQLModel):
         max_length=64
     )
     description: str | None = Field(default=None, min_length=1, max_length=512)
-    content1: str | None = Field(default=None, min_length=1, max_length=1024)
-    content2: str | None = Field(default=None, max_length=1024)
+    content1: str | None = Field(default=None, max_length=2048)
+    content2: str | None = Field(default=None, max_length=2048)
     
     @model_validator(mode='before')
     @classmethod
@@ -419,108 +419,119 @@ class DestinationsPublic(SQLModel):
     count: int
     
 
-# #-----Charter-----
-# class CharterImageType(str, Enum):
-#     banner = "banner"
-#     block_1 = "block_1"
-#     block_2 = "block_2"
+#-----InfoPage-----
+class InfoPageImageType(str, Enum):
+    banner = "banner"
+    block_1 = "block_1"
+    block_2 = "block_2"
     
-# class CharterImage(ImageBase, table=True):
-#     __tablename__ = "charter_image" # type: ignore[assignment]
-#     __table_args__ = (UniqueConstraint("charter_id", "type", name="uq_charter_image_type"),)
+class InfoPageImage(ImageBase, table=True):
+    __tablename__ = "info_page_image" # type: ignore[assignment]
+    __table_args__ = (UniqueConstraint("info_page_id", "type", name="uq_info_page_image_type"),)
 
-#     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
-#     charter_id: uuid.UUID = Field(
-#         foreign_key="charter.id",
-#         ondelete="CASCADE"
-#     )
-#     charter: "Charter" = Relationship(back_populates="images")
-#     type: CharterImageType = Field(index=True)
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    info_page_id: uuid.UUID = Field(
+        foreign_key="info_page.id",
+        ondelete="CASCADE"
+    )
+    info_page: "InfoPage" = Relationship(back_populates="images")
+    type: InfoPageImageType = Field(index=True)
     
-# class CharterImagePublic(ImageBase):
-#     id: uuid.UUID
-#     type: CharterImageType
+class InfoPageImagePublic(ImageBase):
+    id: uuid.UUID
+    type: InfoPageImageType
     
 
-# class CharterBase(SQLModel):
-#     title: str = Field(default=None, min_length=1, max_length=64, unique=True, index=True)
-#     description: str = Field(default=None, min_length=1, max_length=512)
-#     content1: str = Field(default=None, min_length=1, max_length=1024)
-#     content2: str | None = Field(default=None, max_length=1024)
-#     content3: str | None = Field(default=None, max_length=1024)
+class InfoPageBase(SQLModel):
+    title: str = Field(default=None, min_length=1, max_length=64, unique=True, index=True)
+    description: str = Field(default=None, min_length=1, max_length=512)
+    content1: str = Field(default=None, min_length=1, max_length=2048)
+    content2: str | None = Field(default=None, max_length=2048)
+    content3: str | None = Field(default=None, max_length=2048)
     
-#     @model_validator(mode='before')
-#     @classmethod
-#     def validate_to_json(cls, value):
-#         if isinstance(value, str):
-#             return json.loads(value)
-#         return value
+    @model_validator(mode='before')
+    @classmethod
+    def validate_to_json(cls, value):
+        if isinstance(value, str):
+            return json.loads(value)
+        return value
     
-# class CharterCreate(CharterBase):
-#     banner_image: UploadFile
-#     block_1_image: UploadFile | None = File(default=None)
-#     block_2_image: UploadFile | None = File(default=None)
+class InfoPageCreate(InfoPageBase):
+    banner_image: UploadFile
+    block_1_image: UploadFile | None = File(default=None)
+    block_2_image: UploadFile | None = File(default=None)
     
-# class CharterUpdateBase(SQLModel):
-#     title: str | None = Field(min_length=1, max_length=64, unique=True, index=True)
-#     description: str | None = Field(min_length=1, max_length=512)
-#     content1: str | None = Field(min_length=1, max_length=1024)
-#     content2: str | None = Field(default=None, max_length=1024)
-#     content3: str | None = Field(default=None, max_length=1024)
+class InfoPageUpdateBase(SQLModel):
+    title: str | None = Field(default=None, min_length=1, max_length=64, unique=True, index=True)
+    description: str | None = Field(default=None, min_length=1, max_length=512)
+    content1: str | None = Field(default=None, min_length=1, max_length=1024)
+    content2: str | None = Field(default=None, max_length=1024)
+    content3: str | None = Field(default=None, max_length=1024)
     
-#     @model_validator(mode='before')
-#     @classmethod
-#     def validate_to_json(cls, value):
-#         if isinstance(value, str):
-#             return json.loads(value)
-#         return value
-    
-    
-# class CharterUpdate(CharterUpdateBase):
-#     banner_image: UploadFile | None = File(default=None)
-#     block_1_image: UploadFile | None = File(default=None)
-#     block_2_image: UploadFile | None = File(default=None)
+    @model_validator(mode='before')
+    @classmethod
+    def validate_to_json(cls, value):
+        if isinstance(value, str):
+            return json.loads(value)
+        return value
     
     
-# class Charter(CharterBase, table=True):
-#     __tablename__ = "charter" # type: ignore[assignment]
+class InfoPageUpdate(InfoPageUpdateBase):
+    banner_image: UploadFile | None = File(default=None)
+    block_1_image: UploadFile | None = File(default=None)
+    block_2_image: UploadFile | None = File(default=None)
     
-#     id: uuid.UUID = Field(
-#         default_factory=uuid.uuid4,
-#         primary_key=True
-#     )
-#     created_at: datetime | None = Field(
-#         default_factory=get_datetime_utc,
-#         sa_type=DateTime(timezone=True),  # type: ignore
-#     )
-#     owner_id: uuid.UUID = Field(
-#         foreign_key="user.id", nullable=False, ondelete="CASCADE"
-#     )
-#     owner: User | None = Relationship(back_populates="charters")
-#     images: list[CharterImage] = Relationship(
-#         back_populates="charter",
-#         cascade_delete=True
-#     )
+    
+class InfoPage(InfoPageBase, table=True):
+    __tablename__ = "info_page" # type: ignore[assignment]
+    
+    id: uuid.UUID = Field(
+        default_factory=uuid.uuid4,
+        primary_key=True
+    )
+    created_at: datetime | None = Field(
+        default_factory=get_datetime_utc,
+        sa_type=DateTime(timezone=True),  # type: ignore
+    )
+    owner_id: uuid.UUID = Field(
+        foreign_key="user.id", nullable=False, ondelete="CASCADE"
+    )
+    owner: User | None = Relationship(back_populates="info_pages")
+    images: list[InfoPageImage] = Relationship(
+        back_populates="info_page",
+        cascade_delete=True
+    )
 
-#     @property
-#     def banner_image(self) -> CharterImage:
-#         return next((b for b in self.images if b.type == DestinationImageType.banner))
-#     @property
-#     def block_1_image(self) -> CharterImage | None:
-#         return next((b for b in self.images if b.type == CharterImageType.block_1), None)
-#     @property
-#     def block_2_image(self) -> CharterImage | None:
-#         return next((b for b in self.images if b.type == CharterImageType.block_2), None)
+    @property
+    def banner_image(self) -> InfoPageImage:
+        return next((b for b in self.images if b.type == InfoPageImageType.banner))
+    @property
+    def block_1_image(self) -> InfoPageImage | None:
+        return next((b for b in self.images if b.type == InfoPageImageType.block_1), None)
+    @property
+    def block_2_image(self) -> InfoPageImage | None:
+        return next((b for b in self.images if b.type == InfoPageImageType.block_2), None)
     
     
-# class CharterPublic(CharterBase):
-#     id: uuid.UUID
-#     owner_id: uuid.UUID
-#     created_at: datetime
-#     banner_image: CharterImagePublic
-#     block_1_image: CharterImagePublic | None = None
-#     block_2_image: CharterImagePublic | None = None
+class InfoPagePublic(InfoPageBase):
+    id: uuid.UUID
+    owner_id: uuid.UUID
+    created_at: datetime
+    banner_image: InfoPageImagePublic
+    block_1_image: InfoPageImagePublic | None = None
+    block_2_image: InfoPageImagePublic | None = None
     
-# class ChartersPublic(SQLModel):
-#     data: list[CharterPublic]
-#     count: int
+class InfoPagesPublic(SQLModel):
+    data: list[InfoPagePublic]
+    count: int
+
+
+class InfoPageMenuItemPublic(SQLModel):
+    id: uuid.UUID
+    created_at: datetime
+    owner_id: uuid.UUID
+    title: str
+
+class InfoPageMenuItemsPublic(SQLModel):
+    data: list[InfoPageMenuItemPublic]
+    count: int

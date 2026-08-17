@@ -13,8 +13,8 @@ from app.core.config import settings
 from app.core.db import engine
 from app.models import TokenPayload, User, \
     CrewMemberBase, CrewMemberCreate, CrewMemberUpdateBase, CrewMemberUpdate, \
-    DestinationBase, DestinationCreate, DestinationUpdateBase, DestinationUpdate \
-    # CharterBase, CharterCreate, CharterUpdateBase, CharterUpdate
+    DestinationBase, DestinationCreate, DestinationUpdateBase, DestinationUpdate, \
+    InfoPageBase, InfoPageCreate, InfoPageUpdateBase, InfoPageUpdate
 
 reusable_oauth2 = OAuth2PasswordBearer(
     tokenUrl=f"{settings.API_V1_STR}/login/access-token"
@@ -108,31 +108,31 @@ def parse_destination_update(
     return destination
 
 
-# def parse_charter_create(
-#     charter_base: CharterBase = Form(...),
-#     banner_image: UploadFile = File(),
-#     block_1_image: UploadFile | None = File(default=None), 
-#     block_2_image: UploadFile | None = File(default=None), 
-# ) -> CharterCreate:
-#     charter_data = charter_base.model_dump()
-#     charter = CharterCreate(
-#         banner_image=banner_image,
-#         block_1_image=block_1_image,
-#         block_2_image=block_2_image,
-#         **charter_data
-#     )
-#     return charter
+def parse_info_page_create(
+    info_page_base: InfoPageBase = Form(...),
+    banner_image: UploadFile = File(),
+    block_1_image: UploadFile | None = File(default=None), 
+    block_2_image: UploadFile | None = File(default=None), 
+) -> InfoPageCreate:
+    info_page_data = info_page_base.model_dump()
+    info_page = InfoPageCreate(
+        banner_image=banner_image,
+        block_1_image=block_1_image,
+        block_2_image=block_2_image,
+        **info_page_data
+    )
+    return info_page
 
-# def parse_charter_update(
-#     charter_base: CharterUpdateBase = Form(...),
-#     banner_image: UploadFile | None = File(default=None),
-#     block_1_image: UploadFile | None = File(default=None), 
-#     block_2_image: UploadFile | None = File(default=None), 
-# ) -> CharterUpdate:
-#     charter_data = charter_base.model_dump()
-#     charter = CharterUpdate( 
-#         banner_image=banner_image,
-#         block_1_image=block_1_image,
-#         block_2_image=block_2_image,
-#         **charter_data)
-#     return charter
+def parse_info_page_update(
+    info_page_base: InfoPageUpdateBase = Form(...),
+    banner_image: UploadFile | None = File(default=None),
+    block_1_image: UploadFile | None = File(default=None), 
+    block_2_image: UploadFile | None = File(default=None), 
+) -> InfoPageUpdate:
+    info_page_data = info_page_base.model_dump()
+    info_page = InfoPageUpdate( 
+        banner_image=banner_image,
+        block_1_image=block_1_image,
+        block_2_image=block_2_image,
+        **info_page_data)
+    return info_page

@@ -20,7 +20,8 @@ export function DestinationCard({ destination }: DestinationCardProps) {
         params={{ id: String(destination.id) }}
         className="block"
       >
-        <div className="
+        <div
+          className="
               group 
               relative 
               overflow-hidden
@@ -35,7 +36,8 @@ export function DestinationCard({ destination }: DestinationCardProps) {
               tablet:h-[349px]
               desktop:h-[393px]
               wide:h-[437px]
-            ">
+            "
+        >
           <img
             src={`${OpenAPI.BASE}/media${destination.banner_image.url}`}
             alt={destination.banner_image.alt_text ?? ""}

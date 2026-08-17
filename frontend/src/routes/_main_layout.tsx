@@ -2,10 +2,10 @@ import { createFileRoute, Outlet, useMatches } from "@tanstack/react-router"
 import { ThemeProvider } from "../components/theme-provider"
 import "../index.css"
 import { OpenAPI } from "@/client"
+import { ChatWidget } from "@/components/Ai/ChatWidget"
 import { Footer } from "@/components/main/Footer"
 import { Header } from "@/components/main/Header"
 import { ThemeSwitcher } from "@/components/main/ThemeSwitcher"
-import { ChatWidget } from "@/components/Ai/ChatWidget";
 
 export const Route = createFileRoute("/_main_layout")({
   component: MainLayout,

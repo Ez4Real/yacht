@@ -18,8 +18,6 @@ export const Route = createFileRoute("/_main_layout/destinations/")({
 function DestinationsPage() {
   const { data: destinations } = useSuspenseQuery(getDestinationsQueryOptions())
 
-  console.log(destinations)
-
   return (
     <div
       className="

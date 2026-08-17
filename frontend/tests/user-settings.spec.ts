@@ -1,7 +1,8 @@
 import { expect, test } from "@playwright/test"
 import { createUser } from "./utils/privateApi.ts"
 import { randomEmail, randomPassword } from "./utils/random"
-import { logInUser } from "./utils/user"
+import { logInUser, logOutUser } from "./utils/user"
+import { firstSuperuser, firstSuperuserPassword } from "./config.ts"
 
 const tabs = ["My profile", "Password", "Danger zone"]
 
@@ -123,30 +124,30 @@ test.describe("Cancel edit actions", () => {
   })
 })
 
-// test.describe("Change password", () => {
-//   test.use({ storageState: { cookies: [], origins: [] } })
+test.describe("Change password", () => {
+  test.use({ storageState: { cookies: [], origins: [] } })
 
-//   test("Update password successfully", async ({ page }) => {
-//     const email = randomEmail()
-//     const password = randomPassword()
-//     const newPassword = randomPassword()
+  test("Update password successfully", async ({ page }) => {
+    const email = randomEmail()
+    const password = randomPassword()
+    const newPassword = randomPassword()
 
-//     await createUser({ email, password })
-//     await logInUser(page, email, password)
+    await createUser({ email, password })
+    await logInUser(page, email, password)
 
-//     await page.goto("/admin/settings")
-//     await page.getByRole("tab", { name: "Password" }).click()
-//     await page.getByTestId("current-password-input").fill(password)
-//     await page.getByTestId("new-password-input").fill(newPassword)
-//     await page.getByTestId("confirm-password-input").fill(newPassword)
-//     await page.getByRole("button", { name: "Update Password" }).click()
+    await page.goto("/admin/settings")
+    await page.getByRole("tab", { name: "Password" }).click()
+    await page.getByTestId("current-password-input").fill(password)
+    await page.getByTestId("new-password-input").fill(newPassword)
+    await page.getByTestId("confirm-password-input").fill(newPassword)
+    await page.getByRole("button", { name: "Update Password" }).click()
 
-//     await expect(page.getByText("Password updated successfully")).toBeVisible()
+    await expect(page.getByText("Password updated successfully")).toBeVisible()
 
-//     await logOutUser(page)
-//     await logInUser(page, email, newPassword)
-//   })
-// })
+    await logOutUser(page)
+    await logInUser(page, email, newPassword)
+  })
+})
 
 test.describe("Change password validation", () => {
   test.use({ storageState: { cookies: [], origins: [] } })
@@ -206,50 +207,50 @@ test("Appearance button is visible in sidebar", async ({ page }) => {
   await expect(page.getByTestId("theme-button")).toBeVisible()
 })
 
-// test("User can switch between theme modes", async ({ page }) => {
-//   await page.goto("/admin/settings")
+test("User can switch between theme modes", async ({ page }) => {
+  await page.goto("/admin/settings")
 
-//   await page.getByTestId("theme-button").click()
-//   await page.getByTestId("dark-mode").click()
-//   await expect(page.locator("html")).toHaveClass(/dark/)
+  await page.getByTestId("theme-button").click()
+  await page.getByTestId("dark-mode").click()
+  await expect(page.locator("html")).toHaveClass(/dark/)
 
-//   await expect(page.getByTestId("dark-mode")).not.toBeVisible()
+  await expect(page.getByTestId("dark-mode")).not.toBeVisible()
 
-//   await page.getByTestId("theme-button").click()
-//   await page.getByTestId("light-mode").click()
-//   await expect(page.locator("html")).toHaveClass(/light/)
-// })
+  await page.getByTestId("theme-button").click()
+  await page.getByTestId("light-mode").click()
+  await expect(page.locator("html")).toHaveClass(/light/)
+})
 
-// test("Selected mode is preserved across sessions", async ({ page }) => {
-//   await page.goto("/admin/settings")
+test("Selected mode is preserved across sessions", async ({ page }) => {
+  await page.goto("/admin/settings")
 
-//   await page.getByTestId("theme-button").click()
-//   if (
-//     await page.evaluate(() =>
-//       document.documentElement.classList.contains("dark"),
-//     )
-//   ) {
-//     await page.getByTestId("light-mode").click()
-//     await page.getByTestId("theme-button").click()
-//   }
+  await page.getByTestId("theme-button").click()
+  if (
+    await page.evaluate(() =>
+      document.documentElement.classList.contains("dark"),
+    )
+  ) {
+    await page.getByTestId("light-mode").click()
+    await page.getByTestId("theme-button").click()
+  }
 
-//   const isLightMode = await page.evaluate(() =>
-//     document.documentElement.classList.contains("light"),
-//   )
-//   expect(isLightMode).toBe(true)
+  const isLightMode = await page.evaluate(() =>
+    document.documentElement.classList.contains("light"),
+  )
+  expect(isLightMode).toBe(true)
 
-//   await page.getByTestId("theme-button").click()
-//   await page.getByTestId("dark-mode").click()
-//   let isDarkMode = await page.evaluate(() =>
-//     document.documentElement.classList.contains("dark"),
-//   )
-//   expect(isDarkMode).toBe(true)
+  await page.getByTestId("theme-button").click()
+  await page.getByTestId("dark-mode").click()
+  let isDarkMode = await page.evaluate(() =>
+    document.documentElement.classList.contains("dark"),
+  )
+  expect(isDarkMode).toBe(true)
 
-//   await logOutUser(page)
-//   await logInUser(page, firstSuperuser, firstSuperuserPassword)
+  await logOutUser(page)
+  await logInUser(page, firstSuperuser, firstSuperuserPassword)
 
-//   isDarkMode = await page.evaluate(() =>
-//     document.documentElement.classList.contains("dark"),
-//   )
-//   expect(isDarkMode).toBe(true)
-// })
+  isDarkMode = await page.evaluate(() =>
+    document.documentElement.classList.contains("dark"),
+  )
+  expect(isDarkMode).toBe(true)
+})

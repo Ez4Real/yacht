@@ -152,11 +152,11 @@ class Settings(BaseSettings):
         Path(self.UPLOAD_DIR / self.DESTINATION_IMAGES_DIR).mkdir(parents=True, exist_ok=True)
         return self
     
-    CHARTER_IMAGES_DIR: Path = Path("charter-images")
+    INFO_PAGE_IMAGES_DIR: Path = Path("info-page-images")
     @model_validator(mode="after")
-    def _ensure_charter_images_dir_exists(self) -> Self:
-        """Ensure the charter images upload directory exists."""
-        Path(self.UPLOAD_DIR / self.CHARTER_IMAGES_DIR).mkdir(parents=True, exist_ok=True)
+    def _ensure_info_page_images_dir_exists(self) -> Self:
+        """Ensure the info page images upload directory exists."""
+        Path(self.UPLOAD_DIR / self.INFO_PAGE_IMAGES_DIR).mkdir(parents=True, exist_ok=True)
         return self
 
     

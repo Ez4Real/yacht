@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router"
-import { OpenAPI } from "@/client"
+import { InfoPagesService, OpenAPI } from "@/client"
 import { useTheme } from "@/components/theme-provider"
 import { Button } from "@/components/ui/button"
 import {
@@ -10,6 +10,14 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { ThemeSwitcher } from "../ThemeSwitcher"
+import { useQuery } from "@tanstack/react-query"
+
+function getInfoPageMenuItemsQueryOptions() {
+  return {
+    queryFn: () => InfoPagesService.readInfoPageMenuItems({ skip: 0, limit: 100 }),
+    queryKey: ["info-pages"],
+  }
+}
 
 const menuItems = [
   { label: "home", to: "/" },
@@ -35,6 +43,10 @@ export const MenuDialog = ({
   onOpenChange,
   onShowEnquire,
 }: MenuDialogProps) => {
+  const { data: infoPageMenuItems } = useQuery({
+    ...getInfoPageMenuItemsQueryOptions(),
+    enabled: open,
+  })
   const { theme } = useTheme()
   const isDark = theme === "dark"
   const router = useRouterState()
@@ -187,8 +199,9 @@ export const MenuDialog = ({
                     <Link
                       to={item.to}
                       hash="root"
-                      className={`text-menu flex items-center ${isActive ? "text-foreground" : "text-role"
-                        }`}
+                      className={`text-menu flex items-center ${
+                        isActive ? "text-foreground" : "text-role"
+                      }`}
                     >
                       <span>{item.label}</span>
 
@@ -196,6 +209,27 @@ export const MenuDialog = ({
                     </Link>
                   </SheetClose>
                 )
+              })}
+
+              {infoPageMenuItems?.data?.map((item) => {
+                  const isActive = currentPath === `/info/${item.id}`
+
+                  return(
+                    <SheetClose asChild key={item.id}>
+                      <Link
+                        to="/info/$id"
+                        params={{ id: String(item.id) }}
+                        hash="root"
+                        className={`text-menu flex items-center ${
+                          isActive ? "text-foreground" : "text-role"
+                        }`}
+                      >
+                        <span className="lowercase">{item.title}</span>
+
+                        {/* {item.icon && <img src={item.icon} alt="arrow-icon" />} */}
+                      </Link>
+                    </SheetClose>
+                  )
               })}
             </nav>
 

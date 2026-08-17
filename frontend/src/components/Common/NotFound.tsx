@@ -1,15 +1,15 @@
 // import { Link } from "@tanstack/react-router"
-import { Button } from "@/components/ui/button"
 
-import { ThemeProvider } from "@/components/theme-provider"
 import { Header } from "@/components/main/Header"
 import { ThemeSwitcher } from "@/components/main/ThemeSwitcher"
+import { ThemeProvider } from "@/components/theme-provider"
+import { Button } from "@/components/ui/button"
 
 const NotFound = () => {
   return (
     <ThemeProvider defaultTheme="light" storageKey="main-ui-theme">
-          <div
-            className="
+      <div
+        className="
               min-h-screen
               flex 
               flex-col
@@ -28,15 +28,16 @@ const NotFound = () => {
               desktop:pb-[30px]
               wide:pb-[50px]
             "
-          >
-            <Header />
-    
-            {/* <main className="flex-1 pb-[50px] tablet:pb-[50px] desktop:pb-[60px]"> */}
-              <div
-                className="flex items-center justify-center flex-col mt-[120px]"
-                data-testid="not-found"
-              >
-                <span className="
+      >
+        <Header />
+
+        {/* <main className="flex-1 pb-[50px] tablet:pb-[50px] desktop:pb-[60px]"> */}
+        <div
+          className="flex items-center justify-center flex-col mt-[120px]"
+          data-testid="not-found"
+        >
+          <span
+            className="
                 
                 text-[200px]
                 tablet:text-[300px]
@@ -47,30 +48,39 @@ const NotFound = () => {
                 font-bold 
                 leading-none
                 mb-7 
-                font-druk">
-                  404
-                </span>
-                <span className="
+                font-druk"
+          >
+            404
+          </span>
+          <span
+            className="
                 text-2xl
                 font-bold
                 mb-[28px]
                 text-main-style
-                ">something is wrong</span>
+                "
+          >
+            something is wrong
+          </span>
 
-                {/* <p className="text-lg text-muted-foreground mb-4 text-center z-10">
+          {/* <p className="text-lg text-muted-foreground mb-4 text-center z-10">
                   The page you are looking for was not found.
                 </p> */}
-                <Button className="
+          <Button
+            className="
                 text-main-style
                 bg-transparent
                 hover:bg-transparent
                 transition-none
-                ">back</Button>
-              </div>
-            {/* </main> */}
-    
-            <ThemeSwitcher
-              className="
+                "
+          >
+            back
+          </Button>
+        </div>
+        {/* </main> */}
+
+        <ThemeSwitcher
+          className="
               fixed
     
               right-[20px]
@@ -84,9 +94,9 @@ const NotFound = () => {
     
               z-[40]
             "
-            />
-          </div>
-        </ThemeProvider>
+        />
+      </div>
+    </ThemeProvider>
   )
 }
 

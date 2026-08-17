@@ -3,118 +3,7 @@
 import type { CancelablePromise } from './core/CancelablePromise';
 import { OpenAPI } from './core/OpenAPI';
 import { request as __request } from './core/request';
-import type { ChartersReadChartersData, ChartersReadChartersResponse, ChartersCreateCharterData, ChartersCreateCharterResponse, ChartersReadCharterData, ChartersReadCharterResponse, ChartersUpdateCharterData, ChartersUpdateCharterResponse, ChartersDeleteCharterData, ChartersDeleteCharterResponse, CrewMemberRolesReadCrewMemberRolesData, CrewMemberRolesReadCrewMemberRolesResponse, CrewMemberRolesCreateCrewMemberRoleData, CrewMemberRolesCreateCrewMemberRoleResponse, CrewMemberRolesReadCrewMemberRoleData, CrewMemberRolesReadCrewMemberRoleResponse, CrewMemberRolesUpdateCrewMemberRoleData, CrewMemberRolesUpdateCrewMemberRoleResponse, CrewMemberRolesDeleteCrewMemberRoleData, CrewMemberRolesDeleteCrewMemberRoleResponse, CrewMembersReadCrewMembersData, CrewMembersReadCrewMembersResponse, CrewMembersCreateCrewMemberData, CrewMembersCreateCrewMemberResponse, CrewMembersReadCrewMemberData, CrewMembersReadCrewMemberResponse, CrewMembersUpdateCrewMemberData, CrewMembersUpdateCrewMemberResponse, CrewMembersDeleteCrewMemberData, CrewMembersDeleteCrewMemberResponse, DestinationsReadDestinationsData, DestinationsReadDestinationsResponse, DestinationsCreateDestinationData, DestinationsCreateDestinationResponse, DestinationsReadDestinationData, DestinationsReadDestinationResponse, DestinationsUpdateDestinationData, DestinationsUpdateDestinationResponse, DestinationsDeleteDestinationData, DestinationsDeleteDestinationResponse, ItemsReadItemsData, ItemsReadItemsResponse, ItemsCreateItemData, ItemsCreateItemResponse, ItemsReadItemData, ItemsReadItemResponse, ItemsUpdateItemData, ItemsUpdateItemResponse, ItemsDeleteItemData, ItemsDeleteItemResponse, LoginLoginAccessTokenData, LoginLoginAccessTokenResponse, LoginTestTokenResponse, LoginRecoverPasswordData, LoginRecoverPasswordResponse, LoginResetPasswordData, LoginResetPasswordResponse, LoginRecoverPasswordHtmlContentData, LoginRecoverPasswordHtmlContentResponse, PrivateCreateUserData, PrivateCreateUserResponse, UsersReadUsersData, UsersReadUsersResponse, UsersCreateUserData, UsersCreateUserResponse, UsersReadUserMeResponse, UsersDeleteUserMeResponse, UsersUpdateUserMeData, UsersUpdateUserMeResponse, UsersUpdatePasswordMeData, UsersUpdatePasswordMeResponse, UsersRegisterUserData, UsersRegisterUserResponse, UsersReadUserByIdData, UsersReadUserByIdResponse, UsersUpdateUserData, UsersUpdateUserResponse, UsersDeleteUserData, UsersDeleteUserResponse, UtilsTestEmailData, UtilsTestEmailResponse, UtilsHealthCheckResponse } from './types.gen';
-
-export class ChartersService {
-    /**
-     * Read Charters
-     * Retrieve charters.
-     * @param data The data for the request.
-     * @param data.skip
-     * @param data.limit
-     * @returns ChartersPublic Successful Response
-     * @throws ApiError
-     */
-    public static readCharters(data: ChartersReadChartersData = {}): CancelablePromise<ChartersReadChartersResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/v1/charters/',
-            query: {
-                skip: data.skip,
-                limit: data.limit
-            },
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Create Charter
-     * Create new charter.
-     * @param data The data for the request.
-     * @param data.formData
-     * @returns CharterPublic Successful Response
-     * @throws ApiError
-     */
-    public static createCharter(data: ChartersCreateCharterData): CancelablePromise<ChartersCreateCharterResponse> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/api/v1/charters/',
-            formData: data.formData,
-            mediaType: 'multipart/form-data',
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Read Charter
-     * Get charter by ID.
-     * @param data The data for the request.
-     * @param data.id
-     * @returns CharterPublic Successful Response
-     * @throws ApiError
-     */
-    public static readCharter(data: ChartersReadCharterData): CancelablePromise<ChartersReadCharterResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/v1/charters/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Update Charter
-     * Update a charter.
-     * @param data The data for the request.
-     * @param data.id
-     * @param data.formData
-     * @returns CharterPublic Successful Response
-     * @throws ApiError
-     */
-    public static updateCharter(data: ChartersUpdateCharterData): CancelablePromise<ChartersUpdateCharterResponse> {
-        return __request(OpenAPI, {
-            method: 'PUT',
-            url: '/api/v1/charters/{id}',
-            path: {
-                id: data.id
-            },
-            formData: data.formData,
-            mediaType: 'multipart/form-data',
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Delete Charter
-     * Delete a charter.
-     * @param data The data for the request.
-     * @param data.id
-     * @returns Message Successful Response
-     * @throws ApiError
-     */
-    public static deleteCharter(data: ChartersDeleteCharterData): CancelablePromise<ChartersDeleteCharterResponse> {
-        return __request(OpenAPI, {
-            method: 'DELETE',
-            url: '/api/v1/charters/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-}
+import type { CrewMemberRolesReadCrewMemberRolesData, CrewMemberRolesReadCrewMemberRolesResponse, CrewMemberRolesCreateCrewMemberRoleData, CrewMemberRolesCreateCrewMemberRoleResponse, CrewMemberRolesReadCrewMemberRoleData, CrewMemberRolesReadCrewMemberRoleResponse, CrewMemberRolesUpdateCrewMemberRoleData, CrewMemberRolesUpdateCrewMemberRoleResponse, CrewMemberRolesDeleteCrewMemberRoleData, CrewMemberRolesDeleteCrewMemberRoleResponse, CrewMembersReadCrewMembersData, CrewMembersReadCrewMembersResponse, CrewMembersCreateCrewMemberData, CrewMembersCreateCrewMemberResponse, CrewMembersReadCrewMemberData, CrewMembersReadCrewMemberResponse, CrewMembersUpdateCrewMemberData, CrewMembersUpdateCrewMemberResponse, CrewMembersDeleteCrewMemberData, CrewMembersDeleteCrewMemberResponse, DestinationsReadDestinationsData, DestinationsReadDestinationsResponse, DestinationsCreateDestinationData, DestinationsCreateDestinationResponse, DestinationsReadDestinationData, DestinationsReadDestinationResponse, DestinationsUpdateDestinationData, DestinationsUpdateDestinationResponse, DestinationsDeleteDestinationData, DestinationsDeleteDestinationResponse, InfoPagesReadInfoPagesData, InfoPagesReadInfoPagesResponse, InfoPagesCreateInfoPageData, InfoPagesCreateInfoPageResponse, InfoPagesReadInfoPageMenuItemsData, InfoPagesReadInfoPageMenuItemsResponse, InfoPagesReadInfoPageData, InfoPagesReadInfoPageResponse, InfoPagesUpdateInfoPageData, InfoPagesUpdateInfoPageResponse, InfoPagesDeleteInfoPageData, InfoPagesDeleteInfoPageResponse, ItemsReadItemsData, ItemsReadItemsResponse, ItemsCreateItemData, ItemsCreateItemResponse, ItemsReadItemData, ItemsReadItemResponse, ItemsUpdateItemData, ItemsUpdateItemResponse, ItemsDeleteItemData, ItemsDeleteItemResponse, LoginLoginAccessTokenData, LoginLoginAccessTokenResponse, LoginTestTokenResponse, LoginRecoverPasswordData, LoginRecoverPasswordResponse, LoginResetPasswordData, LoginResetPasswordResponse, LoginRecoverPasswordHtmlContentData, LoginRecoverPasswordHtmlContentResponse, PrivateCreateUserData, PrivateCreateUserResponse, UsersReadUsersData, UsersReadUsersResponse, UsersCreateUserData, UsersCreateUserResponse, UsersReadUserMeResponse, UsersDeleteUserMeResponse, UsersUpdateUserMeData, UsersUpdateUserMeResponse, UsersUpdatePasswordMeData, UsersUpdatePasswordMeResponse, UsersRegisterUserData, UsersRegisterUserResponse, UsersReadUserByIdData, UsersReadUserByIdResponse, UsersUpdateUserData, UsersUpdateUserResponse, UsersDeleteUserData, UsersDeleteUserResponse, UtilsTestEmailData, UtilsTestEmailResponse, UtilsHealthCheckResponse } from './types.gen';
 
 export class CrewMemberRolesService {
     /**
@@ -439,6 +328,140 @@ export class DestinationsService {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/v1/destinations/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+}
+
+export class InfoPagesService {
+    /**
+     * Read Info Pages
+     * Retrieve info pages.
+     * @param data The data for the request.
+     * @param data.skip
+     * @param data.limit
+     * @returns InfoPagesPublic Successful Response
+     * @throws ApiError
+     */
+    public static readInfoPages(data: InfoPagesReadInfoPagesData = {}): CancelablePromise<InfoPagesReadInfoPagesResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/info-pages/',
+            query: {
+                skip: data.skip,
+                limit: data.limit
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Create Info Page
+     * Create new info_page.
+     * @param data The data for the request.
+     * @param data.formData
+     * @returns InfoPagePublic Successful Response
+     * @throws ApiError
+     */
+    public static createInfoPage(data: InfoPagesCreateInfoPageData): CancelablePromise<InfoPagesCreateInfoPageResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/info-pages/',
+            formData: data.formData,
+            mediaType: 'multipart/form-data',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read Info Page Menu Items
+     * Retrieve info page menu items.
+     * @param data The data for the request.
+     * @param data.skip
+     * @param data.limit
+     * @returns InfoPageMenuItemsPublic Successful Response
+     * @throws ApiError
+     */
+    public static readInfoPageMenuItems(data: InfoPagesReadInfoPageMenuItemsData = {}): CancelablePromise<InfoPagesReadInfoPageMenuItemsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/info-pages/menu-item',
+            query: {
+                skip: data.skip,
+                limit: data.limit
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read Info Page
+     * Get info_page by ID.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns InfoPagePublic Successful Response
+     * @throws ApiError
+     */
+    public static readInfoPage(data: InfoPagesReadInfoPageData): CancelablePromise<InfoPagesReadInfoPageResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/info-pages/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Info Page
+     * Update a info_page.
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.formData
+     * @returns InfoPagePublic Successful Response
+     * @throws ApiError
+     */
+    public static updateInfoPage(data: InfoPagesUpdateInfoPageData): CancelablePromise<InfoPagesUpdateInfoPageResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/v1/info-pages/{id}',
+            path: {
+                id: data.id
+            },
+            formData: data.formData,
+            mediaType: 'multipart/form-data',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Info Page
+     * Delete a info_page.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static deleteInfoPage(data: InfoPagesDeleteInfoPageData): CancelablePromise<InfoPagesDeleteInfoPageResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/info-pages/{id}',
             path: {
                 id: data.id
             },

@@ -1,4 +1,11 @@
-import { Sailboat, TreePalm, UserCog, UserStar, Users } from "lucide-react"
+import {
+  BookMarked,
+  Sailboat,
+  TreePalm,
+  UserCog,
+  UserStar,
+  Users,
+} from "lucide-react"
 
 import { SidebarAppearance } from "@/components/Common/Appearance"
 import { Logo } from "@/components/Common/Logo"
@@ -29,6 +36,11 @@ const baseItems: Item[] = [
     icon: TreePalm,
     title: "Destinations",
     path: "/admin/destinations",
+  },
+  {
+    icon: BookMarked,
+    title: "Info Pages",
+    path: "/admin/info-pages",
   },
 ]
 
