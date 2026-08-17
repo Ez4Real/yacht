@@ -35,7 +35,14 @@ function RouteComponent() {
         </p>
       </div>
 
+
+
       <div className="w-full tablet:w-[66%] laptop:w-[49.1%]">
+
+        <p className="text-[36px] mb-[55px] mobile:mt-[25px] tablet:mt-[0] w-[100%] wide:w-[617px]"> 
+          About
+        </p>
+
         <p className="text-main-style mt-[40px] tablet:mt-[0] w-[100%] wide:w-[617px]">
           Since 2013, BMA Yachts has been delivering bespoke yacht experiences,
           brokerage expertise, and strategic yacht management services to
