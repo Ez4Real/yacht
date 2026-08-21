@@ -47,6 +47,8 @@ services:
     build:
       context: .
       dockerfile: backend/Dockerfile
+    volumes:
+      - uploads-data:/app/backend/uploads
     networks:
       - traefik-public
       - default
@@ -118,6 +120,8 @@ services:
     build:
       context: .
       dockerfile: backend/Dockerfile
+    volumes:
+      - uploads-data:/app/backend/uploads
     labels:
       - traefik.enable=true
       - traefik.docker.network=traefik-public
@@ -167,6 +171,7 @@ services:
       - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-http.middlewares=https-redirect
 volumes:
   app-db-data:
+  uploads-data:
 
 networks:
   traefik-public:
