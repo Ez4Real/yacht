@@ -46,7 +46,7 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>
 
-type MenuDialogProps = {
+type EnquireDialogProps = {
   open: boolean
   onOpenChange: (open: boolean) => void
   onShowMenu: () => void
@@ -56,7 +56,7 @@ export const EnquireDialog = ({
   open,
   onOpenChange,
   onShowMenu,
-}: MenuDialogProps) => {
+}: EnquireDialogProps) => {
   const { theme } = useTheme()
   const isDark = theme === "dark"
 

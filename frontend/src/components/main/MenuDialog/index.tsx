@@ -230,12 +230,26 @@ export const MenuDialog = ({
                         }`}
                       >
                         <span className="lowercase">{item.title}</span>
-
-                        {/* {item.icon && <img src={item.icon} alt="arrow-icon" />} */}
                       </Link>
                     </SheetClose>
                   )
               })}
+              
+              <SheetClose asChild>
+                <a
+                  href="https://www.instagram.com/spinnakermagazine"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-menu flex items-center text-role"
+                >
+                  <span>spinnaker magazine</span>
+
+                  <img
+                    src="/assets/icons/icon-menu-right.svg"
+                    alt="arrow-icon"
+                  />
+                </a>
+              </SheetClose>
             </nav>
 
             <div className="mt-auto flex justify-between items-end w-[100%]">
