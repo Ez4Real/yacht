@@ -70,6 +70,7 @@ function MemberPage() {
           <Link
             to="/crew-members/$id"
             params={{ id: navigation.previous }}
+            hash="root"
             className="transition-opacity hover:opacity-60"
           >
             <img src="/assets/icons/arrow-left.svg" alt="Previous member" />
@@ -88,6 +89,7 @@ function MemberPage() {
           <Link
             to="/crew-members/$id"
             params={{ id: navigation.next }}
+            hash="root"
             className="transition-opacity hover:opacity-60"
           >
             <img src="/assets/icons/arrow-right.svg" alt="Next member" />
@@ -186,6 +188,7 @@ function MemberPage() {
           <Link
             to="/crew-members/$id"
             params={{ id: navigation.previous }}
+            hash="root"
             className="transition-opacity hover:opacity-60"
           >
             <img src="/assets/icons/arrow-left.svg" alt="Previous member" />
@@ -204,6 +207,7 @@ function MemberPage() {
           <Link
             to="/crew-members/$id"
             params={{ id: navigation.next }}
+            hash="root"
             className="transition-opacity hover:opacity-60"
           >
             <img src="/assets/icons/arrow-right.svg" alt="Next member" />

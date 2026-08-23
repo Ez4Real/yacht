@@ -36,11 +36,9 @@ import { SelectIcon } from "./selectIcon"
 const formSchema = z.object({
   full_name: z.string().min(1, { message: "Full name is required" }),
   email: z.string().min(1, { message: "Email is required" }),
-  reason: z.string().min(1, { message: "Reason is required" }),
-  additional_info: z
-    .string()
-    .min(1, { message: "Full name is required" })
-    .optional(),
+  phone: z.string().optional(),
+  reason: z.string().optional(),
+  additional_info: z.string().optional(),
   contact: z.boolean(),
 })
 
@@ -316,7 +314,7 @@ export const EnquireDialog = ({
                           <EnquireInput
                             type="text"
                             {...field}
-                            placeholder="phone*"
+                            placeholder="phone"
                           />
                         </FormControl>
                       </FormItem>
@@ -352,7 +350,7 @@ export const EnquireDialog = ({
                                   after:content-['']
                                 "
                               >
-                                {selectedReason?.label || "reason for enquiry*"}
+                                {selectedReason?.label || "reason for enquiry"}
 
                                 <SelectIcon collapsed={selectOpen} />
                               </button>

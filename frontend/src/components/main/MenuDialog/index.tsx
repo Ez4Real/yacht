@@ -209,8 +209,7 @@ export const MenuDialog = ({
                       }`}
                     >
                       <span>{item.label}</span>
-
-                      {/* {item.icon && <img src={item.icon} alt="arrow-icon" />} */}
+                      
                     </Link>
                   </SheetClose>
                 )
