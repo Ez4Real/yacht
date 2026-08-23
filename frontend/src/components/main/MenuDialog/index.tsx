@@ -246,6 +246,11 @@ export const MenuDialog = ({
                   <img
                     src="/assets/icons/icon-menu-right.svg"
                     alt="arrow-icon"
+                    className="
+                      tablet:w-[49px]
+                      desktop:w-[60px]
+                      desktop:h-[60px]
+                    "
                   />
                 </a>
               </SheetClose>
