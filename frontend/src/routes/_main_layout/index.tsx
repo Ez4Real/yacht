@@ -71,8 +71,8 @@ function RouteComponent() {
            "
           >
             Our mission is to curate superyacht experiences that align with
-            modern values — intentional living, human connection, aesthetic
-            clarity, and respect for nature — transforming chartering from a
+            modern values – intentional living, human connection, aesthetic
+            clarity, and respect for nature – transforming chartering from a
             transaction into a long-term lifestyle.
           </p>
 
@@ -109,7 +109,7 @@ function RouteComponent() {
           </p>
 
           <img
-            src="/assets/images/homePage.svg"
+            src="/assets/images/homePage.webp"
             alt="Monaco yacht view"
             className="
               object-cover

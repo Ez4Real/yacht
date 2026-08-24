@@ -364,7 +364,7 @@ export class InfoPagesService {
     
     /**
      * Create Info Page
-     * Create new info_page.
+     * Create new info page.
      * @param data The data for the request.
      * @param data.formData
      * @returns InfoPagePublic Successful Response
@@ -407,7 +407,7 @@ export class InfoPagesService {
     
     /**
      * Read Info Page
-     * Get info_page by ID.
+     * Get info page by ID.
      * @param data The data for the request.
      * @param data.id
      * @returns InfoPagePublic Successful Response

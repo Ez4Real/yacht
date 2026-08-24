@@ -5,7 +5,7 @@ import { InfoPagesService, OpenAPI } from "@/client"
 function getInfoPageByIdQueryOptions(id: string) {
   return {
     queryFn: () => InfoPagesService.readInfoPage({ id: id }),
-    queryKey: ["info-pages"],
+    queryKey: ["info-pages", id],
   }
 }
 
@@ -30,19 +30,21 @@ function InfoPage() {
       "
     >
       <div>
-        <img
-          src={`${OpenAPI.BASE}/media${infoPage.banner_image.url}`}
-          alt={infoPage.banner_image.alt_text ?? ""}
-          className="
-            object-cover
-            w-[408px]
-            tablet:w-[210px]
-            laptop:w-[424px]
-            desktop:w-[530px]
-            wide:w-[737px]
-          "
-        />
-
+        {infoPage.banner_image && ( 
+          <img
+            src={`${OpenAPI.BASE}/media${infoPage.banner_image.url}`}
+            alt={infoPage.banner_image.alt_text ?? ""}
+            className="
+              object-cover
+              w-[408px]
+              tablet:w-[210px]
+              laptop:w-[424px]
+              desktop:w-[530px]
+              wide:w-[737px]
+            "
+          />
+        )}
+          
         <p className="mt-[40px] font-cursive text-quote mobile:hidden laptop:block w-[460px]">
           {infoPage.description}
         </p>
@@ -57,9 +59,12 @@ function InfoPage() {
             leading-[44px]
             text-[36px]
           "
-        >{infoPage.title}</p>
+        >
+          {infoPage.title}
+        </p>
 
-        <p className="
+        <p
+          className="
             mt-[40px] laptop:mt-[50px] wide:mt-[55px]
             text-main-style
             w-[100%] wide:w-[617px]
@@ -70,7 +75,8 @@ function InfoPage() {
         </p>
 
         {infoPage.block_1_image && (
-          <div className="
+          <div
+            className="
               mt-[40px]
               laptop:mt-[50px]
               wide:mt-[55px]
@@ -85,7 +91,8 @@ function InfoPage() {
         )}
 
         {infoPage.content2 && (
-          <p className="
+          <p
+            className="
               text-main-style
               mt-[40px] laptop:mt-[50px] wide:mt-[55px]
               w-[100%] wide:w-[617px]
@@ -97,7 +104,8 @@ function InfoPage() {
         )}
 
         {infoPage.block_2_image && (
-          <div className="
+          <div
+            className="
               mt-[40px]
               laptop:mt-[50px]
               wide:mt-[55px]
@@ -112,7 +120,8 @@ function InfoPage() {
         )}
 
         {infoPage.content3 && (
-          <p className="
+          <p
+            className="
               text-main-style
               mt-[40px] laptop:mt-[50px] wide:mt-[55px]
               w-[100%] wide:w-[617px]
@@ -123,6 +132,35 @@ function InfoPage() {
           </p>
         )}
 
+
+        {infoPage.services && (
+          <div
+            className="
+              mt-[100px]
+              w-[100%] wide:w-[617px]
+            "
+          >
+            <p
+              className="
+                text-[36px]
+                leading-[44px]
+              "
+            >
+              {infoPage.services.title}
+            </p>
+
+            <p
+              className="
+                mt-[55px]
+                text-[26px]
+                leading-[31px]
+                whitespace-pre-line
+              "
+            >
+              {infoPage.services.content}
+            </p>
+          </div>
+        )}
 
       </div>
     </div>

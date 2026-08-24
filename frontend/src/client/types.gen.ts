@@ -182,6 +182,7 @@ export type InfoPageBase = {
     content1?: string;
     content2?: (string | null);
     content3?: (string | null);
+    services?: (InfoPageServiceList | null);
 };
 
 export type InfoPageImagePublic = {
@@ -211,12 +212,18 @@ export type InfoPagePublic = {
     content1?: string;
     content2?: (string | null);
     content3?: (string | null);
+    services?: (InfoPageServiceList | null);
     id: string;
     owner_id: string;
     created_at: string;
     banner_image: InfoPageImagePublic;
     block_1_image?: (InfoPageImagePublic | null);
     block_2_image?: (InfoPageImagePublic | null);
+};
+
+export type InfoPageServiceList = {
+    title: string;
+    content: string;
 };
 
 export type InfoPagesPublic = {
@@ -230,6 +237,7 @@ export type InfoPageUpdateBase = {
     content1?: (string | null);
     content2?: (string | null);
     content3?: (string | null);
+    services?: (InfoPageServiceList | null);
 };
 
 export type ItemCreate = {

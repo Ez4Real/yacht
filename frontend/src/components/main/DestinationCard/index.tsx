@@ -30,7 +30,8 @@ export function DestinationCard({ destination }: DestinationCardProps) {
               laptop:aspect-[560/352]
               desktop:aspect-[881/393]
               wide:aspect-[881/437]
-            ">
+            "
+        >
           <img
             src={`${OpenAPI.BASE}/media${destination.banner_image.url}`}
             alt={destination.banner_image.alt_text ?? ""}

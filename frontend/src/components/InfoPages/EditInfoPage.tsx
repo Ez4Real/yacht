@@ -29,6 +29,7 @@ import { LoadingButton } from "@/components/ui/loading-button"
 import useCustomToast from "@/hooks/useCustomToast"
 import { handleError } from "@/utils"
 import { Textarea } from "../ui/textarea"
+import { Checkbox } from "../ui/checkbox"
 
 const formSchema = z.object({
   info_page_base: z.object({
@@ -46,12 +47,22 @@ const formSchema = z.object({
       .max(2048, { message: "Content 1 must be at most 2048 characters" }),
     content2: z
       .string()
-      .max(2024, { message: "Content 2 must be at most 2048 characters" })
+      .max(2048, { message: "Content 2 must be at most 2048 characters" })
       .optional(),
     content3: z
       .string()
-      .max(2024, { message: "Content 3 must be at most 2048 characters" })
+      .max(2048, { message: "Content 3 must be at most 2048 characters" })
       .optional(),
+    services: z.object({
+      title: z
+        .string()
+        .min(1, { message: "Service title is required" })
+        .max(64, { message: "Service title must be at most 64 characters" }),
+      content: z
+        .string()
+        .min(1, { message: "Service content is required" })
+        .max(2048, { message: "Service content must be at most 2048 characters" })
+    }).nullable()
   }),
   banner_image: z
     .file()
@@ -108,6 +119,12 @@ const EditInfoPage = ({ infoPage, onSuccess }: EditInfoPageProps) => {
         content1: infoPage.content1,
         content2: infoPage.content2 ?? undefined,
         content3: infoPage.content3 ?? undefined,
+        services: infoPage.services
+          ? {
+              title: infoPage.services.title,
+              content: infoPage.services.content,
+            }
+          : null,
       },
       banner_image: undefined,
       block_1_image: undefined,
@@ -133,6 +150,8 @@ const EditInfoPage = ({ infoPage, onSuccess }: EditInfoPageProps) => {
   })
 
   const onSubmit = (data: FormData) => {
+    console.log(data);
+
     mutation.mutate(data)
   }
 
@@ -386,6 +405,91 @@ const EditInfoPage = ({ infoPage, onSuccess }: EditInfoPageProps) => {
                   </FormItem>
                 )}
               />
+
+              <FormItem />
+
+              <FormField
+                control={form.control}
+                name="info_page_base.services"
+                render={({ field }) => {
+                  const hasServices = field.value !== null
+
+                  return (
+                    <>
+                      <FormItem className="flex items-center gap-2">
+                        <FormControl>
+                          <Checkbox
+                            checked={hasServices}
+                            onCheckedChange={(checked) => {
+                              if (checked) {
+                                field.onChange({
+                                  title: "",
+                                  content: "",
+                                })
+                              } else {
+                                field.onChange(null)
+                              }
+                            }}
+                          />
+                        </FormControl>
+
+                        <FormLabel className="cursor-pointer">
+                          Add services
+                        </FormLabel>
+                      </FormItem>
+
+                      {hasServices && (
+                        <div className="col-span-2 grid grid-cols-2 gap-4 items-start">
+                          <FormField
+                            control={form.control}
+                            name="info_page_base.services.title"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>
+                                  Services title{" "}
+                                  <span className="text-destructive">*</span>
+                                </FormLabel>
+
+                                <FormControl>
+                                  <Input
+                                    placeholder="Services title"
+                                    {...field}
+                                  />
+                                </FormControl>
+
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="info_page_base.services.content"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>
+                                  Services content{" "}
+                                  <span className="text-destructive">*</span>
+                                </FormLabel>
+
+                                <FormControl>
+                                  <Textarea
+                                    placeholder="Services content"
+                                    {...field}
+                                  />
+                                </FormControl>
+
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      )}
+                    </>
+                  )
+                }}
+              />
+
             </div>
 
             <DialogFooter>

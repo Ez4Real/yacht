@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query"
 import { Link, useRouterState } from "@tanstack/react-router"
 import { InfoPagesService, OpenAPI } from "@/client"
 import { useTheme } from "@/components/theme-provider"
@@ -10,11 +11,11 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { ThemeSwitcher } from "../ThemeSwitcher"
-import { useQuery } from "@tanstack/react-query"
 
 function getInfoPageMenuItemsQueryOptions() {
   return {
-    queryFn: () => InfoPagesService.readInfoPageMenuItems({ skip: 0, limit: 100 }),
+    queryFn: () =>
+      InfoPagesService.readInfoPageMenuItems({ skip: 0, limit: 100 }),
     queryKey: ["info-pages"],
   }
 }
@@ -22,14 +23,8 @@ function getInfoPageMenuItemsQueryOptions() {
 const menuItems = [
   { label: "home", to: "/" },
   { label: "team", to: "/crew-members" },
-  // { label: "sales", to: "#" },
-  // { label: "charters", to: "/charters" },
   { label: "about us", to: "/about" },
   { label: "destinations", to: "/destinations" },
-  // { label: "concierge", to: "/concierge" },
-  // { label: "charter management", to: "/charter-management" },
-  // { label: "owner representation", to: "/owner-representation" },
-  // { label: "spinnaker magazine", to: "/spinnaker-magazine", icon: "/assets/icons/icon-menu-right.svg" }
 ]
 
 type MenuDialogProps = {
@@ -209,31 +204,30 @@ export const MenuDialog = ({
                       }`}
                     >
                       <span>{item.label}</span>
-                      
                     </Link>
                   </SheetClose>
                 )
               })}
 
               {infoPageMenuItems?.data?.map((item) => {
-                  const isActive = currentPath === `/info/${item.id}`
+                const isActive = currentPath === `/info/${item.id}`
 
-                  return(
-                    <SheetClose asChild key={item.id}>
-                      <Link
-                        to="/info/$id"
-                        params={{ id: String(item.id) }}
-                        hash="root"
-                        className={`text-menu flex items-center ${
-                          isActive ? "text-foreground" : "text-role"
-                        }`}
-                      >
-                        <span className="lowercase">{item.title}</span>
-                      </Link>
-                    </SheetClose>
-                  )
+                return (
+                  <SheetClose asChild key={item.id}>
+                    <Link
+                      to="/info/$id"
+                      params={{ id: String(item.id) }}
+                      hash="root"
+                      className={`text-menu flex items-center ${
+                        isActive ? "text-foreground" : "text-role"
+                      }`}
+                    >
+                      <span className="lowercase">{item.title}</span>
+                    </Link>
+                  </SheetClose>
+                )
               })}
-              
+
               <SheetClose asChild>
                 <a
                   href="https://www.instagram.com/spinnakermagazine"

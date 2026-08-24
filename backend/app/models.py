@@ -3,8 +3,9 @@ import uuid
 from datetime import datetime, timezone
 
 from typing import Annotated
-from pydantic import EmailStr, StringConstraints, model_validator
-from sqlalchemy import DateTime, UniqueConstraint
+from pydantic import BaseModel, EmailStr, StringConstraints, model_validator
+from sqlalchemy import DateTime, UniqueConstraint, TypeDecorator, Column
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlmodel import Field, Relationship, SQLModel
 from fastapi import UploadFile, File
 from enum import Enum
@@ -22,6 +23,36 @@ HexColor = Annotated[
         max_length=7
     )
 ]
+
+
+class PydanticJSONType(TypeDecorator):
+    impl = JSONB
+    cache_ok = True
+
+    def __init__(self, pydantic_model: type[BaseModel], *args, **kwargs):
+        self.pydantic_model = pydantic_model
+        super().__init__(*args, **kwargs)
+
+    def process_bind_param(self, value, dialect):
+        if value is None:
+            return None
+
+        if isinstance(value, BaseModel):
+            return value.model_dump(mode="json")
+
+        if isinstance(value, dict):
+            return value
+
+        raise TypeError(
+            f"Expected {self.pydantic_model.__name__} or dict, "
+            f"got {type(value).__name__}"
+        )
+
+    def process_result_value(self, value, dialect):
+        if value is None:
+            return None
+        return self.pydantic_model.model_validate(value)
+    
 
 # Shared properties
 class UserBase(SQLModel):
@@ -440,7 +471,10 @@ class InfoPageImage(ImageBase, table=True):
 class InfoPageImagePublic(ImageBase):
     id: uuid.UUID
     type: InfoPageImageType
-    
+
+class InfoPageServiceList(SQLModel):
+    title: str = Field(min_length=1, max_length=64)
+    content: str = Field(min_length=1, max_length=2048)
 
 class InfoPageBase(SQLModel):
     title: str = Field(default=None, min_length=1, max_length=64, unique=True, index=True)
@@ -448,8 +482,15 @@ class InfoPageBase(SQLModel):
     content1: str = Field(default=None, min_length=1, max_length=2048)
     content2: str | None = Field(default=None, max_length=2048)
     content3: str | None = Field(default=None, max_length=2048)
-    
-    @model_validator(mode='before')
+    services: InfoPageServiceList | None = Field(
+        default=None,
+        sa_column=Column(
+            PydanticJSONType(InfoPageServiceList),
+            nullable=True,
+        ),
+    )
+
+    @model_validator(mode="before")
     @classmethod
     def validate_to_json(cls, value):
         if isinstance(value, str):
@@ -464,9 +505,10 @@ class InfoPageCreate(InfoPageBase):
 class InfoPageUpdateBase(SQLModel):
     title: str | None = Field(default=None, min_length=1, max_length=64, unique=True, index=True)
     description: str | None = Field(default=None, min_length=1, max_length=512)
-    content1: str | None = Field(default=None, min_length=1, max_length=1024)
-    content2: str | None = Field(default=None, max_length=1024)
-    content3: str | None = Field(default=None, max_length=1024)
+    content1: str | None = Field(default=None, min_length=1, max_length=2048)
+    content2: str | None = Field(default=None, max_length=2048)
+    content3: str | None = Field(default=None, max_length=2048)
+    services: InfoPageServiceList | None = Field(default=None)
     
     @model_validator(mode='before')
     @classmethod

@@ -165,7 +165,7 @@ def update_info_page(
     info_page.sqlmodel_update(
         info_page_in.model_dump(
             exclude_unset=True,
-            exclude_none=True,
+            exclude_none=False,
             exclude={"banner_image", "block_1_image", "block_2_image"}
         )
     ) 

@@ -983,6 +983,16 @@ export const InfoPageBaseSchema = {
                 }
             ],
             title: 'Content3'
+        },
+        services: {
+            anyOf: [
+                {
+                    '$ref': '#/components/schemas/InfoPageServiceList'
+                },
+                {
+                    type: 'null'
+                }
+            ]
         }
     },
     type: 'object',
@@ -1116,6 +1126,16 @@ export const InfoPagePublicSchema = {
             ],
             title: 'Content3'
         },
+        services: {
+            anyOf: [
+                {
+                    '$ref': '#/components/schemas/InfoPageServiceList'
+                },
+                {
+                    type: 'null'
+                }
+            ]
+        },
         id: {
             type: 'string',
             format: 'uuid',
@@ -1158,6 +1178,26 @@ export const InfoPagePublicSchema = {
     type: 'object',
     required: ['id', 'owner_id', 'created_at', 'banner_image'],
     title: 'InfoPagePublic'
+} as const;
+
+export const InfoPageServiceListSchema = {
+    properties: {
+        title: {
+            type: 'string',
+            maxLength: 64,
+            minLength: 1,
+            title: 'Title'
+        },
+        content: {
+            type: 'string',
+            maxLength: 2048,
+            minLength: 1,
+            title: 'Content'
+        }
+    },
+    type: 'object',
+    required: ['title', 'content'],
+    title: 'InfoPageServiceList'
 } as const;
 
 export const InfoPageUpdateBaseSchema = {
@@ -1205,8 +1245,7 @@ export const InfoPageUpdateBaseSchema = {
             anyOf: [
                 {
                     type: 'string',
-                    maxLength: 1024,
-                    minLength: 1
+                    maxLength: 1024
                 },
                 {
                     type: 'null'
@@ -1218,14 +1257,23 @@ export const InfoPageUpdateBaseSchema = {
             anyOf: [
                 {
                     type: 'string',
-                    maxLength: 1024,
-                    minLength: 1
+                    maxLength: 1024
                 },
                 {
                     type: 'null'
                 }
             ],
             title: 'Content3'
+        },
+        services: {
+            anyOf: [
+                {
+                    '$ref': '#/components/schemas/InfoPageServiceList'
+                },
+                {
+                    type: 'null'
+                }
+            ]
         }
     },
     type: 'object',
