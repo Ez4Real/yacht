@@ -17,6 +17,7 @@ export function DestinationCard({ destination }: DestinationCardProps) {
     <div>
       <Link
         to="/destinations/$id"
+        hash="root"
         params={{ id: String(destination.id) }}
         className="block"
       >
@@ -87,7 +88,8 @@ export function DestinationCard({ destination }: DestinationCardProps) {
           <BreadcrumbItem>
             <BreadcrumbLink
               href="#"
-              className="text-role hover:text-foreground transition-colors"
+              
+              // className="text-role"
             >
               {destination.country}
             </BreadcrumbLink>
@@ -95,11 +97,13 @@ export function DestinationCard({ destination }: DestinationCardProps) {
 
           {destination.region && (
             <BreadcrumbItem>
-              <span className="text-role">/</span>
+              <span
+                // className="text-role"
+              >/</span>
 
               <BreadcrumbLink
                 href="#"
-                className="text-role hover:text-foreground transition-colors"
+                // className="text-role"
               >
                 {destination.region}
               </BreadcrumbLink>

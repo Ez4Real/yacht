@@ -41,6 +41,7 @@ function CrewMembers() {
             <Link
               to="/crew-members/$id"
               params={{ id: String(member.id) }}
+              hash="root"
               className="block"
             >
               <img

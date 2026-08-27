@@ -51,116 +51,118 @@ function InfoPage() {
       </div>
 
       <div className="w-full tablet:w-[66%] laptop:w-[49.1%]">
-        <p
-          className="
-            mt-[55px]
-            tablet:mt-0
-            capitalize
-            leading-[44px]
-            text-[36px]
-          "
-        >
-          {infoPage.title}
-        </p>
-
-        <p
-          className="
-            mt-[40px] laptop:mt-[50px] wide:mt-[55px]
-            text-main-style
-            w-[100%] wide:w-[617px]
-            whitespace-pre-line
-          "
-        >
-          {infoPage.content1}
-        </p>
-
-        {infoPage.block_1_image && (
-          <div
-            className="
-              mt-[40px]
-              laptop:mt-[50px]
-              wide:mt-[55px]
-            "
-          >
-            <img
-              src={`${OpenAPI.BASE}/media${infoPage.block_1_image.url}`}
-              alt={infoPage.block_1_image.alt_text ?? ""}
-              className="object-cover w-[408px]"
-            />
-          </div>
-        )}
-
-        {infoPage.content2 && (
+        <div className="wide:w-[617px] desktop:w-[617px]">
           <p
             className="
-              text-main-style
+              mt-[55px]
+              tablet:mt-0
+              capitalize
+              leading-[44px]
+              text-[36px]
+            "
+          >
+            {infoPage.title}
+          </p>
+
+          <p
+            className="
               mt-[40px] laptop:mt-[50px] wide:mt-[55px]
-              w-[100%] wide:w-[617px]
+              text-main-style
+              w-[100%]
               whitespace-pre-line
             "
           >
-            {infoPage.content2}
+            {infoPage.content1}
           </p>
-        )}
 
-        {infoPage.block_2_image && (
-          <div
-            className="
-              mt-[40px]
-              laptop:mt-[50px]
-              wide:mt-[55px]
-            "
-          >
-            <img
-              src={`${OpenAPI.BASE}/media${infoPage.block_2_image.url}`}
-              alt={infoPage.block_2_image.alt_text ?? ""}
-              className="object-cover w-[408px]"
-            />
-          </div>
-        )}
-
-        {infoPage.content3 && (
-          <p
-            className="
-              text-main-style
-              mt-[40px] laptop:mt-[50px] wide:mt-[55px]
-              w-[100%] wide:w-[617px]
-              whitespace-pre-line
-            "
-          >
-            {infoPage.content3}
-          </p>
-        )}
-
-
-        {infoPage.services && (
-          <div
-            className="
-              mt-[100px]
-              w-[100%] wide:w-[617px]
-            "
-          >
-            <p
+          {infoPage.block_1_image && (
+            <div
               className="
-                text-[36px]
-                leading-[44px]
+                mt-[40px]
+                laptop:mt-[50px]
+                wide:mt-[55px]
               "
             >
-              {infoPage.services.title}
-            </p>
+              <img
+                src={`${OpenAPI.BASE}/media${infoPage.block_1_image.url}`}
+                alt={infoPage.block_1_image.alt_text ?? ""}
+                className="object-cover w-[408px]"
+              />
+            </div>
+          )}
 
+          {infoPage.content2 && (
             <p
               className="
-                mt-[55px]
-                text-[26px]
-                leading-[31px]
+                text-main-style
+                mt-[40px] laptop:mt-[50px] wide:mt-[55px]
+                w-[100%]
                 whitespace-pre-line
               "
             >
-              {infoPage.services.content}
+              {infoPage.content2}
             </p>
-          </div>
-        )}
+          )}
+
+          {infoPage.block_2_image && (
+            <div
+              className="
+                mt-[40px]
+                laptop:mt-[50px]
+                wide:mt-[55px]
+              "
+            >
+              <img
+                src={`${OpenAPI.BASE}/media${infoPage.block_2_image.url}`}
+                alt={infoPage.block_2_image.alt_text ?? ""}
+                className="object-cover w-[408px]"
+              />
+            </div>
+          )}
+
+          {infoPage.content3 && (
+            <p
+              className="
+                text-main-style
+                mt-[40px] laptop:mt-[50px] wide:mt-[55px]
+                w-[100%]
+                whitespace-pre-line
+              "
+            >
+              {infoPage.content3}
+            </p>
+          )}
+
+
+          {infoPage.services && (
+            <div
+              className="
+                mt-[100px]
+                w-[100%]
+              "
+            >
+              <p
+                className="
+                  text-[36px]
+                  leading-[44px]
+                "
+              >
+                {infoPage.services.title}
+              </p>
+
+              <p
+                className="
+                  mt-[55px]
+                  text-[26px]
+                  leading-[31px]
+                  whitespace-pre-line
+                "
+              >
+                {infoPage.services.content}
+              </p>
+            </div>
+          )}
+        </div>
 
       </div>
     </div>

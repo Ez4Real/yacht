@@ -70,7 +70,7 @@ function RouteComponent() {
             leading-[25px]
             "
           >
-            Brian Muston 2011
+            Brian Muston
           </p>
 
           <p className="mt-[55px] text-main-style w-[100%] wide:w-[617px]">
