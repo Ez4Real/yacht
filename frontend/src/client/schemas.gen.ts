@@ -435,6 +435,10 @@ export const CrewMemberPublicSchema = {
             format: 'date-time',
             title: 'Created At'
         },
+        order: {
+            type: 'integer',
+            title: 'Order'
+        },
         role: {
             '$ref': '#/components/schemas/CrewMemberRolePublic'
         },
@@ -443,7 +447,7 @@ export const CrewMemberPublicSchema = {
         }
     },
     type: 'object',
-    required: ['first_name', 'last_name', 'background', 'role_id', 'color', 'motto', 'email', 'instagram', 'id', 'owner_id', 'created_at', 'role', 'image'],
+    required: ['first_name', 'last_name', 'background', 'role_id', 'color', 'motto', 'email', 'instagram', 'id', 'owner_id', 'created_at', 'order', 'role', 'image'],
     title: 'CrewMemberPublic'
 } as const;
 
@@ -1232,7 +1236,7 @@ export const InfoPageUpdateBaseSchema = {
             anyOf: [
                 {
                     type: 'string',
-                    maxLength: 1024,
+                    maxLength: 2048,
                     minLength: 1
                 },
                 {
@@ -1245,7 +1249,7 @@ export const InfoPageUpdateBaseSchema = {
             anyOf: [
                 {
                     type: 'string',
-                    maxLength: 1024
+                    maxLength: 2048
                 },
                 {
                     type: 'null'
@@ -1257,7 +1261,7 @@ export const InfoPageUpdateBaseSchema = {
             anyOf: [
                 {
                     type: 'string',
-                    maxLength: 1024
+                    maxLength: 2048
                 },
                 {
                     type: 'null'

@@ -27,7 +27,7 @@ def read_crew_members(
     count_statement = select(func.count()).select_from(CrewMember)
     count = session.exec(count_statement).one()
     statement = (
-        select(CrewMember).order_by(col(CrewMember.created_at).desc()).offset(skip).limit(limit)
+        select(CrewMember).order_by(col(CrewMember.order)).offset(skip).limit(limit)
     )
     crew_members = session.exec(statement).all()
 
@@ -199,6 +199,45 @@ def update_crew_member(
     session.refresh(crew_member)
     return crew_member
 
+
+@router.put("/{id}/order")
+def update_crew_member_order(
+    *,
+    session: SessionDep,
+    current_user: CurrentUser,
+    id: UUID,
+    order: int
+) -> Message:
+    """
+    Update a crew member order (swap or move).
+    """
+    crew_member = session.get(CrewMember, id)
+    if not crew_member:
+        raise HTTPException(status_code=404, detail="Crew member not found")
+    if not current_user.is_superuser and (crew_member.owner_id != current_user.id):
+        raise HTTPException(status_code=403, detail="Not enough permissions")
+    
+    statement = (
+            select(CrewMember)
+            .where(CrewMember.order == order)
+        )
+    
+    swap_member = session.exec(statement).first()
+    
+    if not swap_member:
+        raise HTTPException(status_code=404, detail=f"No crew member esists with order {order}") 
+    
+    current_order = crew_member.order
+    
+    crew_member.order = -1
+    session.flush()
+    
+    swap_member.order = current_order
+    session.flush()
+    crew_member.order = order
+    session.commit()
+    
+    return Message(message="Crew member order updated successfully")
 
 @router.delete("/{id}")
 def delete_crew_member(

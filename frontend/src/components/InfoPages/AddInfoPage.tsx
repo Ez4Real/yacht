@@ -32,8 +32,8 @@ import { Input } from "@/components/ui/input"
 import { LoadingButton } from "@/components/ui/loading-button"
 import useCustomToast from "@/hooks/useCustomToast"
 import { handleError } from "@/utils"
-import { Textarea } from "../ui/textarea"
 import { Checkbox } from "../ui/checkbox"
+import { Textarea } from "../ui/textarea"
 
 const formSchema = z.object({
   info_page_base: z.object({
@@ -57,16 +57,20 @@ const formSchema = z.object({
       .string()
       .max(2048, { message: "Content 2 must be at most 2048 characters" })
       .optional(),
-    services: z.object({
-      title: z
-        .string()
-        .min(1, { message: "Service title is required" })
-        .max(64, { message: "Service title must be at most 64 characters" }),
-      content: z
-        .string()
-        .min(1, { message: "Service content is required" })
-        .max(2048, { message: "Service content must be at most 2048 characters" })
-    }).optional()
+    services: z
+      .object({
+        title: z
+          .string()
+          .min(1, { message: "Service title is required" })
+          .max(64, { message: "Service title must be at most 64 characters" }),
+        content: z
+          .string()
+          .min(1, { message: "Service content is required" })
+          .max(2048, {
+            message: "Service content must be at most 2048 characters",
+          }),
+      })
+      .optional(),
   }),
   banner_image: z
     .file({ message: "Banner image is required" })
@@ -378,25 +382,28 @@ const AddInfoPage = () => {
                 name="info_page_base.services"
                 render={({ field }) => {
                   const hasServices = field.value != null
-                  
+
                   return (
                     <>
                       <FormItem className="flex items-center space-x-2">
                         <FormControl>
                           <Checkbox
                             checked={hasServices}
-                            onCheckedChange={
-                              (checked) => {
-                                if (checked) {
-                                  field.onChange({ title: "", content: "", })
-                                } else {
-                                  field.onChange(undefined)
-                                }
-                              }}
+                            onCheckedChange={(checked) => {
+                              if (checked) {
+                                field.onChange({ title: "", content: "" })
+                              } else {
+                                field.onChange(undefined)
+                              }
+                            }}
                           />
                         </FormControl>
-                        <FormLabel className="cursor-pointer"> Add services </FormLabel>
-                      </FormItem> {hasServices && (
+                        <FormLabel className="cursor-pointer">
+                          {" "}
+                          Add services{" "}
+                        </FormLabel>
+                      </FormItem>{" "}
+                      {hasServices && (
                         <div className="col-span-2 grid grid-cols-2 gap-4 items-start">
                           <FormField
                             control={form.control}
@@ -404,13 +411,18 @@ const AddInfoPage = () => {
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel>
-                                  Services title <span className="text-destructive">*</span>
+                                  Services title{" "}
+                                  <span className="text-destructive">*</span>
                                 </FormLabel>
                                 <FormControl>
-                                  <Input placeholder="Services title" {...field} />
+                                  <Input
+                                    placeholder="Services title"
+                                    {...field}
+                                  />
                                 </FormControl>
                                 <FormMessage />
-                              </FormItem>)}
+                              </FormItem>
+                            )}
                           />
                           <FormField
                             control={form.control}
@@ -418,18 +430,23 @@ const AddInfoPage = () => {
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel>
-                                  Services content <span className="text-destructive">*</span>
+                                  Services content{" "}
+                                  <span className="text-destructive">*</span>
                                 </FormLabel>
-                                <Textarea placeholder="Services content" {...field} />
+                                <Textarea
+                                  placeholder="Services content"
+                                  {...field}
+                                />
                                 <FormMessage />
                               </FormItem>
                             )}
                           />
                         </div>
-                      )} </>)
-                }} />
-
-
+                      )}{" "}
+                    </>
+                  )
+                }}
+              />
             </div>
 
             <DialogFooter>

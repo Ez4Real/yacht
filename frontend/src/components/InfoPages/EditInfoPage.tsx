@@ -28,8 +28,8 @@ import { Input } from "@/components/ui/input"
 import { LoadingButton } from "@/components/ui/loading-button"
 import useCustomToast from "@/hooks/useCustomToast"
 import { handleError } from "@/utils"
-import { Textarea } from "../ui/textarea"
 import { Checkbox } from "../ui/checkbox"
+import { Textarea } from "../ui/textarea"
 
 const formSchema = z.object({
   info_page_base: z.object({
@@ -53,16 +53,20 @@ const formSchema = z.object({
       .string()
       .max(2048, { message: "Content 3 must be at most 2048 characters" })
       .optional(),
-    services: z.object({
-      title: z
-        .string()
-        .min(1, { message: "Service title is required" })
-        .max(64, { message: "Service title must be at most 64 characters" }),
-      content: z
-        .string()
-        .min(1, { message: "Service content is required" })
-        .max(2048, { message: "Service content must be at most 2048 characters" })
-    }).nullable()
+    services: z
+      .object({
+        title: z
+          .string()
+          .min(1, { message: "Service title is required" })
+          .max(64, { message: "Service title must be at most 64 characters" }),
+        content: z
+          .string()
+          .min(1, { message: "Service content is required" })
+          .max(2048, {
+            message: "Service content must be at most 2048 characters",
+          }),
+      })
+      .nullable(),
   }),
   banner_image: z
     .file()
@@ -150,7 +154,7 @@ const EditInfoPage = ({ infoPage, onSuccess }: EditInfoPageProps) => {
   })
 
   const onSubmit = (data: FormData) => {
-    console.log(data);
+    console.log(data)
 
     mutation.mutate(data)
   }
@@ -489,7 +493,6 @@ const EditInfoPage = ({ infoPage, onSuccess }: EditInfoPageProps) => {
                   )
                 }}
               />
-
             </div>
 
             <DialogFooter>

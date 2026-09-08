@@ -283,7 +283,7 @@ class CrewMemberUpdateBase(SQLModel):
 
 class CrewMemberUpdate(CrewMemberUpdateBase):
     image: UploadFile | None = File(default=None)
-    
+
 
 class CrewMember(CrewMemberBase, table=True):
     __tablename__ = "crew_member" # type: ignore[assignment]
@@ -300,7 +300,7 @@ class CrewMember(CrewMemberBase, table=True):
         foreign_key="user.id", nullable=False, ondelete="CASCADE"
     )
     owner: User | None = Relationship(back_populates="crew_members")
-    order: int = Field(index=True, unique=True, gt=0) 
+    order: int = Field(nullable=False, unique=True, gt=0) 
     role_id: uuid.UUID = Field(
         foreign_key="crew_member_role.id",
         index=True,
@@ -322,6 +322,7 @@ class CrewMemberPublic(CrewMemberBase):
     id: uuid.UUID
     owner_id: uuid.UUID
     created_at: datetime
+    order: int
     role: CrewMemberRolePublic
     image: CrewMemberImagePublic
     

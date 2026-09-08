@@ -88,7 +88,7 @@ export function DestinationCard({ destination }: DestinationCardProps) {
           <BreadcrumbItem>
             <BreadcrumbLink
               href="#"
-              
+
               // className="text-role"
             >
               {destination.country}
@@ -98,8 +98,10 @@ export function DestinationCard({ destination }: DestinationCardProps) {
           {destination.region && (
             <BreadcrumbItem>
               <span
-                // className="text-role"
-              >/</span>
+              // className="text-role"
+              >
+                /
+              </span>
 
               <BreadcrumbLink
                 href="#"

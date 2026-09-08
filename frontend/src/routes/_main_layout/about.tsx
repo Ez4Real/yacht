@@ -43,9 +43,9 @@ function RouteComponent() {
         <p className="text-main-style mt-[40px] tablet:mt-[0] w-[100%] wide:w-[617px]">
           Since 2013, BMA Yachts has been delivering bespoke yacht experiences,
           brokerage expertise, and strategic yacht management services to
-          clients worldwide. Based in Fort Lauderdale and operating globally, our approach is
-          rooted in individuality, trust, and a deep understanding of the
-          yachting lifestyle.
+          clients worldwide. Based in Fort Lauderdale and operating globally,
+          our approach is rooted in individuality, trust, and a deep
+          understanding of the yachting lifestyle.
         </p>
 
         <p className="mt-[40px] wide:mt-[55px] text-main-style w-[100%] wide:w-[617px]">

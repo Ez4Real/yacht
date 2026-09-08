@@ -33,6 +33,15 @@ function CopyId({ id }: { id: string }) {
 
 export const columns: ColumnDef<DestinationPublic>[] = [
   {
+    id: "actions",
+    header: () => <span className="sr-only">Actions</span>,
+    cell: ({ row }) => (
+      <div className="flex justify-end">
+        <DestinationActionsMenu destination={row.original} />
+      </div>
+    ),
+  },
+  {
     accessorKey: "id",
     header: "ID",
     cell: ({ row }) => <CopyId id={row.original.id} />,
@@ -102,14 +111,5 @@ export const columns: ColumnDef<DestinationPublic>[] = [
         />
       )
     },
-  },
-  {
-    id: "actions",
-    header: () => <span className="sr-only">Actions</span>,
-    cell: ({ row }) => (
-      <div className="flex justify-end">
-        <DestinationActionsMenu destination={row.original} />
-      </div>
-    ),
   },
 ]

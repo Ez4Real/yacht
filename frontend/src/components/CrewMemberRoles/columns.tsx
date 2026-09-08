@@ -32,6 +32,15 @@ function CopyId({ id }: { id: string }) {
 
 export const columns: ColumnDef<CrewMemberRolePublic>[] = [
   {
+    id: "actions",
+    header: () => <span className="sr-only">Actions</span>,
+    cell: ({ row }) => (
+      <div className="flex justify-start">
+        <RoleActionsMenu role={row.original} />
+      </div>
+    ),
+  },
+  {
     accessorKey: "id",
     header: "ID",
     cell: ({ row }) => <CopyId id={row.original.id} />,
@@ -40,14 +49,5 @@ export const columns: ColumnDef<CrewMemberRolePublic>[] = [
     accessorKey: "name",
     header: "Name",
     cell: ({ row }) => <span className="font-medium">{row.original.name}</span>,
-  },
-  {
-    id: "actions",
-    header: () => <span className="sr-only">Actions</span>,
-    cell: ({ row }) => (
-      <div className="flex justify-end">
-        <RoleActionsMenu role={row.original} />
-      </div>
-    ),
   },
 ]

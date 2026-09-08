@@ -86,6 +86,7 @@ export type CrewMemberPublic = {
     id: string;
     owner_id: string;
     created_at: string;
+    order: number;
     role: CrewMemberRolePublic;
     image: CrewMemberImagePublic;
 };
@@ -403,6 +404,13 @@ export type CrewMembersDeleteCrewMemberData = {
 };
 
 export type CrewMembersDeleteCrewMemberResponse = (Message);
+
+export type CrewMembersUpdateCrewMemberOrderData = {
+    id: string;
+    order: number;
+};
+
+export type CrewMembersUpdateCrewMemberOrderResponse = (Message);
 
 export type DestinationsReadDestinationsData = {
     limit?: number;

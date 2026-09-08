@@ -57,10 +57,7 @@ export function Logo({
   }
 
   return (
-    <Link 
-      to="/"
-      hash="root"
-    >
+    <Link to="/" hash="root">
       {content}
     </Link>
   )

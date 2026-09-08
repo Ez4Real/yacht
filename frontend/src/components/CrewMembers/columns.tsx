@@ -6,6 +6,8 @@ import { OpenAPI } from "@/client"
 import { Button } from "@/components/ui/button"
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard"
 import { MemberActionsMenu } from "./MembersActionsMenu"
+import { OrderCell } from "./OrderCell"
+
 
 function CopyId({ id }: { id: string }) {
   const [copiedText, copy] = useCopyToClipboard()
@@ -31,95 +33,117 @@ function CopyId({ id }: { id: string }) {
   )
 }
 
-export const columns: ColumnDef<CrewMemberPublic>[] = [
-  {
-    accessorKey: "id",
-    header: "ID",
-    cell: ({ row }) => <CopyId id={row.original.id} />,
-  },
-  {
-    accessorKey: "first_name",
-    header: "First name",
-    cell: ({ row }) => (
-      <span className="font-medium">{row.original.first_name}</span>
-    ),
-  },
-  {
-    accessorKey: "last_name",
-    header: "Last name",
-    cell: ({ row }) => (
-      <span className="font-medium">{row.original.last_name}</span>
-    ),
-  },
-  {
-    accessorKey: "role.name",
-    header: "Role",
-    cell: ({ row }) => (
-      <span className="font-medium">{row.original.role.name}</span>
-    ),
-  },
-  {
-    accessorKey: "created_at",
-    header: "Created",
-    cell: ({ row }) => (
-      <span className="font-medium">
-        {new Date(row.original.created_at).toLocaleString()}
-      </span>
-    ),
-  },
-  {
-    accessorKey: "color",
-    header: "Color",
-    cell: ({ row }) => (
-      // <span className="font-medium">{row.original.color}</span>
-      <div
-        className="size-8 rounded-md border justify-self-center"
-        style={{ backgroundColor: row.original.color }}
-      />
-    ),
-  },
-  {
-    accessorKey: "email",
-    header: "Email",
-    cell: ({ row }) => (
-      <span className="font-medium">{row.original.email}</span>
-    ),
-  },
-  {
-    accessorKey: "instagram",
-    header: "Instagram",
-    cell: ({ row }) => (
-      <span className="font-medium">{row.original.instagram}</span>
-    ),
-  },
-  // {
-  //   accessorKey: "background",
-  //   header: "Background",
-  //   cell: ({ row }) => <span className="font-medium">{row.original.background}</span>,
-  // },
-  // {
-  //   accessorKey: "motto",
-  //   header: "Motto",
-  //   cell: ({ row }) => <span className="font-medium">{row.original.motto}</span>,
-  // },
-  {
-    accessorKey: "image.url",
-    header: "Image",
-    cell: ({ row }) => (
-      <img
-        src={`${OpenAPI.BASE}/media${row.original.image.url}`}
-        alt={row.original.image.alt_text || ""}
-        className="h-16 w-16 object-cover rounded-md"
-      />
-    ), // <span className="font-medium">{row.original.image.url}</span>,
-  },
-  {
-    id: "actions",
-    header: () => <span className="sr-only">Actions</span>,
-    cell: ({ row }) => (
-      <div className="flex justify-end">
-        <MemberActionsMenu member={row.original} />
-      </div>
-    ),
-  },
-]
+
+export function getColumns(
+  onChangeOrder: (
+    member: CrewMemberPublic,
+    order: number,
+  ) => void,
+  maxOrder: number,
+  isOrderPending: (memberId: string) => boolean,
+): ColumnDef<CrewMemberPublic>[] {
+  return [
+    {
+      id: "actions",
+      header: () => <span className="sr-only">Actions</span>,
+      cell: ({ row }) => (
+        <div className="flex justify-end">
+          <MemberActionsMenu member={row.original} />
+        </div>
+      ),
+    },
+    {
+      id: "order",
+      header: () => <span className="sr-only">Order</span>,
+      cell: ({ row }) => (
+        <OrderCell
+          member={row.original}
+          maxOrder={maxOrder}
+          onSubmit={onChangeOrder}
+          isPending={isOrderPending(row.original.id)}
+        />
+      ),
+    },
+    {
+      accessorKey: "id",
+      header: "ID",
+      cell: ({ row }) => <CopyId id={row.original.id} />,
+    },
+    {
+      accessorKey: "first_name",
+      header: "First name",
+      cell: ({ row }) => (
+        <span className="font-medium">{row.original.first_name}</span>
+      ),
+    },
+    {
+      accessorKey: "last_name",
+      header: "Last name",
+      cell: ({ row }) => (
+        <span className="font-medium">{row.original.last_name}</span>
+      ),
+    },
+    {
+      accessorKey: "role.name",
+      header: "Role",
+      cell: ({ row }) => (
+        <span className="font-medium">{row.original.role.name}</span>
+      ),
+    },
+    {
+      accessorKey: "created_at",
+      header: "Created",
+      cell: ({ row }) => (
+        <span className="font-medium">
+          {new Date(row.original.created_at).toLocaleString()}
+        </span>
+      ),
+    },
+    {
+      accessorKey: "color",
+      header: "Color",
+      cell: ({ row }) => (
+        // <span className="font-medium">{row.original.color}</span>
+        <div
+          className="size-8 rounded-md border justify-self-center"
+          style={{ backgroundColor: row.original.color }}
+        />
+      ),
+    },
+    {
+      accessorKey: "email",
+      header: "Email",
+      cell: ({ row }) => (
+        <span className="font-medium">{row.original.email}</span>
+      ),
+    },
+    {
+      accessorKey: "instagram",
+      header: "Instagram",
+      cell: ({ row }) => (
+        <span className="font-medium">{row.original.instagram}</span>
+      ),
+    },
+    // {
+    //   accessorKey: "background",
+    //   header: "Background",
+    //   cell: ({ row }) => <span className="font-medium">{row.original.background}</span>,
+    // },
+    // {
+    //   accessorKey: "motto",
+    //   header: "Motto",
+    //   cell: ({ row }) => <span className="font-medium">{row.original.motto}</span>,
+    // },
+    {
+      accessorKey: "image.url",
+      header: "Image",
+      cell: ({ row }) => (
+        <img
+          src={`${OpenAPI.BASE}/media${row.original.image.url}`}
+          alt={row.original.image.alt_text || ""}
+          className="h-16 w-16 object-cover rounded-md"
+        />
+      ), // <span className="font-medium">{row.original.image.url}</span>,
+    },
+  ]
+}

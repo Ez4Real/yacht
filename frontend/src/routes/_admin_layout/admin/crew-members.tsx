@@ -1,13 +1,19 @@
-import { useSuspenseQuery } from "@tanstack/react-query"
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { Search } from "lucide-react"
-import { Suspense } from "react"
+import { Suspense, useState } from "react"
 
-import { CrewMembersService } from "@/client"
+import { CrewMemberPublic, CrewMembersService } from "@/client"
 import { DataTable } from "@/components/Common/DataTable"
 import AddMember from "@/components/CrewMembers/AddMember"
-import { columns } from "@/components/CrewMembers/columns"
+import { getColumns } from "@/components/CrewMembers/columns"
 import PendingCrewMembers from "@/components/Pending/PendingCrewMembers"
+import useCustomToast from "@/hooks/useCustomToast"
+import { handleError } from "@/utils"
 
 function getCrewMembersQueryOptions() {
   return {
@@ -27,8 +33,53 @@ export const Route = createFileRoute("/_admin_layout/admin/crew-members")({
   }),
 })
 
+
+interface UpdateCrewMemberOrderProps {
+  id: string
+  order: number
+}
+
 function CrewMembersTableContent() {
+  const queryClient = useQueryClient()
+
   const { data: members } = useSuspenseQuery(getCrewMembersQueryOptions())
+
+  const [pendingMemberId, setPendingMemberId] = useState<string | null>(
+    null,
+  )
+  const { showSuccessToast, showErrorToast } = useCustomToast()
+
+  const mutation = useMutation({
+    mutationFn: ({id, order}: UpdateCrewMemberOrderProps) =>
+      CrewMembersService.updateCrewMemberOrder({
+        id,
+        order
+      }),
+    onMutate: ({ id }) => {
+      setPendingMemberId(id)
+    },
+    onSuccess: () => {
+      showSuccessToast("Member order updated successfully")
+    },
+    onError: handleError.bind(showErrorToast),
+    onSettled: async () => {
+      setPendingMemberId(null)
+
+      await queryClient.invalidateQueries({
+        queryKey: ["crew_members"],
+      })
+    },
+  })
+
+  const handleChangeOrder = (
+    member: CrewMemberPublic,
+    order: number,
+  ) => {
+    mutation.mutate({
+      id: member.id,
+      order,
+    })
+  }
 
   if (members.data.length === 0) {
     return (
@@ -46,7 +97,16 @@ function CrewMembersTableContent() {
     )
   }
 
-  return <DataTable columns={columns} data={members.data} />
+  return (
+    <DataTable
+      columns={getColumns(
+        handleChangeOrder,
+        members.data.length,
+        (memberId) => memberId === pendingMemberId,
+      )}
+      data={members.data}
+    />
+  )
 }
 
 function CrewMembersTable() {

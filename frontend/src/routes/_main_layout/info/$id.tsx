@@ -30,7 +30,7 @@ function InfoPage() {
       "
     >
       <div>
-        {infoPage.banner_image && ( 
+        {infoPage.banner_image && (
           <img
             src={`${OpenAPI.BASE}/media${infoPage.banner_image.url}`}
             alt={infoPage.banner_image.alt_text ?? ""}
@@ -44,7 +44,7 @@ function InfoPage() {
             "
           />
         )}
-          
+
         <p className="mt-[40px] font-cursive text-quote mobile:hidden laptop:block w-[460px]">
           {infoPage.description}
         </p>
@@ -133,7 +133,6 @@ function InfoPage() {
             </p>
           )}
 
-
           {infoPage.services && (
             <div
               className="
@@ -163,7 +162,6 @@ function InfoPage() {
             </div>
           )}
         </div>
-
       </div>
     </div>
   )
