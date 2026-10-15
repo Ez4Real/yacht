@@ -183,7 +183,6 @@ export const MenuDialog = ({
                 mt-[30px]
                 tablet:mt-[40px]
                 laptop:mt-[30px]
-
                 gap-[20px] 
                 tablet:gap-[5px]
                 desktop:gap-[10px]
@@ -233,7 +232,7 @@ export const MenuDialog = ({
                   href="https://www.instagram.com/spinnakermagazine"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-menu flex items-center text-role"
+                  className="text-menu flex text-role"
                 >
                   <span>spinnaker magazine</span>
 
@@ -241,9 +240,11 @@ export const MenuDialog = ({
                     src="/assets/icons/icon-menu-right.svg"
                     alt="arrow-icon"
                     className="
+                      mobile:w-[38px]
                       tablet:w-[49px]
-                      desktop:w-[60px]
-                      desktop:h-[60px]
+                      laptop:w-[49px]
+                      desktop:w-[49px]
+                      wide:w-[60px]
                     "
                   />
                 </a>

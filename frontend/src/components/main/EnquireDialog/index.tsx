@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { OpenAPI } from "@/client"
@@ -55,9 +55,47 @@ export const EnquireDialog = ({
   onOpenChange,
   onShowMenu,
 }: EnquireDialogProps) => {
+  
+  // js for hide chatWidget when Dialog open
+  useEffect(() => {
+    const hideChat = () => {
+      const widgets = document.querySelectorAll(
+        'iframe[src*="leadconnector"], iframe[src*="msgsndr"], chat-widget'
+      )
+
+      widgets.forEach((widget) => {
+        const element = widget as HTMLElement
+        element.style.setProperty(
+          "visibility",
+          open ? "hidden" : "visible",
+          "important"
+        )
+      })
+    }
+
+    hideChat()
+
+    const observer = new MutationObserver(hideChat)
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+    })
+
+    return () => {
+      observer.disconnect()
+      document
+        .querySelectorAll(
+          'iframe[src*="leadconnector"], iframe[src*="msgsndr"], chat-widget'
+        )
+        .forEach((widget) => {
+          ; (widget as HTMLElement).style.removeProperty("visibility")
+        })
+    }
+  }, [open])
+
   const { theme } = useTheme()
   const isDark = theme === "dark"
-
   const email = OpenAPI.EMAIL
 
   const [selectOpen, setSelectOpen] = useState<boolean>(false)

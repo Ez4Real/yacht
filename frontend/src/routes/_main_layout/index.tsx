@@ -63,7 +63,9 @@ function RouteComponent() {
           <p
             className="
             text-main-style 
-            max-w-[100%] 
+            max-w-[100%]
+            mobile:mr-[22px]
+            tablet:mr-[0px] 
             tablet:max-w-[415px]
             laptop:max-w-[518px] 
             desktop:max-w-[610px]

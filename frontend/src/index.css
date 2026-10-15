@@ -221,7 +221,7 @@
   }
   .text-menu {
     font-weight: 400;
-    @apply text-[32px] tablet:text-[36px] desktop:text-[40px] wide:text-[50px] leading-[35px] tablet:leading-[44px] desktop:leading-[48px] wide:leading-[60px];
+    @apply text-[32px] tablet:text-[36px] desktop:text-[40px] wide:text-[50px] leading-[35px] tablet:leading-[44px] laptop:leading-[44px] desktop:leading-[48px] wide:leading-[60px];
   }
 
   .text-main-nav {
