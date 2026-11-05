@@ -225,7 +225,7 @@ def update_crew_member_order(
     swap_member = session.exec(statement).first()
     
     if not swap_member:
-        raise HTTPException(status_code=404, detail=f"No crew member esists with order {order}") 
+        raise HTTPException(status_code=404, detail=f"No crew member exists with order {order}") 
     
     current_order = crew_member.order
     
@@ -238,6 +238,7 @@ def update_crew_member_order(
     session.commit()
     
     return Message(message="Crew member order updated successfully")
+
 
 @router.delete("/{id}")
 def delete_crew_member(

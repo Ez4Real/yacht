@@ -27,11 +27,8 @@ def read_destinations(
     count_statement = select(func.count()).select_from(Destination)
     count = session.exec(count_statement).one()
     statement = (
-        select(Destination)
-        .order_by(col(Destination.created_at).desc())
-        .offset(skip)
-        .limit(limit)
-    )
+            select(Destination).order_by(col(Destination.order)).offset(skip).limit(limit)
+        )
     destinations = session.exec(statement).all()
 
     destinations_public = [DestinationPublic.model_validate(destination) for destination in destinations]
@@ -59,9 +56,19 @@ def create_destination(
     """
     Create new destination.
     """
+    max_order_statement = (
+        select(func.max(Destination.order))
+        .select_from(Destination)
+    )
+    max_order = session.exec(max_order_statement).one()
+    next_order = (max_order or 0) + 1
+    
     destination = Destination.model_validate(
         destination_in.model_dump(exclude={"banner_image", "side_image"}),
-        update={"owner_id": current_user.id}
+        update={
+            "owner_id": current_user.id,
+            "order": next_order
+        }
     )
     
     banner_image_url = save_image_to_local(
@@ -159,6 +166,46 @@ def update_destination(
     session.commit()
     session.refresh(destination)
     return destination
+
+
+@router.put("/{id}/order")
+def update_destination_order(
+    *,
+    session: SessionDep,
+    current_user: CurrentUser,
+    id: UUID,
+    order: int
+) -> Message:
+    """
+    Update a destination order (swap or move).
+    """
+    destination = session.get(Destination, id)
+    if not destination:
+        raise HTTPException(status_code=404, detail="Destination not found")
+    if not current_user.is_superuser and (destination.owner_id != current_user.id):
+        raise HTTPException(status_code=403, detail="Not enough permissions")
+    
+    statement = (
+            select(Destination)
+            .where(Destination.order == order)
+        )
+    
+    swap_destination = session.exec(statement).first()
+    
+    if not swap_destination:
+        raise HTTPException(status_code=404, detail=f"No destination exists with order {order}") 
+    
+    current_order = destination.order
+    
+    destination.order = -1
+    session.flush()
+    
+    swap_destination.order = current_order
+    session.flush()
+    destination.order = order
+    session.commit()
+    
+    return Message(message="Destination order updated successfully")
 
 
 @router.delete("/{id}")

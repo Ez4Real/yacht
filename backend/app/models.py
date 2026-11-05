@@ -426,6 +426,7 @@ class Destination(DestinationBase, table=True):
         foreign_key="user.id", nullable=False, ondelete="CASCADE"
     )
     owner: User | None = Relationship(back_populates="destinations")
+    order: int = Field(nullable=False, unique=True, gt=0) 
     images: list[DestinationImage] = Relationship(
         back_populates="destination",
         cascade_delete=True
@@ -443,6 +444,7 @@ class DestinationPublic(DestinationBase):
     id: uuid.UUID
     owner_id: uuid.UUID
     created_at: datetime
+    order: int
     banner_image: DestinationImagePublic
     side_image: DestinationImagePublic | None = None
     
