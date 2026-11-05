@@ -4,8 +4,7 @@ import {
   useQueryClient,
   useSuspenseQuery,
 } from "@tanstack/react-query"
-import { Pencil } from "lucide-react"
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import {
@@ -24,7 +23,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { DropdownMenuItem } from "@/components/ui/dropdown-menu"
 import {
   Form,
   FormControl,
@@ -76,11 +74,11 @@ type FormData = z.infer<typeof formSchema>
 
 interface EditMemberProps {
   member: CrewMemberPublic
-  onSuccess: () => void
+  open: boolean
+  onOpenChange: (open: boolean) => void
 }
 
-const EditMember = ({ member, onSuccess }: EditMemberProps) => {
-  const [isOpen, setIsOpen] = useState(false)
+const EditMember = ({ member, open, onOpenChange }: EditMemberProps) => {
   const queryClient = useQueryClient()
   const { showSuccessToast, showErrorToast } = useCustomToast()
 
@@ -113,7 +111,7 @@ const EditMember = ({ member, onSuccess }: EditMemberProps) => {
         background: member.background,
         motto: member.motto,
       },
-      image: undefined,
+      image: undefined as File | undefined,
     },
   })
 
@@ -125,12 +123,11 @@ const EditMember = ({ member, onSuccess }: EditMemberProps) => {
       }),
     onSuccess: () => {
       showSuccessToast("Member updated successfully")
-      setIsOpen(false)
-      onSuccess()
+      onOpenChange(false)
     },
     onError: handleError.bind(showErrorToast),
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["crew_member"] })
+      queryClient.invalidateQueries({ queryKey: ["crew_members"] })
     },
   })
 
@@ -149,14 +146,7 @@ const EditMember = ({ member, onSuccess }: EditMemberProps) => {
   }, [image, member.image?.url])
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DropdownMenuItem
-        onSelect={(e) => e.preventDefault()}
-        onClick={() => setIsOpen(true)}
-      >
-        <Pencil />
-        Edit Member
-      </DropdownMenuItem>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>

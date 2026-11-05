@@ -1,7 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { Pencil } from "lucide-react"
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { type InfoPagePublic, InfoPagesService, OpenAPI } from "@/client"
@@ -15,7 +14,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { DropdownMenuItem } from "@/components/ui/dropdown-menu"
 import {
   Form,
   FormControl,
@@ -104,11 +102,11 @@ type FormData = z.infer<typeof formSchema>
 
 interface EditInfoPageProps {
   infoPage: InfoPagePublic
-  onSuccess: () => void
+  open: boolean
+  onOpenChange: (open: boolean) => void
 }
 
-const EditInfoPage = ({ infoPage, onSuccess }: EditInfoPageProps) => {
-  const [isOpen, setIsOpen] = useState(false)
+const EditInfoPage = ({ infoPage, open, onOpenChange }: EditInfoPageProps) => {
   const queryClient = useQueryClient()
   const { showSuccessToast, showErrorToast } = useCustomToast()
 
@@ -144,8 +142,7 @@ const EditInfoPage = ({ infoPage, onSuccess }: EditInfoPageProps) => {
       }),
     onSuccess: () => {
       showSuccessToast("Info page updated successfully")
-      setIsOpen(false)
-      onSuccess()
+      onOpenChange(false)
     },
     onError: handleError.bind(showErrorToast),
     onSettled: () => {
@@ -194,14 +191,7 @@ const EditInfoPage = ({ infoPage, onSuccess }: EditInfoPageProps) => {
   }, [block_2_image, infoPage.block_2_image?.url])
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DropdownMenuItem
-        onSelect={(e) => e.preventDefault()}
-        onClick={() => setIsOpen(true)}
-      >
-        <Pencil />
-        Edit Info Page
-      </DropdownMenuItem>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-4xl">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>

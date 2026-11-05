@@ -1,7 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { Pencil } from "lucide-react"
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { type DestinationPublic, DestinationsService, OpenAPI } from "@/client"
@@ -15,7 +14,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { DropdownMenuItem } from "@/components/ui/dropdown-menu"
 import {
   Form,
   FormControl,
@@ -74,11 +72,11 @@ type FormData = z.infer<typeof formSchema>
 
 interface EditDestinationProps {
   destination: DestinationPublic
-  onSuccess: () => void
+  open: boolean
+  onOpenChange: (open: boolean) => void
 }
 
-const EditDestination = ({ destination, onSuccess }: EditDestinationProps) => {
-  const [isOpen, setIsOpen] = useState(false)
+const EditDestination = ({ destination, open, onOpenChange }: EditDestinationProps) => {
   const queryClient = useQueryClient()
   const { showSuccessToast, showErrorToast } = useCustomToast()
 
@@ -108,8 +106,7 @@ const EditDestination = ({ destination, onSuccess }: EditDestinationProps) => {
       }),
     onSuccess: () => {
       showSuccessToast("Destination updated successfully")
-      setIsOpen(false)
-      onSuccess()
+      onOpenChange(false)
     },
     onError: handleError.bind(showErrorToast),
     onSettled: () => {
@@ -145,14 +142,7 @@ const EditDestination = ({ destination, onSuccess }: EditDestinationProps) => {
   }, [sideImage, destination.side_image?.url])
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DropdownMenuItem
-        onSelect={(e) => e.preventDefault()}
-        onClick={() => setIsOpen(true)}
-      >
-        <Pencil />
-        Edit Destination
-      </DropdownMenuItem>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-4xl">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>

@@ -35,23 +35,11 @@ export function OrderCell({
     Number.isInteger(newOrder) &&
     newOrder !== member.order
 
-//   const handleSubmit = () => {
-//     if (
-//     !Number.isInteger(newOrder) ||
-//     newOrder < 1 ||
-//     newOrder > maxOrder ||
-//     newOrder === member.order
-//     ) {
-//       return
-//     }
-
-//     onSubmit(member, newOrder)
-//   }
-
   return (
     <div className="flex items-center gap-1">
       <InputGroup className="w-[60px]">
         <InputGroupInput
+          id={`member-${member.id}-order`}
           type="number"
           min={1}
           max={maxOrder}
