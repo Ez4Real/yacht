@@ -6,6 +6,7 @@ import { OpenAPI } from "@/client"
 import { Button } from "@/components/ui/button"
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard"
 import { DestinationActionsMenu } from "./DestinationsActionsMenu"
+import { OrderCell } from "./OrderCell"
 
 function CopyId({ id }: { id: string }) {
   const [copiedText, copy] = useCopyToClipboard()
@@ -31,85 +32,103 @@ function CopyId({ id }: { id: string }) {
   )
 }
 
-export const columns: ColumnDef<DestinationPublic>[] = [
-  {
-    id: "actions",
-    header: () => <span className="sr-only">Actions</span>,
-    cell: ({ row }) => (
-      <div className="flex justify-end">
-        <DestinationActionsMenu destination={row.original} />
-      </div>
-    ),
-  },
-  {
-    accessorKey: "id",
-    header: "ID",
-    cell: ({ row }) => <CopyId id={row.original.id} />,
-  },
-  {
-    accessorKey: "region",
-    header: "Region",
-    cell: ({ row }) => (
-      <span className="font-medium">{row.original.region}</span>
-    ),
-  },
-  {
-    accessorKey: "country",
-    header: "Country",
-    cell: ({ row }) => (
-      <span className="font-medium">{row.original.country}</span>
-    ),
-  },
-  {
-    accessorKey: "destination",
-    header: "Destination",
-    cell: ({ row }) => (
-      <span className="font-medium">{row.original.destination}</span>
-    ),
-  },
-  {
-    accessorKey: "created_at",
-    header: "Created",
-    cell: ({ row }) => (
-      <span className="font-medium">
-        {new Date(row.original.created_at).toLocaleString()}
-      </span>
-    ),
-  },
-  {
-    accessorKey: "description",
-    header: "Description",
-    cell: ({ row }) => (
-      <span className="block max-w-[180px] text-sm truncate">
-        {row.original.description}
-      </span>
-    ),
-  },
-  {
-    accessorKey: "banner_image.url",
-    header: "Banner image",
-    cell: ({ row }) => (
-      <img
-        src={`${OpenAPI.BASE}/media${row.original.banner_image.url}`}
-        alt={row.original.banner_image.alt_text || ""}
-        className="h-24 w-24 object-cover rounded-md"
-      />
-    ),
-  },
-  {
-    accessorKey: "side_image.url",
-    header: "Side image",
-    cell: ({ row }) => {
-      if (!row.original.side_image)
-        return <div className="flex justify-center">N/A</div>
-
-      return (
+export function getColumns(
+  onChangeOrder: (member: DestinationPublic, order: number) => void,
+  maxOrder: number,
+  isOrderPending: (memberId: string) => boolean,
+): ColumnDef<DestinationPublic>[] {
+  return [
+    {
+      id: "actions",
+      header: () => <span className="sr-only">Actions</span>,
+      cell: ({ row }) => (
+        <div className="flex justify-end">
+          <DestinationActionsMenu destination={row.original} />
+        </div>
+      ),
+    },
+    {
+      id: "order",
+      header: () => <span className="sr-only">Order</span>,
+      cell: ({ row }) => (
+        <OrderCell
+          destination={row.original}
+          maxOrder={maxOrder}
+          onSubmit={onChangeOrder}
+          isPending={isOrderPending(row.original.id)}
+        />
+      ),
+    },
+    {
+      accessorKey: "id",
+      header: "ID",
+      cell: ({ row }) => <CopyId id={row.original.id} />,
+    },
+    {
+      accessorKey: "region",
+      header: "Region",
+      cell: ({ row }) => (
+        <span className="font-medium">{row.original.region}</span>
+      ),
+    },
+    {
+      accessorKey: "country",
+      header: "Country",
+      cell: ({ row }) => (
+        <span className="font-medium">{row.original.country}</span>
+      ),
+    },
+    {
+      accessorKey: "destination",
+      header: "Destination",
+      cell: ({ row }) => (
+        <span className="font-medium">{row.original.destination}</span>
+      ),
+    },
+    {
+      accessorKey: "created_at",
+      header: "Created",
+      cell: ({ row }) => (
+        <span className="font-medium">
+          {new Date(row.original.created_at).toLocaleString()}
+        </span>
+      ),
+    },
+    {
+      accessorKey: "description",
+      header: "Description",
+      cell: ({ row }) => (
+        <span className="block max-w-[180px] text-sm truncate">
+          {row.original.description}
+        </span>
+      ),
+    },
+    {
+      accessorKey: "banner_image.url",
+      header: "Banner image",
+      cell: ({ row }) => (
         <img
-          src={`${OpenAPI.BASE}/media${row.original.side_image.url}`}
-          alt={row.original.side_image.alt_text || ""}
+          src={`${OpenAPI.BASE}/media${row.original.banner_image.url}`}
+          alt={row.original.banner_image.alt_text || ""}
           className="h-24 w-24 object-cover rounded-md"
         />
-      )
+      ),
     },
-  },
-]
+    {
+      accessorKey: "side_image.url",
+      header: "Side image",
+      cell: ({ row }) => {
+        if (!row.original.side_image)
+          return <div className="flex justify-center">N/A</div>
+
+        return (
+          <img
+            src={`${OpenAPI.BASE}/media${row.original.side_image.url}`}
+            alt={row.original.side_image.alt_text || ""}
+            className="h-24 w-24 object-cover rounded-md"
+          />
+        )
+      },
+    },
+  ]
+}

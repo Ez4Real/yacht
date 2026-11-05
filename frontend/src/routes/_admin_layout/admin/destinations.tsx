@@ -1,18 +1,23 @@
-import { useSuspenseQuery } from "@tanstack/react-query"
+import { 
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery
+ } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { Search } from "lucide-react"
-import { Suspense } from "react"
+import { Suspense, useState } from "react"
 
-import { DestinationsService } from "@/client"
+import { type DestinationPublic, DestinationsService } from "@/client"
 import { DataTable } from "@/components/Common/DataTable"
 import AddDestination from "@/components/Destinations/AddDestination"
-import { columns } from "@/components/Destinations/columns"
+import { getColumns } from "@/components/Destinations/columns"
 import PendingDestinations from "@/components/Pending/PendingDestinations"
+import useCustomToast from "@/hooks/useCustomToast"
+import { handleError } from "@/utils"
 
 function getDestinationsQueryOptions() {
   return {
-    queryFn: () =>
-      DestinationsService.readDestinations({ skip: 0, limit: 100 }),
+    queryFn: () => DestinationsService.readDestinations({ skip: 0, limit: 100 }),
     queryKey: ["destinations"],
   }
 }
@@ -28,8 +33,47 @@ export const Route = createFileRoute("/_admin_layout/admin/destinations")({
   }),
 })
 
+interface UpdateDestinationOrderProps {
+  id: string
+  order: number
+}
+
 function DestinationsTableContent() {
+  const queryClient = useQueryClient()
+
   const { data: destinations } = useSuspenseQuery(getDestinationsQueryOptions())
+
+  const [pendingDestinationId, setPendingDestinationId] = useState<string | null>(null)
+  const { showSuccessToast, showErrorToast } = useCustomToast()
+
+  const mutation = useMutation({
+    mutationFn: ({ id, order }: UpdateDestinationOrderProps) =>
+      DestinationsService.updateDestinationOrder({
+        id,
+        order,
+      }),
+    onMutate: ({ id }) => {
+      setPendingDestinationId(id)
+    },
+    onSuccess: () => {
+      showSuccessToast("Destination order updated successfully")
+    },
+    onError: handleError.bind(showErrorToast),
+    onSettled: async () => {
+      setPendingDestinationId(null)
+
+      await queryClient.invalidateQueries({
+        queryKey: ["destinations"]
+      })
+    },
+  })
+
+  const handleChangeOrder = (destination: DestinationPublic, order: number) => {
+    mutation.mutate({
+      id: destination.id,
+      order
+    })
+  }
 
   if (destinations.data.length === 0) {
     return (
@@ -47,7 +91,16 @@ function DestinationsTableContent() {
     )
   }
 
-  return <DataTable columns={columns} data={destinations.data} />
+  return (
+    <DataTable
+      columns={getColumns(
+        handleChangeOrder,
+        destinations.data.length,
+        (destinationId) => destinationId === pendingDestinationId
+      )}
+      data={destinations.data}
+    />
+  )
 }
 
 function DestinationsTable() {

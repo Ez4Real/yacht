@@ -8,7 +8,6 @@ import { useCopyToClipboard } from "@/hooks/useCopyToClipboard"
 import { MemberActionsMenu } from "./MembersActionsMenu"
 import { OrderCell } from "./OrderCell"
 
-
 function CopyId({ id }: { id: string }) {
   const [copiedText, copy] = useCopyToClipboard()
   const isCopied = copiedText === id
@@ -33,12 +32,8 @@ function CopyId({ id }: { id: string }) {
   )
 }
 
-
 export function getColumns(
-  onChangeOrder: (
-    member: CrewMemberPublic,
-    order: number,
-  ) => void,
+  onChangeOrder: (member: CrewMemberPublic, order: number) => void,
   maxOrder: number,
   isOrderPending: (memberId: string) => boolean,
 ): ColumnDef<CrewMemberPublic>[] {
@@ -124,16 +119,6 @@ export function getColumns(
         <span className="font-medium">{row.original.instagram}</span>
       ),
     },
-    // {
-    //   accessorKey: "background",
-    //   header: "Background",
-    //   cell: ({ row }) => <span className="font-medium">{row.original.background}</span>,
-    // },
-    // {
-    //   accessorKey: "motto",
-    //   header: "Motto",
-    //   cell: ({ row }) => <span className="font-medium">{row.original.motto}</span>,
-    // },
     {
       accessorKey: "image.url",
       header: "Image",
@@ -143,7 +128,7 @@ export function getColumns(
           alt={row.original.image.alt_text || ""}
           className="h-16 w-16 object-cover rounded-md"
         />
-      ), // <span className="font-medium">{row.original.image.url}</span>,
+      ),
     },
   ]
 }

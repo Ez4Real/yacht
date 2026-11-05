@@ -809,6 +809,10 @@ export const DestinationPublicSchema = {
             format: 'date-time',
             title: 'Created At'
         },
+        order: {
+            type: 'integer',
+            title: 'Order'
+        },
         banner_image: {
             '$ref': '#/components/schemas/DestinationImagePublic'
         },
@@ -824,7 +828,7 @@ export const DestinationPublicSchema = {
         }
     },
     type: 'object',
-    required: ['region', 'country', 'destination', 'description', 'content1', 'id', 'owner_id', 'created_at', 'banner_image'],
+    required: ['region', 'country', 'destination', 'description', 'content1', 'id', 'owner_id', 'created_at', 'order', 'banner_image'],
     title: 'DestinationPublic'
 } as const;
 

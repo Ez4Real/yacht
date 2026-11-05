@@ -34,16 +34,12 @@ export const MemberActionsMenu = ({ member }: RoleActionsMenuProps) => {
             <Pencil />
             Edit Member
           </DropdownMenuItem>
-          
+
           <DeleteMember id={member.id} onSuccess={() => setOpen(false)} />
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <EditMember
-        member={member} 
-        open={editOpen}
-        onOpenChange={setEditOpen}
-      />
+      <EditMember member={member} open={editOpen} onOpenChange={setEditOpen} />
     </>
   )
 }

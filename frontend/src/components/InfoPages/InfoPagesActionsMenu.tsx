@@ -37,11 +37,10 @@ export const InfoPageActionsMenu = ({ infoPage }: InfoPageActionsMenuProps) => {
 
           <DeleteInfoPage id={infoPage.id} onSuccess={() => setOpen(false)} />
         </DropdownMenuContent>
-
       </DropdownMenu>
 
       <EditInfoPage
-        infoPage={infoPage} 
+        infoPage={infoPage}
         open={editOpen}
         onOpenChange={setEditOpen}
       />

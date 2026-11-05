@@ -55,12 +55,11 @@ export const EnquireDialog = ({
   onOpenChange,
   onShowMenu,
 }: EnquireDialogProps) => {
-  
   // js for hide chatWidget when Dialog open
   useEffect(() => {
     const hideChat = () => {
       const widgets = document.querySelectorAll(
-        'iframe[src*="leadconnector"], iframe[src*="msgsndr"], chat-widget'
+        'iframe[src*="leadconnector"], iframe[src*="msgsndr"], chat-widget',
       )
 
       widgets.forEach((widget) => {
@@ -68,7 +67,7 @@ export const EnquireDialog = ({
         element.style.setProperty(
           "visibility",
           open ? "hidden" : "visible",
-          "important"
+          "important",
         )
       })
     }
@@ -86,10 +85,10 @@ export const EnquireDialog = ({
       observer.disconnect()
       document
         .querySelectorAll(
-          'iframe[src*="leadconnector"], iframe[src*="msgsndr"], chat-widget'
+          'iframe[src*="leadconnector"], iframe[src*="msgsndr"], chat-widget',
         )
         .forEach((widget) => {
-          ; (widget as HTMLElement).style.removeProperty("visibility")
+          ;(widget as HTMLElement).style.removeProperty("visibility")
         })
     }
   }, [open])

@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react"
 import { Check, ChevronDown, ChevronUp } from "lucide-react"
+import { useEffect, useState } from "react"
 
 import type { CrewMemberPublic } from "@/client"
 import { Button } from "@/components/ui/button"
@@ -31,9 +31,7 @@ export function OrderCell({
 
   const newOrder = Number(order)
 
-  const hasChanged =
-    Number.isInteger(newOrder) &&
-    newOrder !== member.order
+  const hasChanged = Number.isInteger(newOrder) && newOrder !== member.order
 
   return (
     <div className="flex items-center gap-1">

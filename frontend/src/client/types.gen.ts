@@ -155,6 +155,7 @@ export type DestinationPublic = {
     id: string;
     owner_id: string;
     created_at: string;
+    order: number;
     banner_image: DestinationImagePublic;
     side_image?: (DestinationImagePublic | null);
 };
@@ -443,6 +444,13 @@ export type DestinationsDeleteDestinationData = {
 };
 
 export type DestinationsDeleteDestinationResponse = (Message);
+
+export type DestinationsUpdateDestinationOrderData = {
+    id: string;
+    order: number;
+};
+
+export type DestinationsUpdateDestinationOrderResponse = (Message);
 
 export type InfoPagesReadInfoPagesData = {
     limit?: number;

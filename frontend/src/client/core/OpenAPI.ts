@@ -27,7 +27,6 @@ export class Interceptors<T> {
 export type OpenAPIConfig = {
 	BASE: string;
 	EMAIL: string;
-	INSTAGRAM: string;
 	CREDENTIALS: 'include' | 'omit' | 'same-origin';
 	ENCODE_PATH?: ((path: string) => string) | undefined;
 	HEADERS?: Headers | Resolver<Headers> | undefined;
@@ -44,7 +43,6 @@ export type OpenAPIConfig = {
 
 export const OpenAPI: OpenAPIConfig = {
 	BASE: '',
-	INSTAGRAM: '',
 	EMAIL: '',
 	CREDENTIALS: 'include',
 	ENCODE_PATH: undefined,

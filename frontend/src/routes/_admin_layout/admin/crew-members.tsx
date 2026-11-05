@@ -7,7 +7,7 @@ import { createFileRoute } from "@tanstack/react-router"
 import { Search } from "lucide-react"
 import { Suspense, useState } from "react"
 
-import { CrewMemberPublic, CrewMembersService } from "@/client"
+import { type CrewMemberPublic, CrewMembersService } from "@/client"
 import { DataTable } from "@/components/Common/DataTable"
 import AddMember from "@/components/CrewMembers/AddMember"
 import { getColumns } from "@/components/CrewMembers/columns"
@@ -33,7 +33,6 @@ export const Route = createFileRoute("/_admin_layout/admin/crew-members")({
   }),
 })
 
-
 interface UpdateCrewMemberOrderProps {
   id: string
   order: number
@@ -44,16 +43,14 @@ function CrewMembersTableContent() {
 
   const { data: members } = useSuspenseQuery(getCrewMembersQueryOptions())
 
-  const [pendingMemberId, setPendingMemberId] = useState<string | null>(
-    null,
-  )
+  const [pendingMemberId, setPendingMemberId] = useState<string | null>(null)
   const { showSuccessToast, showErrorToast } = useCustomToast()
 
   const mutation = useMutation({
-    mutationFn: ({id, order}: UpdateCrewMemberOrderProps) =>
+    mutationFn: ({ id, order }: UpdateCrewMemberOrderProps) =>
       CrewMembersService.updateCrewMemberOrder({
         id,
-        order
+        order,
       }),
     onMutate: ({ id }) => {
       setPendingMemberId(id)
@@ -71,10 +68,7 @@ function CrewMembersTableContent() {
     },
   })
 
-  const handleChangeOrder = (
-    member: CrewMemberPublic,
-    order: number,
-  ) => {
+  const handleChangeOrder = (member: CrewMemberPublic, order: number) => {
     mutation.mutate({
       id: member.id,
       order,

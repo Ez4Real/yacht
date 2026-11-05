@@ -40,13 +40,12 @@ export const DestinationActionsMenu = ({
           <DeleteDestination
             id={destination.id}
             onSuccess={() => setOpen(false)}
-            />
+          />
         </DropdownMenuContent>
-
       </DropdownMenu>
 
       <EditDestination
-        destination={destination} 
+        destination={destination}
         open={editOpen}
         onOpenChange={setEditOpen}
       />

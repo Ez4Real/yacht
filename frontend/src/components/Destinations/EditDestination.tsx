@@ -76,7 +76,11 @@ interface EditDestinationProps {
   onOpenChange: (open: boolean) => void
 }
 
-const EditDestination = ({ destination, open, onOpenChange }: EditDestinationProps) => {
+const EditDestination = ({
+  destination,
+  open,
+  onOpenChange,
+}: EditDestinationProps) => {
   const queryClient = useQueryClient()
   const { showSuccessToast, showErrorToast } = useCustomToast()
 
