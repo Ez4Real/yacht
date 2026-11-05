@@ -57,39 +57,10 @@ export const EnquireDialog = ({
 }: EnquireDialogProps) => {
   // js for hide chatWidget when Dialog open
   useEffect(() => {
-    const hideChat = () => {
-      const widgets = document.querySelectorAll(
-        'iframe[src*="leadconnector"], iframe[src*="msgsndr"], chat-widget',
-      )
-
-      widgets.forEach((widget) => {
-        const element = widget as HTMLElement
-        element.style.setProperty(
-          "visibility",
-          open ? "hidden" : "visible",
-          "important",
-        )
-      })
-    }
-
-    hideChat()
-
-    const observer = new MutationObserver(hideChat)
-
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true,
-    })
+    document.body.classList.toggle("enquire-dialog-open", open)
 
     return () => {
-      observer.disconnect()
-      document
-        .querySelectorAll(
-          'iframe[src*="leadconnector"], iframe[src*="msgsndr"], chat-widget',
-        )
-        .forEach((widget) => {
-          ;(widget as HTMLElement).style.removeProperty("visibility")
-        })
+      document.body.classList.remove("enquire-dialog-open")
     }
   }, [open])
 

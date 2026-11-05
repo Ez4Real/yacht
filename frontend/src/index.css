@@ -273,3 +273,11 @@
     transform: translateY(0) scale(1);
   }
 }
+
+@media (max-width: 767px) {
+  body.enquire-dialog-open iframe[src*="leadconnector"],
+  body.enquire-dialog-open iframe[src*="msgsndr"],
+  body.enquire-dialog-open chat-widget {
+    visibility: hidden !important;
+  }
+}
