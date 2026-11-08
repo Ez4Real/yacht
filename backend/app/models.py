@@ -542,6 +542,7 @@ class InfoPage(InfoPageBase, table=True):
         foreign_key="user.id", nullable=False, ondelete="CASCADE"
     )
     owner: User | None = Relationship(back_populates="info_pages")
+    order: int = Field(nullable=False, unique=True, gt=0) 
     images: list[InfoPageImage] = Relationship(
         back_populates="info_page",
         cascade_delete=True
@@ -562,6 +563,7 @@ class InfoPagePublic(InfoPageBase):
     id: uuid.UUID
     owner_id: uuid.UUID
     created_at: datetime
+    order: int
     banner_image: InfoPageImagePublic
     block_1_image: InfoPageImagePublic | None = None
     block_2_image: InfoPageImagePublic | None = None

@@ -29,10 +29,7 @@ def read_info_pages(
     count = session.exec(count_statement).one()
     
     statement = (
-        select(InfoPage)
-        .order_by(col(InfoPage.created_at).desc())
-        .offset(skip)
-        .limit(limit)
+        select(InfoPage).order_by(col(InfoPage.order)).offset(skip).limit(limit)
     )
     info_pages = session.exec(statement).all()
 
@@ -59,7 +56,7 @@ def read_info_page_menu_items(
             InfoPage.owner_id,
             InfoPage.title
         )
-        .order_by(col(InfoPage.created_at).desc())
+        .order_by(col(InfoPage.order))
         .offset(skip)
         .limit(limit)
     )
@@ -90,11 +87,21 @@ def create_info_page(
     """
     Create new info page.
     """
+    max_order_statement = (
+        select(func.max(InfoPage.order))
+        .select_from(InfoPage)
+    )
+    max_order = session.exec(max_order_statement).one()
+    next_order = (max_order or 0) + 1
+    
     info_page = InfoPage.model_validate(
         info_page_in.model_dump(
             exclude={"banner_image", "block_1_image", "block_2_image"}
         ),
-        update={"owner_id": current_user.id}
+        update={
+            "owner_id": current_user.id,
+            "order": next_order
+        }
     )
     
     banner_image_url = save_image_to_local(
@@ -201,6 +208,46 @@ def update_info_page(
     session.commit()
     session.refresh(info_page)
     return info_page
+
+
+@router.put("/{id}/order")
+def update_info_page_order(
+    *,
+    session: SessionDep,
+    current_user: CurrentUser,
+    id: UUID,
+    order: int
+) -> Message:
+    """
+    Update an info page order (swap or move).
+    """
+    info_page = session.get(InfoPage, id)
+    if not info_page:
+        raise HTTPException(status_code=404, detail="Info page not found")
+    if not current_user.is_superuser and (info_page.owner_id != current_user.id):
+        raise HTTPException(status_code=403, detail="Not enough permissions")
+    
+    statement = (
+            select(InfoPage)
+            .where(InfoPage.order == order)
+        )
+    
+    swap_info_page = session.exec(statement).first()
+    
+    if not swap_info_page:
+        raise HTTPException(status_code=404, detail=f"No info page exists with order {order}") 
+    
+    current_order = info_page.order
+    
+    info_page.order = -1
+    session.flush()
+    
+    swap_info_page.order = current_order
+    session.flush()
+    info_page.order = order
+    session.commit()
+    
+    return Message(message="Info page order updated successfully")
 
 
 @router.delete("/{id}")
