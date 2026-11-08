@@ -33,9 +33,9 @@ function CopyId({ id }: { id: string }) {
 }
 
 export function getColumns(
-  onChangeOrder: (member: DestinationPublic, order: number) => void,
+  onChangeOrder: (destination: DestinationPublic, order: number) => void,
   maxOrder: number,
-  isOrderPending: (memberId: string) => boolean,
+  isOrderPending: (destinationId: string) => boolean,
 ): ColumnDef<DestinationPublic>[] {
   return [
     {

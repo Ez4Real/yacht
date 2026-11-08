@@ -218,6 +218,7 @@ export type InfoPagePublic = {
     id: string;
     owner_id: string;
     created_at: string;
+    order: number;
     banner_image: InfoPageImagePublic;
     block_1_image?: (InfoPageImagePublic | null);
     block_2_image?: (InfoPageImagePublic | null);
@@ -490,6 +491,13 @@ export type InfoPagesDeleteInfoPageData = {
 };
 
 export type InfoPagesDeleteInfoPageResponse = (Message);
+
+export type InfoPagesUpdateInfoPageOrderData = {
+    id: string;
+    order: number;
+};
+
+export type InfoPagesUpdateInfoPageOrderResponse = (Message);
 
 export type ItemsReadItemsData = {
     limit?: number;

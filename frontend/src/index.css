@@ -278,6 +278,6 @@
   body.enquire-dialog-open iframe[src*="leadconnector"],
   body.enquire-dialog-open iframe[src*="msgsndr"],
   body.enquire-dialog-open chat-widget {
-    visibility: hidden !important;
+    visibility: hidden;
   }
 }

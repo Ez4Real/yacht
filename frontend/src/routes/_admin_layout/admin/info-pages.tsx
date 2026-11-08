@@ -1,13 +1,15 @@
-import { useSuspenseQuery } from "@tanstack/react-query"
+import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { Search } from "lucide-react"
-import { Suspense } from "react"
+import { Suspense, useState } from "react"
 
-import { InfoPagesService } from "@/client"
+import { InfoPagePublic, InfoPagesService } from "@/client"
 import { DataTable } from "@/components/Common/DataTable"
 import AddInfoPage from "@/components/InfoPages/AddInfoPage"
-import { columns } from "@/components/InfoPages/columns"
+import { getColumns } from "@/components/InfoPages/columns"
 import PendingInfoPages from "@/components/Pending/PendingInfoPages"
+import useCustomToast from "@/hooks/useCustomToast"
+import { handleError } from "@/utils"
 
 function getInfoPagesQueryOptions() {
   return {
@@ -27,8 +29,47 @@ export const Route = createFileRoute("/_admin_layout/admin/info-pages")({
   }),
 })
 
+interface UpdateInfoPageOrderProps {
+  id: string
+  order: number
+}
+
 function InfoPagesTableContent() {
+  const queryClient = useQueryClient()
+
   const { data: infoPages } = useSuspenseQuery(getInfoPagesQueryOptions())
+
+  const [pendingInfoPageId, setPendingInfoPageId] = useState<string | null>(null)
+  const { showSuccessToast, showErrorToast } = useCustomToast()
+
+  const mutation = useMutation({
+    mutationFn: ({ id, order }: UpdateInfoPageOrderProps) =>
+      InfoPagesService.updateInfoPageOrder({
+        id,
+        order
+      }),
+    onMutate: ({ id }) => {
+      setPendingInfoPageId(id)
+    },
+    onSuccess: () => {
+      showSuccessToast("Info page order updated successfully")
+    },
+    onError: handleError.bind(showErrorToast),
+    onSettled: async () => {
+      setPendingInfoPageId(null)
+
+      await queryClient.invalidateQueries({
+        queryKey: ["info-pages"]
+      })
+    }
+  })
+
+  const handleChangeOrder = (infoPage: InfoPagePublic, order: number) => {
+    mutation.mutate({
+      id: infoPage.id,
+      order
+    })
+  }
 
   if (infoPages.data.length === 0) {
     return (
@@ -46,7 +87,16 @@ function InfoPagesTableContent() {
     )
   }
 
-  return <DataTable columns={columns} data={infoPages.data} />
+  return (
+    <DataTable
+      columns={getColumns(
+        handleChangeOrder,
+        infoPages.data.length,
+        (infoPageId) => infoPageId === pendingInfoPageId,
+      )}
+      data={infoPages.data}
+    />
+  )
 }
 
 function InfoPagesTable() {

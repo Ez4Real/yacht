@@ -1,8 +1,8 @@
-import { 
+import {
   useMutation,
   useQueryClient,
-  useSuspenseQuery
- } from "@tanstack/react-query"
+  useSuspenseQuery,
+} from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { Search } from "lucide-react"
 import { Suspense, useState } from "react"
@@ -17,7 +17,8 @@ import { handleError } from "@/utils"
 
 function getDestinationsQueryOptions() {
   return {
-    queryFn: () => DestinationsService.readDestinations({ skip: 0, limit: 100 }),
+    queryFn: () =>
+      DestinationsService.readDestinations({ skip: 0, limit: 100 }),
     queryKey: ["destinations"],
   }
 }
@@ -63,7 +64,7 @@ function DestinationsTableContent() {
       setPendingDestinationId(null)
 
       await queryClient.invalidateQueries({
-        queryKey: ["destinations"]
+        queryKey: ["destinations"],
       })
     },
   })
@@ -96,7 +97,7 @@ function DestinationsTableContent() {
       columns={getColumns(
         handleChangeOrder,
         destinations.data.length,
-        (destinationId) => destinationId === pendingDestinationId
+        (destinationId) => destinationId === pendingDestinationId,
       )}
       data={destinations.data}
     />

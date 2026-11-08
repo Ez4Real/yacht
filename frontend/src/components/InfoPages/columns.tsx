@@ -6,6 +6,7 @@ import { OpenAPI } from "@/client"
 import { Button } from "@/components/ui/button"
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard"
 import { InfoPageActionsMenu } from "./InfoPagesActionsMenu"
+import { OrderCell } from "./OrderCell"
 
 function CopyId({ id }: { id: string }) {
   const [copiedText, copy] = useCopyToClipboard()
@@ -31,78 +32,96 @@ function CopyId({ id }: { id: string }) {
   )
 }
 
-export const columns: ColumnDef<InfoPagePublic>[] = [
-  {
-    id: "actions",
-    header: () => <span className="sr-only">Actions</span>,
-    cell: ({ row }) => (
-      <div className="flex justify-end">
-        <InfoPageActionsMenu infoPage={row.original} />
-      </div>
-    ),
-  },
-  {
-    accessorKey: "id",
-    header: "ID",
-    cell: ({ row }) => <CopyId id={row.original.id} />,
-  },
-  {
-    accessorKey: "title",
-    header: "Title",
-    cell: ({ row }) => (
-      <span className="font-medium">{row.original.title}</span>
-    ),
-  },
-  {
-    accessorKey: "description",
-    header: "Description",
-    cell: ({ row }) => (
-      <span className="block max-w-[180px] text-sm truncate">
-        {row.original.description}
-      </span>
-    ),
-  },
-  {
-    accessorKey: "banner_image.url",
-    header: "Banner image",
-    cell: ({ row }) => (
-      <img
-        src={`${OpenAPI.BASE}/media${row.original.banner_image.url}`}
-        alt={row.original.banner_image.alt_text || ""}
-        className="h-24 w-24 object-cover rounded-md"
-      />
-    ),
-  },
-  {
-    accessorKey: "block_1_image.url",
-    header: "Block 1 image",
-    cell: ({ row }) => {
-      if (!row.original.block_1_image)
-        return <div className="flex justify-center">N/A</div>
-
-      return (
+export function getColumns(
+  onChangeOrder: (infoPage: InfoPagePublic, order: number) => void,
+  maxOrder: number,
+  isOrderPending: (infoPageId: string) => boolean,
+): ColumnDef<InfoPagePublic>[] {
+  return [
+    {
+      id: "actions",
+      header: () => <span className="sr-only">Actions</span>,
+      cell: ({ row }) => (
+        <div className="flex justify-end">
+          <InfoPageActionsMenu infoPage={row.original} />
+        </div>
+      ),
+    },
+    {
+      id: "order",
+      header: () => <span className="sr-only">Order</span>,
+      cell: ({ row }) => (
+        <OrderCell
+          infoPage={row.original}
+          maxOrder={maxOrder}
+          onSubmit={onChangeOrder}
+          isPending={isOrderPending(row.original.id)}
+        />
+      ),
+    },
+    {
+      accessorKey: "id",
+      header: "ID",
+      cell: ({ row }) => <CopyId id={row.original.id} />,
+    },
+    {
+      accessorKey: "title",
+      header: "Title",
+      cell: ({ row }) => (
+        <span className="font-medium">{row.original.title}</span>
+      ),
+    },
+    {
+      accessorKey: "description",
+      header: "Description",
+      cell: ({ row }) => (
+        <span className="block max-w-[180px] text-sm truncate">
+          {row.original.description}
+        </span>
+      ),
+    },
+    {
+      accessorKey: "banner_image.url",
+      header: "Banner image",
+      cell: ({ row }) => (
         <img
-          src={`${OpenAPI.BASE}/media${row.original.block_1_image.url}`}
-          alt={row.original.block_1_image.alt_text || ""}
+          src={`${OpenAPI.BASE}/media${row.original.banner_image.url}`}
+          alt={row.original.banner_image.alt_text || ""}
           className="h-24 w-24 object-cover rounded-md"
         />
-      )
+      ),
     },
-  },
-  {
-    accessorKey: "block_2_image.url",
-    header: "Block 2 image",
-    cell: ({ row }) => {
-      if (!row.original.block_2_image)
-        return <div className="flex justify-center">N/A</div>
+    {
+      accessorKey: "block_1_image.url",
+      header: "Block 1 image",
+      cell: ({ row }) => {
+        if (!row.original.block_1_image)
+          return <div className="flex justify-center">N/A</div>
 
-      return (
-        <img
-          src={`${OpenAPI.BASE}/media${row.original.block_2_image.url}`}
-          alt={row.original.block_2_image.alt_text || ""}
-          className="h-24 w-24 object-cover rounded-md"
-        />
-      )
+        return (
+          <img
+            src={`${OpenAPI.BASE}/media${row.original.block_1_image.url}`}
+            alt={row.original.block_1_image.alt_text || ""}
+            className="h-24 w-24 object-cover rounded-md"
+          />
+        )
+      },
     },
-  },
-]
+    {
+      accessorKey: "block_2_image.url",
+      header: "Block 2 image",
+      cell: ({ row }) => {
+        if (!row.original.block_2_image)
+          return <div className="flex justify-center">N/A</div>
+
+        return (
+          <img
+            src={`${OpenAPI.BASE}/media${row.original.block_2_image.url}`}
+            alt={row.original.block_2_image.alt_text || ""}
+            className="h-24 w-24 object-cover rounded-md"
+          />
+        )
+      },
+    },
+  ]
+}

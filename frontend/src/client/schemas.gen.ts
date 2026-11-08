@@ -1159,6 +1159,10 @@ export const InfoPagePublicSchema = {
             format: 'date-time',
             title: 'Created At'
         },
+        order: {
+            type: 'integer',
+            title: 'Order'
+        },
         banner_image: {
             '$ref': '#/components/schemas/InfoPageImagePublic'
         },
@@ -1184,7 +1188,7 @@ export const InfoPagePublicSchema = {
         }
     },
     type: 'object',
-    required: ['id', 'owner_id', 'created_at', 'banner_image'],
+    required: ['id', 'owner_id', 'created_at', 'order', 'banner_image'],
     title: 'InfoPagePublic'
 } as const;
 
