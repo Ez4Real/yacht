@@ -20,12 +20,29 @@ function getInfoPageMenuItemsQueryOptions() {
   }
 }
 
-const menuItems = [
-  { label: "home", to: "/" },
-  { label: "team", to: "/crew-members" },
-  { label: "about us", to: "/about" },
-  { label: "destinations", to: "/destinations" },
+type StaticMenuItem = {
+  type: "static"
+  label: string
+  to: string
+  position: number
+}
+
+type DynamicMenuItem = {
+  type: "dynamic"
+  id: string
+  label: string
+  to: "/info/$id"
+}
+
+type MenuLink = StaticMenuItem | DynamicMenuItem
+
+const staticMenuItems: StaticMenuItem[] = [
+  { type: "static", label: "home", to: "/", position: 0 },
+  { type: "static", label: "team", to: "/crew-members", position: 0 },
+  { type: "static", label: "about us", to: "/about", position: 2 },
+  { type: "static", label: "destinations", to: "/destinations", position: 2 },
 ]
+
 
 type MenuDialogProps = {
   open: boolean
@@ -42,6 +59,18 @@ export const MenuDialog = ({
     ...getInfoPageMenuItemsQueryOptions(),
     enabled: open,
   })
+
+  const menuItems: MenuLink[] = [
+    ...(infoPageMenuItems?.data ?? []).map((page, index) => ({
+      type: "dynamic" as const,
+      id: page.id,
+      label: page.title,
+      to: "/info/$id" as const,
+      position: index + 1,
+    })),
+    ...staticMenuItems,
+  ].sort((a, b) => a.position - b.position)
+
   const { theme } = useTheme()
   const isDark = theme === "dark"
   const router = useRouterState()
@@ -192,41 +221,43 @@ export const MenuDialog = ({
               "
             >
               {menuItems.map((item) => {
-                const isActive = currentPath === item.to
+                const isDynamic = item.type === "dynamic"
+
+                const isActive = isDynamic
+                  ? currentPath === `/info/${item.id}`
+                  : currentPath === item.to
+
                 return (
-                  <SheetClose asChild key={item.label}>
-                    <Link
-                      to={item.to}
-                      hash="root"
-                      className={`text-menu flex items-center ${
-                        isActive ? "text-foreground" : "text-role"
-                      }`}
-                    >
-                      <span>{item.label}</span>
-                    </Link>
+                  <SheetClose
+                    asChild
+                    key={isDynamic ? item.id : item.label}
+                  >
+                    {isDynamic ? (
+                      <Link
+                        to="/info/$id"
+                        params={{ id: item.id }}
+                        hash="root"
+                        className={`text-menu flex items-center ${
+                          isActive ? "text-foreground" : "text-role"
+                        }`}
+                      >
+                        <span className="lowercase">{item.label}</span>
+                      </Link>
+                    ) : (
+                      <Link
+                        to={item.to}
+                        hash="root"
+                        className={`text-menu flex items-center ${
+                          isActive ? "text-foreground" : "text-role"
+                        }`}
+                      >
+                        <span>{item.label}</span>
+                      </Link>
+                    )}
                   </SheetClose>
                 )
               })}
-
-              {infoPageMenuItems?.data?.map((item) => {
-                const isActive = currentPath === `/info/${item.id}`
-
-                return (
-                  <SheetClose asChild key={item.id}>
-                    <Link
-                      to="/info/$id"
-                      params={{ id: String(item.id) }}
-                      hash="root"
-                      className={`text-menu flex items-center ${
-                        isActive ? "text-foreground" : "text-role"
-                      }`}
-                    >
-                      <span className="lowercase">{item.title}</span>
-                    </Link>
-                  </SheetClose>
-                )
-              })}
-
+              
               <SheetClose asChild>
                 <a
                   href="https://www.instagram.com/spinnakermagazine"
