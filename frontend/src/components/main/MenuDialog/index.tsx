@@ -43,7 +43,6 @@ const staticMenuItems: StaticMenuItem[] = [
   { type: "static", label: "destinations", to: "/destinations", position: 2 },
 ]
 
-
 type MenuDialogProps = {
   open: boolean
   onOpenChange: (open: boolean) => void
@@ -228,10 +227,7 @@ export const MenuDialog = ({
                   : currentPath === item.to
 
                 return (
-                  <SheetClose
-                    asChild
-                    key={isDynamic ? item.id : item.label}
-                  >
+                  <SheetClose asChild key={isDynamic ? item.id : item.label}>
                     {isDynamic ? (
                       <Link
                         to="/info/$id"
@@ -257,7 +253,7 @@ export const MenuDialog = ({
                   </SheetClose>
                 )
               })}
-              
+
               <SheetClose asChild>
                 <a
                   href="https://www.instagram.com/spinnakermagazine"

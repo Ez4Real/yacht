@@ -3,7 +3,7 @@
 import type { CancelablePromise } from './core/CancelablePromise';
 import { OpenAPI } from './core/OpenAPI';
 import { request as __request } from './core/request';
-import type { CrewMemberRolesReadCrewMemberRolesData, CrewMemberRolesReadCrewMemberRolesResponse, CrewMemberRolesCreateCrewMemberRoleData, CrewMemberRolesCreateCrewMemberRoleResponse, CrewMemberRolesReadCrewMemberRoleData, CrewMemberRolesReadCrewMemberRoleResponse, CrewMemberRolesUpdateCrewMemberRoleData, CrewMemberRolesUpdateCrewMemberRoleResponse, CrewMemberRolesDeleteCrewMemberRoleData, CrewMemberRolesDeleteCrewMemberRoleResponse, CrewMembersReadCrewMembersData, CrewMembersReadCrewMembersResponse, CrewMembersCreateCrewMemberData, CrewMembersCreateCrewMemberResponse, CrewMembersReadCrewMemberData, CrewMembersReadCrewMemberResponse, CrewMembersUpdateCrewMemberData, CrewMembersUpdateCrewMemberResponse, CrewMembersDeleteCrewMemberData, CrewMembersDeleteCrewMemberResponse, CrewMembersUpdateCrewMemberOrderData, CrewMembersUpdateCrewMemberOrderResponse, DestinationsReadDestinationsData, DestinationsReadDestinationsResponse, DestinationsCreateDestinationData, DestinationsCreateDestinationResponse, DestinationsReadDestinationData, DestinationsReadDestinationResponse, DestinationsUpdateDestinationData, DestinationsUpdateDestinationResponse, DestinationsDeleteDestinationData, DestinationsDeleteDestinationResponse, DestinationsUpdateDestinationOrderData, DestinationsUpdateDestinationOrderResponse, InfoPagesReadInfoPagesData, InfoPagesReadInfoPagesResponse, InfoPagesCreateInfoPageData, InfoPagesCreateInfoPageResponse, InfoPagesReadInfoPageMenuItemsData, InfoPagesReadInfoPageMenuItemsResponse, InfoPagesReadInfoPageData, InfoPagesReadInfoPageResponse, InfoPagesUpdateInfoPageData, InfoPagesUpdateInfoPageResponse, InfoPagesDeleteInfoPageData, InfoPagesDeleteInfoPageResponse, InfoPagesUpdateInfoPageOrderData, InfoPagesUpdateInfoPageOrderResponse, ItemsReadItemsData, ItemsReadItemsResponse, ItemsCreateItemData, ItemsCreateItemResponse, ItemsReadItemData, ItemsReadItemResponse, ItemsUpdateItemData, ItemsUpdateItemResponse, ItemsDeleteItemData, ItemsDeleteItemResponse, LoginLoginAccessTokenData, LoginLoginAccessTokenResponse, LoginTestTokenResponse, LoginRecoverPasswordData, LoginRecoverPasswordResponse, LoginResetPasswordData, LoginResetPasswordResponse, LoginRecoverPasswordHtmlContentData, LoginRecoverPasswordHtmlContentResponse, PrivateCreateUserData, PrivateCreateUserResponse, UsersReadUsersData, UsersReadUsersResponse, UsersCreateUserData, UsersCreateUserResponse, UsersReadUserMeResponse, UsersDeleteUserMeResponse, UsersUpdateUserMeData, UsersUpdateUserMeResponse, UsersUpdatePasswordMeData, UsersUpdatePasswordMeResponse, UsersRegisterUserData, UsersRegisterUserResponse, UsersReadUserByIdData, UsersReadUserByIdResponse, UsersUpdateUserData, UsersUpdateUserResponse, UsersDeleteUserData, UsersDeleteUserResponse, UtilsTestEmailData, UtilsTestEmailResponse, UtilsHealthCheckResponse } from './types.gen';
+import type { CrewMemberRolesReadCrewMemberRolesData, CrewMemberRolesReadCrewMemberRolesResponse, CrewMemberRolesCreateCrewMemberRoleData, CrewMemberRolesCreateCrewMemberRoleResponse, CrewMemberRolesReadCrewMemberRoleData, CrewMemberRolesReadCrewMemberRoleResponse, CrewMemberRolesUpdateCrewMemberRoleData, CrewMemberRolesUpdateCrewMemberRoleResponse, CrewMemberRolesDeleteCrewMemberRoleData, CrewMemberRolesDeleteCrewMemberRoleResponse, CrewMembersReadCrewMembersData, CrewMembersReadCrewMembersResponse, CrewMembersCreateCrewMemberData, CrewMembersCreateCrewMemberResponse, CrewMembersReadCrewMemberData, CrewMembersReadCrewMemberResponse, CrewMembersUpdateCrewMemberData, CrewMembersUpdateCrewMemberResponse, CrewMembersDeleteCrewMemberData, CrewMembersDeleteCrewMemberResponse, CrewMembersUpdateCrewMemberOrderData, CrewMembersUpdateCrewMemberOrderResponse, DestinationsReadDestinationsData, DestinationsReadDestinationsResponse, DestinationsCreateDestinationData, DestinationsCreateDestinationResponse, DestinationsReadDestinationData, DestinationsReadDestinationResponse, DestinationsUpdateDestinationData, DestinationsUpdateDestinationResponse, DestinationsDeleteDestinationData, DestinationsDeleteDestinationResponse, DestinationsUpdateDestinationOrderData, DestinationsUpdateDestinationOrderResponse, EnquiresCreatePaymentData, EnquiresCreatePaymentResponse, InfoPagesReadInfoPagesData, InfoPagesReadInfoPagesResponse, InfoPagesCreateInfoPageData, InfoPagesCreateInfoPageResponse, InfoPagesReadInfoPageMenuItemsData, InfoPagesReadInfoPageMenuItemsResponse, InfoPagesReadInfoPageData, InfoPagesReadInfoPageResponse, InfoPagesUpdateInfoPageData, InfoPagesUpdateInfoPageResponse, InfoPagesDeleteInfoPageData, InfoPagesDeleteInfoPageResponse, InfoPagesUpdateInfoPageOrderData, InfoPagesUpdateInfoPageOrderResponse, ItemsReadItemsData, ItemsReadItemsResponse, ItemsCreateItemData, ItemsCreateItemResponse, ItemsReadItemData, ItemsReadItemResponse, ItemsUpdateItemData, ItemsUpdateItemResponse, ItemsDeleteItemData, ItemsDeleteItemResponse, LoginLoginAccessTokenData, LoginLoginAccessTokenResponse, LoginTestTokenResponse, LoginRecoverPasswordData, LoginRecoverPasswordResponse, LoginResetPasswordData, LoginResetPasswordResponse, LoginRecoverPasswordHtmlContentData, LoginRecoverPasswordHtmlContentResponse, PrivateCreateUserData, PrivateCreateUserResponse, UsersReadUsersData, UsersReadUsersResponse, UsersCreateUserData, UsersCreateUserResponse, UsersReadUserMeResponse, UsersDeleteUserMeResponse, UsersUpdateUserMeData, UsersUpdateUserMeResponse, UsersUpdatePasswordMeData, UsersUpdatePasswordMeResponse, UsersRegisterUserData, UsersRegisterUserResponse, UsersReadUserByIdData, UsersReadUserByIdResponse, UsersUpdateUserData, UsersUpdateUserResponse, UsersDeleteUserData, UsersDeleteUserResponse, UtilsTestEmailData, UtilsTestEmailResponse, UtilsHealthCheckResponse } from './types.gen';
 
 export class CrewMemberRolesService {
     /**
@@ -381,6 +381,27 @@ export class DestinationsService {
             query: {
                 order: data.order
             },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+}
+
+export class EnquiresService {
+    /**
+     * Create Payment
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns EnquireContactCreateResponse Successful Response
+     * @throws ApiError
+     */
+    public static createPayment(data: EnquiresCreatePaymentData): CancelablePromise<EnquiresCreatePaymentResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/enquire/',
+            body: data.requestBody,
+            mediaType: 'application/json',
             errors: {
                 422: 'Validation Error'
             }

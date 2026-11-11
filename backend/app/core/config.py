@@ -159,7 +159,9 @@ class Settings(BaseSettings):
         Path(self.UPLOAD_DIR / self.INFO_PAGE_IMAGES_DIR).mkdir(parents=True, exist_ok=True)
         return self
 
-    
+    GHL_API_URL: str = ""
+    GHL_PRIVATE_TOKEN: str = ""
+    GHL_LOCATION_ID: str = ""
 
 
 settings = Settings()  # type: ignore

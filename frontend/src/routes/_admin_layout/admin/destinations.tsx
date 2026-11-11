@@ -44,7 +44,9 @@ function DestinationsTableContent() {
 
   const { data: destinations } = useSuspenseQuery(getDestinationsQueryOptions())
 
-  const [pendingDestinationId, setPendingDestinationId] = useState<string | null>(null)
+  const [pendingDestinationId, setPendingDestinationId] = useState<
+    string | null
+  >(null)
   const { showSuccessToast, showErrorToast } = useCustomToast()
 
   const mutation = useMutation({
@@ -72,7 +74,7 @@ function DestinationsTableContent() {
   const handleChangeOrder = (destination: DestinationPublic, order: number) => {
     mutation.mutate({
       id: destination.id,
-      order
+      order,
     })
   }
 

@@ -1,9 +1,13 @@
-import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query"
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { Search } from "lucide-react"
 import { Suspense, useState } from "react"
 
-import { InfoPagePublic, InfoPagesService } from "@/client"
+import { type InfoPagePublic, InfoPagesService } from "@/client"
 import { DataTable } from "@/components/Common/DataTable"
 import AddInfoPage from "@/components/InfoPages/AddInfoPage"
 import { getColumns } from "@/components/InfoPages/columns"
@@ -39,14 +43,16 @@ function InfoPagesTableContent() {
 
   const { data: infoPages } = useSuspenseQuery(getInfoPagesQueryOptions())
 
-  const [pendingInfoPageId, setPendingInfoPageId] = useState<string | null>(null)
+  const [pendingInfoPageId, setPendingInfoPageId] = useState<string | null>(
+    null,
+  )
   const { showSuccessToast, showErrorToast } = useCustomToast()
 
   const mutation = useMutation({
     mutationFn: ({ id, order }: UpdateInfoPageOrderProps) =>
       InfoPagesService.updateInfoPageOrder({
         id,
-        order
+        order,
       }),
     onMutate: ({ id }) => {
       setPendingInfoPageId(id)
@@ -59,15 +65,15 @@ function InfoPagesTableContent() {
       setPendingInfoPageId(null)
 
       await queryClient.invalidateQueries({
-        queryKey: ["info-pages"]
+        queryKey: ["info-pages"],
       })
-    }
+    },
   })
 
   const handleChangeOrder = (infoPage: InfoPagePublic, order: number) => {
     mutation.mutate({
       id: infoPage.id,
-      order
+      order,
     })
   }
 

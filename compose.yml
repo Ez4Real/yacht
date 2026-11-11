@@ -77,6 +77,9 @@ services:
       - POSTGRES_USER=${POSTGRES_USER?Variable not set}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD?Variable not set}
       - SENTRY_DSN=${SENTRY_DSN}
+      - GHL_API_URL=${GHL_API_URL}
+      - GHL_PRIVATE_TOKEN=${GHL_PRIVATE_TOKEN}
+      - GHL_LOCATION_ID=${GHL_LOCATION_ID}
 
   backend:
     image: '${DOCKER_IMAGE_BACKEND?Variable not set}:${TAG-latest}'
@@ -110,6 +113,9 @@ services:
       - POSTGRES_USER=${POSTGRES_USER?Variable not set}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD?Variable not set}
       - SENTRY_DSN=${SENTRY_DSN}
+      - GHL_API_URL=${GHL_API_URL}
+      - GHL_PRIVATE_TOKEN=${GHL_PRIVATE_TOKEN}
+      - GHL_LOCATION_ID=${GHL_LOCATION_ID}
 
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/utils/health-check/"]

@@ -934,6 +934,236 @@ export const DestinationsPublicSchema = {
     title: 'DestinationsPublic'
 } as const;
 
+export const EnquireContactCreateSchema = {
+    properties: {
+        locationId: {
+            type: 'string',
+            title: 'Locationid'
+        },
+        name: {
+            type: 'string',
+            title: 'Name'
+        },
+        email: {
+            type: 'string',
+            format: 'email',
+            title: 'Email'
+        },
+        phone: {
+            type: 'string',
+            maxLength: 20,
+            minLength: 7,
+            title: 'Phone'
+        },
+        customFields: {
+            anyOf: [
+                {
+                    items: {
+                        '$ref': '#/components/schemas/EnquireContactCustomField'
+                    },
+                    type: 'array'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Customfields'
+        },
+        source: {
+            type: 'string',
+            title: 'Source',
+            default: 'BMA Yachts Website'
+        }
+    },
+    type: 'object',
+    required: ['locationId', 'name', 'email', 'phone', 'customFields'],
+    title: 'EnquireContactCreate'
+} as const;
+
+export const EnquireContactCreateResponseSchema = {
+    properties: {
+        new: {
+            type: 'boolean',
+            title: 'New'
+        },
+        contact: {
+            '$ref': '#/components/schemas/EnquireContactPublic'
+        },
+        traceId: {
+            type: 'string',
+            title: 'Traceid'
+        }
+    },
+    type: 'object',
+    required: ['new', 'contact', 'traceId'],
+    title: 'EnquireContactCreateResponse'
+} as const;
+
+export const EnquireContactCustomFieldSchema = {
+    properties: {
+        id: {
+            type: 'string',
+            title: 'Id'
+        },
+        fieldValue: {
+            type: 'string',
+            title: 'Fieldvalue'
+        }
+    },
+    type: 'object',
+    required: ['id', 'fieldValue'],
+    title: 'EnquireContactCustomField'
+} as const;
+
+export const EnquireContactCustomFieldPublicSchema = {
+    properties: {
+        id: {
+            type: 'string',
+            title: 'Id'
+        },
+        value: {
+            type: 'string',
+            title: 'Value'
+        }
+    },
+    type: 'object',
+    required: ['id', 'value'],
+    title: 'EnquireContactCustomFieldPublic'
+} as const;
+
+export const EnquireContactPublicSchema = {
+    properties: {
+        id: {
+            type: 'string',
+            title: 'Id'
+        },
+        locationId: {
+            type: 'string',
+            title: 'Locationid'
+        },
+        firstName: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Firstname'
+        },
+        lastName: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Lastname'
+        },
+        email: {
+            anyOf: [
+                {
+                    type: 'string',
+                    format: 'email'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Email'
+        },
+        phone: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Phone'
+        },
+        source: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Source'
+        },
+        type: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Type'
+        },
+        tags: {
+            items: {
+                type: 'string'
+            },
+            type: 'array',
+            title: 'Tags'
+        },
+        dateAdded: {
+            anyOf: [
+                {
+                    type: 'string',
+                    format: 'date-time'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Dateadded'
+        },
+        dateUpdated: {
+            anyOf: [
+                {
+                    type: 'string',
+                    format: 'date-time'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Dateupdated'
+        },
+        deleted: {
+            anyOf: [
+                {
+                    type: 'boolean'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Deleted'
+        },
+        customFields: {
+            items: {
+                '$ref': '#/components/schemas/EnquireContactCustomFieldPublic'
+            },
+            type: 'array',
+            title: 'Customfields'
+        }
+    },
+    additionalProperties: true,
+    type: 'object',
+    required: ['id', 'locationId', 'firstName', 'lastName', 'tags', 'customFields'],
+    title: 'EnquireContactPublic'
+} as const;
+
 export const HTTPValidationErrorSchema = {
     properties: {
         detail: {

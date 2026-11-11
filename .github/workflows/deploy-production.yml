@@ -36,6 +36,9 @@ jobs:
       DOCKER_IMAGE_FRONTEND: ${{ secrets.DOCKER_IMAGE_FRONTEND }}
       BACKEND_HOST: ${{ secrets.BACKEND_HOST }}
       FRONTEND_HOST: ${{ secrets.FRONTEND_HOST }}
+      GHL_API_URL: ${{ secrets.GHL_API_URL }}
+      GHL_PRIVATE_TOKEN: ${{ secrets.GHL_PRIVATE_TOKEN }}
+      GHL_LOCATION_ID: ${{ secrets.GHL_LOCATION_ID }}
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2

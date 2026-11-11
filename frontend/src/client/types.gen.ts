@@ -174,6 +174,48 @@ export type DestinationUpdateBase = {
     content2?: (string | null);
 };
 
+export type EnquireContactCreate = {
+    locationId: string;
+    name: string;
+    email: string;
+    phone: string;
+    customFields: (Array<EnquireContactCustomField> | null);
+    source?: string;
+};
+
+export type EnquireContactCreateResponse = {
+    new: boolean;
+    contact: EnquireContactPublic;
+    traceId: string;
+};
+
+export type EnquireContactCustomField = {
+    id: string;
+    fieldValue: string;
+};
+
+export type EnquireContactCustomFieldPublic = {
+    id: string;
+    value: string;
+};
+
+export type EnquireContactPublic = {
+    id: string;
+    locationId: string;
+    firstName: (string | null);
+    lastName: (string | null);
+    email?: (string | null);
+    phone?: (string | null);
+    source?: (string | null);
+    type?: (string | null);
+    tags: Array<(string)>;
+    dateAdded?: (string | null);
+    dateUpdated?: (string | null);
+    deleted?: (boolean | null);
+    customFields: Array<EnquireContactCustomFieldPublic>;
+    [key: string]: unknown | string | EnquireContactCustomFieldPublic;
+};
+
 export type HTTPValidationError = {
     detail?: Array<ValidationError>;
 };
@@ -452,6 +494,12 @@ export type DestinationsUpdateDestinationOrderData = {
 };
 
 export type DestinationsUpdateDestinationOrderResponse = (Message);
+
+export type EnquiresCreatePaymentData = {
+    requestBody: EnquireContactCreate;
+};
+
+export type EnquiresCreatePaymentResponse = (EnquireContactCreateResponse);
 
 export type InfoPagesReadInfoPagesData = {
     limit?: number;

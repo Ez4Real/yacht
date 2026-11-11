@@ -1,9 +1,11 @@
 import json
 import uuid
 from datetime import datetime, timezone
+import re
 
 from typing import Annotated
-from pydantic import BaseModel, EmailStr, StringConstraints, model_validator
+from pydantic import BaseModel, EmailStr, StringConstraints, \
+    model_validator, field_validator, ConfigDict
 from sqlalchemy import DateTime, UniqueConstraint, TypeDecorator, Column
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlmodel import Field, Relationship, SQLModel
@@ -582,3 +584,63 @@ class InfoPageMenuItemPublic(SQLModel):
 class InfoPageMenuItemsPublic(SQLModel):
     data: list[InfoPageMenuItemPublic]
     count: int
+
+
+class EnquireReason(str, Enum):
+    CHARTER = "charter"
+    SALE = "sale"
+    MANAGEMENT = "management"
+    OTHER = "other"
+
+class EnquireContactCustomField(BaseModel):
+    id: str
+    fieldValue: str
+
+class EnquireContactCustomFieldPublic(BaseModel):
+    id: str
+    value: str
+
+class EnquireContactCreate(BaseModel):
+    locationId: str
+    name: str
+    email: EmailStr
+    phone: Annotated[str, StringConstraints(strip_whitespace=True, min_length=7, max_length=20)]
+    # reason: EnquireReason
+    # note: str | None = None
+    customFields: list[EnquireContactCustomField] | None
+    
+    source: str = Field(default="BMA Yachts Website")
+    
+    @field_validator("phone")
+    @classmethod
+    def validate_phone(cls, v: str) -> str:
+        if not re.fullmatch(r"^\+?[0-9\s\-()]{7,20}$", v):
+            raise ValueError("Invalid phone number format")
+        return v
+    
+class EnquireContactPublic(BaseModel):
+    model_config = ConfigDict(extra="allow")
+    
+    id: str
+    locationId: str
+    
+    firstName: str | None
+    lastName: str | None
+    email: EmailStr | None = None
+    phone: str | None = None
+    
+    source: str | None = None
+    type: str | None = None
+    tags: list[str]
+    
+    dateAdded: datetime | None = None
+    dateUpdated: datetime | None = None
+    deleted: bool | None = None
+    
+    customFields: list[EnquireContactCustomFieldPublic]
+    
+
+class EnquireContactCreateResponse(BaseModel):
+    new: bool
+    contact: EnquireContactPublic
+    traceId: str

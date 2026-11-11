@@ -31,7 +31,8 @@ export function OrderCell({
 
   const newOrder = Number(order)
 
-  const hasChanged = Number.isInteger(newOrder) && newOrder !== destination.order
+  const hasChanged =
+    Number.isInteger(newOrder) && newOrder !== destination.order
 
   return (
     <div className="flex items-center gap-1">
