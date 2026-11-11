@@ -1,3 +1,6 @@
+<img width="1600" height="900" alt="BMAKensho" src="https://github.com/user-attachments/assets/076f8d26-f36b-438f-a2fb-f6992f18c901" />
+### KENSHŌ Superyacht
+
 # Full Stack FastAPI Template
 
 <a href="https://github.com/fastapi/full-stack-fastapi-template/actions?query=workflow%3A%22Test+Docker+Compose%22" target="_blank"><img src="https://github.com/fastapi/full-stack-fastapi-template/workflows/Test%20Docker%20Compose/badge.svg" alt="Test Docker Compose"></a>
