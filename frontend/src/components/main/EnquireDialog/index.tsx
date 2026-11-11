@@ -10,6 +10,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
+import { useNavigate } from "@tanstack/react-router"
 import { EnquireButton } from "@/components/ui/enquire-button"
 import { EnquireInput } from "@/components/ui/enquire-input"
 // import { useMutation } from "@tanstack/react-query";
@@ -54,15 +55,19 @@ const FORM_DEFAULT = "default"
 const FORM_SUCCESS = "success"
 const FORM_FAILED = "failed"
 
+type FormStateType = "default" | "success" | "failed"
+
 export const EnquireDialog = ({
   open,
   onOpenChange,
   onShowMenu,
 }: EnquireDialogProps) => {
   // js for hide chatWidget when Dialog open
+  const [formState, setFormState] = useState<FormStateType>(FORM_DEFAULT)
+
   useEffect(() => {
     document.body.classList.toggle("enquire-dialog-open", open)
-
+    setFormState(FORM_DEFAULT);
     return () => {
       document.body.classList.remove("enquire-dialog-open")
     }
@@ -73,7 +78,6 @@ export const EnquireDialog = ({
   const email = OpenAPI.EMAIL
 
   const [selectOpen, setSelectOpen] = useState<boolean>(false)
-  const [formState, setFormState] = useState<string>(FORM_DEFAULT) // "default" "success" "failed" 
   
   const enquiryReasonOptions = [
     { label: "charter", value: "charter" },
@@ -102,10 +106,47 @@ export const EnquireDialog = ({
   //     queryClient.invalidateQueries({ queryKey: ["items"] })
   //     },
   // })
+  
+  const navigate = useNavigate()
 
-  // const onSubmit = (data: FormData) => {
-  //     mutation.mutate(data)
-  // }
+  const mockEnquireRequest = (data: FormData) => {
+        return new Promise<{ status: number; message: string }>((resolve, reject) => {
+          setTimeout(() => {
+            // Simulate a successful response 70% of the time
+            if (Math.random() < 0.5) {
+              resolve({ status: 200, message: "Success" })
+            } else {
+              reject({ status: 500, message: "Failed" })
+            }
+          }, 1000) // Simulate network delay
+        })
+      }
+
+  const onSubmit = async (data: FormData) => {
+      // mutation.mutate(data)
+        
+      if (formState === FORM_DEFAULT) {
+        try {
+          const response = await mockEnquireRequest(data)
+          if (response.status !== 200) {
+            throw new Error(response.message)
+          }
+
+          setFormState(FORM_SUCCESS)
+        } catch {
+          setFormState(FORM_FAILED)
+        }
+      }
+
+      // button "deal"
+      if (formState === FORM_SUCCESS) {
+        navigate({ to: "/" });
+        onOpenChange(false); // close the dialog 
+      }
+      
+      // button "do it again"
+      if (formState === FORM_FAILED) setFormState(FORM_DEFAULT)
+  }
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -292,25 +333,24 @@ export const EnquireDialog = ({
 
             <Form {...form}>
               <form
-              // onSubmit={form.handleSubmit(onSubmit)}
+              onSubmit={form.handleSubmit(onSubmit)}
               >
-                  <div
-                    className="
-                      flex
-                      flex-col
-                      mt-[20px]
-                      tablet:mt-[45px]
-                      laptop:mt-[20px]
-                      desktop:mt-[30px]
-                      wide:mt-[50px]
-                      gap-[20px]
-                      laptop:gap-[15px]
-                      desktop:gap-[20px]
-                      wide:gap-[30px]
-                    "
-                  >
-                    {formState === FORM_DEFAULT
-                    ? <>
+                {formState === FORM_DEFAULT
+                  ? <div
+                      className="
+                        flex
+                        flex-col
+                        mt-[20px]
+                        tablet:mt-[45px]
+                        laptop:mt-[20px]
+                        desktop:mt-[30px]
+                        wide:mt-[50px]
+                        gap-[20px]
+                        laptop:gap-[15px]
+                        desktop:gap-[20px]
+                        wide:gap-[30px]
+                      "
+                    >
                       <FormField
                         control={form.control}
                         name="full_name"
@@ -474,9 +514,8 @@ export const EnquireDialog = ({
                           </FormItem>
                         )}
                       />
-                    </>
-                    : ""}
-                  </div>
+                    </div>
+                : ""}
                 <EnquireButton
                   type="submit"
                   className="
