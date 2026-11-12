@@ -9,7 +9,7 @@ from app.api.deps import CurrentUser, SessionDep, parse_crew_member_create, \
 from app.models import CrewMember, CrewMemberCreate, CrewMemberUpdate, \
     CrewMemberImage, CrewMemberPublic, CrewMembersPublic, Message, \
     CrewMemberDetail, CrewMemberNavigation
-from app.utils import save_image_to_local, delete_image_from_local
+from app.utils.general import save_image_to_local, delete_image_from_local
 
 
 router = APIRouter(prefix="/crew-members", tags=["crew members"])

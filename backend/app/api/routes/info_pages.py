@@ -9,7 +9,7 @@ from app.api.deps import CurrentUser, SessionDep, \
 from app.models import InfoPage, InfoPageCreate, InfoPageUpdate, \
     InfoPageImageType, InfoPageImage, InfoPagePublic, InfoPagesPublic, \
     InfoPageMenuItemPublic, InfoPageMenuItemsPublic, Message
-from app.utils import save_image_to_local, delete_image_from_local
+from app.utils.general import save_image_to_local, delete_image_from_local
 
 
 router = APIRouter(prefix="/info-pages", tags=["info-pages"])

@@ -644,7 +644,12 @@ class EnquireContactPublic(BaseModel):
     customFields: list[EnquireContactCustomFieldPublic]
     
 
-class EnquireContactCreateResponse(BaseModel):
+class EnquireContactCreateData(BaseModel):
     new: bool
     contact: EnquireContactPublic
     traceId: str
+
+class EnquireContactCreateResponse(BaseModel):
+    success: bool = True
+    message: str
+    data: EnquireContactCreateData

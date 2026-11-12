@@ -63,9 +63,7 @@ const formSchema = z.object({
     )
     .max(2)
     .optional(),
-  contact: z.boolean().refine((value) => value === true, {
-    message: "You must agree before submitting",
-  }),
+  contact: z.boolean().refine((value) => value === true),
 })
 
 type FormData = z.infer<typeof formSchema>
@@ -112,6 +110,7 @@ export const EnquireDialog = ({
 }: EnquireDialogProps) => {
   const { theme } = useTheme()
   const { showSuccessToast, showErrorToast } = useCustomToast()
+  const navigate = useNavigate()
   const isDark = theme === "dark"
   const email = OpenAPI.EMAIL
 
@@ -119,7 +118,6 @@ export const EnquireDialog = ({
   const [formState, setFormState] = useState<FormStateType>("initial")
   const currentState = FORM_STATES[formState]
 
-  const navigate = useNavigate()
 
   const handleButtonClick = () => {
     switch (formState) {
@@ -135,7 +133,6 @@ export const EnquireDialog = ({
         break
     }
   }
-    
 
   const enquiryReasonOptions = [
     { label: "charter", value: "charter" },
@@ -154,7 +151,6 @@ export const EnquireDialog = ({
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     mode: "onTouched",
-    // mode: "onBlur",
     criteriaMode: "all",
     defaultValues: {
       name: "",
@@ -175,7 +171,6 @@ export const EnquireDialog = ({
       setFormState(response.success ? "success" : "error")
       showSuccessToast("Enquire created successfully")
       form.reset()
-      console.log("Backend response:", response)
     },
     onError: () => {
       setFormState("error")

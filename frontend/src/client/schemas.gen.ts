@@ -978,7 +978,7 @@ export const EnquireContactCreateSchema = {
     title: 'EnquireContactCreate'
 } as const;
 
-export const EnquireContactCreateResponseSchema = {
+export const EnquireContactCreateDataSchema = {
     properties: {
         new: {
             type: 'boolean',
@@ -994,6 +994,26 @@ export const EnquireContactCreateResponseSchema = {
     },
     type: 'object',
     required: ['new', 'contact', 'traceId'],
+    title: 'EnquireContactCreateData'
+} as const;
+
+export const EnquireContactCreateResponseSchema = {
+    properties: {
+        success: {
+            type: 'boolean',
+            title: 'Success',
+            default: true
+        },
+        message: {
+            type: 'string',
+            title: 'Message'
+        },
+        data: {
+            '$ref': '#/components/schemas/EnquireContactCreateData'
+        }
+    },
+    type: 'object',
+    required: ['message', 'data'],
     title: 'EnquireContactCreateResponse'
 } as const;
 

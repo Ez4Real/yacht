@@ -1,10 +1,9 @@
 import httpx
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 from app.core.config import settings
-from fastapi import APIRouter, HTTPException
 from app.models import  EnquireContactCreate, EnquireContactGHLCreate, \
     EnquireContactCreateResponse
-
+from app.utils.exceptions import raise_ghl_error
 
 router = APIRouter(prefix="/enquire", tags=["enquires"])
 
@@ -17,11 +16,9 @@ async def create_enquire_contact(
     **contact_in.model_dump(exclude_none=True),
     locationId=settings.GHL_LOCATION_ID,
   )
-  
-  print("\n\nGHL Contact", ghl_contact)
 
-  async with httpx.AsyncClient() as client:
-    try:
+  try:
+    async with httpx.AsyncClient() as client:
       response = await client.post(
         f"{settings.GHL_API_URL}/contacts/upsert",
         json=ghl_contact.model_dump(exclude_none=True),
@@ -32,12 +29,34 @@ async def create_enquire_contact(
           "Accept": "application/json"
         },
       )
-      response.raise_for_status()
-      print("\n\nResponse", response.json())
-      return response.json()
-  
-    except httpx.HTTPStatusError as exc:
-      raise HTTPException(status_code=exc.response.status_code, detail=str(exc))
-    except httpx.RequestError as exc:
-      raise HTTPException(status_code=400, detail=str(exc))
       
+      response.raise_for_status()
+      ghl_response = response.json()
+      
+    return EnquireContactCreateResponse(
+      success=True,
+      message="Contact created successfully.",
+      data=ghl_response,
+    )
+  
+  except httpx.HTTPStatusError as exc:
+    raise_ghl_error(
+      status_code=502,
+      code="GHL_UPSERT_FAILED",
+      message="Failed to create contact in GoHighLevel.",
+      details=exc.response.text,
+    )
+
+  except httpx.TimeoutException:
+    raise_ghl_error(
+      status_code=504,
+      code="GHL_TIMEOUT",
+      message="GoHighLevel request timed out.",
+    )
+
+  except httpx.RequestError:
+    raise_ghl_error(
+      status_code=503,
+      code="GHL_UNAVAILABLE",
+      message="GoHighLevel is currently unavailable.",
+    )

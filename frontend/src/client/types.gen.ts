@@ -181,10 +181,16 @@ export type EnquireContactCreate = {
     customFields?: (Array<EnquireContactCustomField> | null);
 };
 
-export type EnquireContactCreateResponse = {
+export type EnquireContactCreateData = {
     new: boolean;
     contact: EnquireContactPublic;
     traceId: string;
+};
+
+export type EnquireContactCreateResponse = {
+    success?: boolean;
+    message: string;
+    data: EnquireContactCreateData;
 };
 
 export type EnquireContactCustomField = {
