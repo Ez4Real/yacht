@@ -1,5 +1,5 @@
 <img width="1600" height="900" alt="BMAKensho" src="https://github.com/user-attachments/assets/076f8d26-f36b-438f-a2fb-f6992f18c901" />
-KENSHŌ Superyacht
+## KENSHŌ Superyacht
 
 # Full Stack FastAPI Template
 
