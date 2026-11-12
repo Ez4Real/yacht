@@ -936,10 +936,6 @@ export const DestinationsPublicSchema = {
 
 export const EnquireContactCreateSchema = {
     properties: {
-        locationId: {
-            type: 'string',
-            title: 'Locationid'
-        },
         name: {
             type: 'string',
             title: 'Name'
@@ -950,9 +946,16 @@ export const EnquireContactCreateSchema = {
             title: 'Email'
         },
         phone: {
-            type: 'string',
-            maxLength: 20,
-            minLength: 7,
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 20,
+                    minLength: 7
+                },
+                {
+                    type: 'null'
+                }
+            ],
             title: 'Phone'
         },
         customFields: {
@@ -968,15 +971,10 @@ export const EnquireContactCreateSchema = {
                 }
             ],
             title: 'Customfields'
-        },
-        source: {
-            type: 'string',
-            title: 'Source',
-            default: 'BMA Yachts Website'
         }
     },
     type: 'object',
-    required: ['locationId', 'name', 'email', 'phone', 'customFields'],
+    required: ['name', 'email'],
     title: 'EnquireContactCreate'
 } as const;
 

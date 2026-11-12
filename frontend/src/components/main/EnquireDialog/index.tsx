@@ -1,8 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useMutation } from "@tanstack/react-query"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { OpenAPI } from "@/client"
+import { type EnquireContactCreate, EnquiresService, OpenAPI } from "@/client"
 import { useTheme } from "@/components/theme-provider"
 import { Button } from "@/components/ui/button"
 import {
@@ -12,15 +13,8 @@ import {
 } from "@/components/ui/collapsible"
 import { EnquireButton } from "@/components/ui/enquire-button"
 import { EnquireInput } from "@/components/ui/enquire-input"
-// import { useMutation } from "@tanstack/react-query";
 import { EnquireTextarea } from "@/components/ui/enquire-textarea"
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import {
   Sheet,
   SheetClose,
@@ -28,18 +22,41 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import { SolidCheckbox } from "@/components/ui/solid checkbox"
+import useCustomToast from "@/hooks/useCustomToast"
 import { cn } from "@/lib/utils"
+import { handleError } from "@/utils"
 import { ThemeSwitcher } from "../ThemeSwitcher"
 import { SelectIcon } from "./selectIcon"
+import { SolidCheckbox } from "@/components/ui/solid checkbox"
 
 const formSchema = z.object({
-  full_name: z.string().min(1, { message: "Full name is required" }),
-  email: z.string().min(1, { message: "Email is required" }),
-  phone: z.string().optional(),
-  reason: z.string().optional(),
-  additional_info: z.string().optional(),
-  contact: z.boolean(),
+  name: z.string()
+    .trim()
+    .min(1, { message: "Full name is required" })
+    .refine((value) => value.split(/\s+/).length >= 2, {
+      message: "Please enter both your first and last name",
+  }),
+  email: z.email({ message: "Invalid email address" }),
+  phone: z
+    .string()
+    .trim()
+    .regex(/^\+?[0-9\s\-()]{7,20}$/, {
+      message: "Invalid phone number",
+    })
+    .or(z.literal(""))
+    .optional(),
+  customFields: z
+    .array(
+      z.object({
+        id: z.string(),
+        fieldValue: z.string(),
+      }),
+    )
+    .max(2)
+    .optional(),
+  contact: z.boolean().refine((value) => value === true, {
+    message: "You must agree before submitting",
+  }),
 })
 
 type FormData = z.infer<typeof formSchema>
@@ -55,16 +72,8 @@ export const EnquireDialog = ({
   onOpenChange,
   onShowMenu,
 }: EnquireDialogProps) => {
-  // js for hide chatWidget when Dialog open
-  useEffect(() => {
-    document.body.classList.toggle("enquire-dialog-open", open)
-
-    return () => {
-      document.body.classList.remove("enquire-dialog-open")
-    }
-  }, [open])
-
   const { theme } = useTheme()
+  const { showSuccessToast, showErrorToast } = useCustomToast()
   const isDark = theme === "dark"
   const email = OpenAPI.EMAIL
 
@@ -76,30 +85,53 @@ export const EnquireDialog = ({
     { label: "other", value: "other" },
   ]
 
+  useEffect(() => {
+    document.body.classList.toggle("enquire-dialog-open", open)
+
+    return () => {
+      document.body.classList.remove("enquire-dialog-open")
+    }
+  }, [open])
+
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
-    mode: "onBlur",
+    mode: "onTouched",
+    // mode: "onBlur",
     criteriaMode: "all",
-    defaultValues: {},
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      customFields: [
+        { id: "reason", fieldValue: "" },
+        { id: "note", fieldValue: "" },
+      ],
+      contact: false,
+    },
   })
 
-  // const mutation = useMutation({
-  //     mutationFn: (data: FormData) =>
-  //         ItemsService.updateItem({ id: item.id, requestBody: data }),
-  //     onSuccess: () => {
-  //     showSuccessToast("Item updated successfully")
-  //     setIsOpen(false)
-  //     onSuccess()
-  //     },
-  //     onError: handleError.bind(showErrorToast),
-  //     onSettled: () => {
-  //     queryClient.invalidateQueries({ queryKey: ["items"] })
-  //     },
-  // })
+  const { mutate, data, isPending} = useMutation({
+    mutationFn: (data: EnquireContactCreate) =>
+      EnquiresService.createEnquireContact({ requestBody: data }),
+    onSuccess: () => {
+      showSuccessToast("Enquire created successfully")
+      form.reset()
+      onOpenChange(false)
+      console.log("Response: ", data)
+    },
+    onError: handleError.bind(showErrorToast),
+  })
 
-  // const onSubmit = (data: FormData) => {
-  //     mutation.mutate(data)
-  // }
+  const onSubmit = (data: FormData) => {
+    const payload = {
+      ...data,
+      phone: data.phone?.trim() || null,
+      customFields: data.customFields?.filter(
+        (field) => field.fieldValue.trim() !== "",
+      ),
+    }
+    mutate(payload)
+  }
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -263,9 +295,7 @@ export const EnquireDialog = ({
             </p>
 
             <Form {...form}>
-              <form
-              // onSubmit={form.handleSubmit(onSubmit)}
-              >
+              <form onSubmit={form.handleSubmit(onSubmit)}>
                 <div
                   className="
                     flex
@@ -283,7 +313,7 @@ export const EnquireDialog = ({
                 >
                   <FormField
                     control={form.control}
-                    name="full_name"
+                    name="name"
                     render={({ field }) => (
                       <FormItem className="border-0">
                         <FormControl>
@@ -291,8 +321,10 @@ export const EnquireDialog = ({
                             type="text"
                             {...field}
                             placeholder="first and last name*"
+                            required
                           />
                         </FormControl>
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
@@ -307,15 +339,17 @@ export const EnquireDialog = ({
                             type="email"
                             {...field}
                             placeholder="email*"
+                            required
                           />
                         </FormControl>
+                        {/* <FormMessage /> */}
                       </FormItem>
                     )}
                   />
 
                   <FormField
                     control={form.control}
-                    name="full_name"
+                    name="phone"
                     render={({ field }) => (
                       <FormItem className="border-0">
                         <FormControl>
@@ -325,13 +359,14 @@ export const EnquireDialog = ({
                             placeholder="phone"
                           />
                         </FormControl>
+                        {/* <FormMessage /> */}
                       </FormItem>
                     )}
                   />
 
                   <FormField
                     control={form.control}
-                    name="reason"
+                    name="customFields.0.fieldValue"
                     render={({ field }) => {
                       const selectedReason = enquiryReasonOptions.find(
                         (option) => option.value === field.value,
@@ -396,6 +431,7 @@ export const EnquireDialog = ({
                               </div>
                             </CollapsibleContent>
                           </Collapsible>
+                          {/* <FormMessage /> */}
                         </FormItem>
                       )
                     }}
@@ -403,7 +439,7 @@ export const EnquireDialog = ({
 
                   <FormField
                     control={form.control}
-                    name="additional_info"
+                    name="customFields.1.fieldValue"
                     render={({ field }) => (
                       <FormItem className="border-0">
                         <FormControl>
@@ -412,6 +448,7 @@ export const EnquireDialog = ({
                             placeholder="let us know any information you have in mind"
                           />
                         </FormControl>
+                        {/* <FormMessage /> */}
                       </FormItem>
                     )}
                   />
@@ -424,12 +461,13 @@ export const EnquireDialog = ({
                         <FormControl>
                           <div className="p-[10px]">
                             <SolidCheckbox
+                              id="contact"
                               checked={field.value}
                               onCheckedChange={field.onChange}
                             />
                           </div>
                         </FormControl>
-                        <FormLabel
+                        <FormLabel htmlFor="contact"
                           className="
                             font-normal
                             text-[18px]
@@ -444,9 +482,12 @@ export const EnquireDialog = ({
                       </FormItem>
                     )}
                   />
+                 
+                  
                 </div>
                 <EnquireButton
                   type="submit"
+                  disabled={isPending}
                   className="
                   mt-[20px]
                   desktop:mt-[30px]

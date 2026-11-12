@@ -11,6 +11,7 @@ function EnquireInput({ className, type, ...props }: React.ComponentProps<"input
         "w-full border-b border-foreground outline-none focus:outline-none py-[10px]",
         "text-[18px] wide:text-[20px] text-role",
         "leading-[23px] wide:leading-[24px]",
+        "aria-invalid={!!error} aria-invalid:border-destructive aria-invalid:text-destructive",
         className
       )}
       {...props}

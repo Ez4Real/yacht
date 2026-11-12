@@ -601,22 +601,26 @@ class EnquireContactCustomFieldPublic(BaseModel):
     value: str
 
 class EnquireContactCreate(BaseModel):
-    locationId: str
     name: str
     email: EmailStr
-    phone: Annotated[str, StringConstraints(strip_whitespace=True, min_length=7, max_length=20)]
-    # reason: EnquireReason
-    # note: str | None = None
-    customFields: list[EnquireContactCustomField] | None
+    phone: Annotated[str, StringConstraints(strip_whitespace=True, min_length=7, max_length=20)] | None = None
+
+    customFields: list[EnquireContactCustomField] | None = None
     
-    source: str = Field(default="BMA Yachts Website")
-    
-    @field_validator("phone")
+    @field_validator("phone", mode="before")
     @classmethod
-    def validate_phone(cls, v: str) -> str:
-        if not re.fullmatch(r"^\+?[0-9\s\-()]{7,20}$", v):
+    def validate_phone(cls, v: str | None) -> str | None:
+        if v is None or not v.strip():
+            return None
+        if not re.fullmatch(r"\+?[0-9\s\-()]{7,20}", v.strip()):
             raise ValueError("Invalid phone number format")
-        return v
+        return v.strip()
+    
+
+class EnquireContactGHLCreate(EnquireContactCreate):
+    locationId: str
+    source: str = Field(default="BMA Yachts Website")
+
     
 class EnquireContactPublic(BaseModel):
     model_config = ConfigDict(extra="allow")

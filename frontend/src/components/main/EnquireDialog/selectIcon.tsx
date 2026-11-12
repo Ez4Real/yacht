@@ -20,7 +20,7 @@ export const SelectIcon = ({ collapsed }: SelectIconProps) => {
         <path
           d="M1.73242 1H15.5879L8.66016 13L1.73242 1Z"
           stroke="currentColor"
-          stroke-width="2"
+          strokeWidth="2"
         />
       </svg>
     </div>

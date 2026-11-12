@@ -175,12 +175,10 @@ export type DestinationUpdateBase = {
 };
 
 export type EnquireContactCreate = {
-    locationId: string;
     name: string;
     email: string;
-    phone: string;
-    customFields: (Array<EnquireContactCustomField> | null);
-    source?: string;
+    phone?: (string | null);
+    customFields?: (Array<EnquireContactCustomField> | null);
 };
 
 export type EnquireContactCreateResponse = {
@@ -495,11 +493,11 @@ export type DestinationsUpdateDestinationOrderData = {
 
 export type DestinationsUpdateDestinationOrderResponse = (Message);
 
-export type EnquiresCreatePaymentData = {
+export type EnquiresCreateEnquireContactData = {
     requestBody: EnquireContactCreate;
 };
 
-export type EnquiresCreatePaymentResponse = (EnquireContactCreateResponse);
+export type EnquiresCreateEnquireContactResponse = (EnquireContactCreateResponse);
 
 export type InfoPagesReadInfoPagesData = {
     limit?: number;
