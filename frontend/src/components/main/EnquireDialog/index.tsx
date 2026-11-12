@@ -14,7 +14,14 @@ import {
 import { EnquireButton } from "@/components/ui/enquire-button"
 import { EnquireInput } from "@/components/ui/enquire-input"
 import { EnquireTextarea } from "@/components/ui/enquire-textarea"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
 import {
   Sheet,
   SheetClose,
@@ -22,20 +29,22 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
+import { SolidCheckbox } from "@/components/ui/solid checkbox"
 import useCustomToast from "@/hooks/useCustomToast"
 import { cn } from "@/lib/utils"
 import { handleError } from "@/utils"
 import { ThemeSwitcher } from "../ThemeSwitcher"
 import { SelectIcon } from "./selectIcon"
-import { SolidCheckbox } from "@/components/ui/solid checkbox"
+import { useNavigate } from "@tanstack/react-router"
 
 const formSchema = z.object({
-  name: z.string()
+  name: z
+    .string()
     .trim()
     .min(1, { message: "Full name is required" })
     .refine((value) => value.split(/\s+/).length >= 2, {
       message: "Please enter both your first and last name",
-  }),
+    }),
   email: z.email({ message: "Invalid email address" }),
   phone: z
     .string()
@@ -67,6 +76,35 @@ type EnquireDialogProps = {
   onShowMenu: () => void
 }
 
+type FormStateType = "initial" | "success" | "error"
+
+const FORM_STATES: Record<
+  FormStateType,
+  {
+    title: string
+    content: string
+    buttonLabel: string
+  }
+> = {
+  initial: {
+    title: "Let's Chat",
+    content: "Get in touch with one of our teams\naround the world",
+    buttonLabel: "send",
+  },
+  success: {
+    title: "Success 🎉",
+    content:
+      "Your request has been sent.\nWe will contact you as soon as possible.",
+    buttonLabel: "deal",
+  },
+  error: {
+    title: "Something went wrong 🚩",
+    content:
+      "Please try again or contact us another way.\nWe would love to do our best to help.",
+    buttonLabel: "do it again",
+  },
+}
+
 export const EnquireDialog = ({
   open,
   onOpenChange,
@@ -78,6 +116,27 @@ export const EnquireDialog = ({
   const email = OpenAPI.EMAIL
 
   const [selectOpen, setSelectOpen] = useState<boolean>(false)
+  const [formState, setFormState] = useState<FormStateType>("initial")
+  const currentState = FORM_STATES[formState]
+
+  const navigate = useNavigate()
+
+  const handleButtonClick = () => {
+    switch (formState) {
+      case "success":
+        onOpenChange(false)
+        navigate({ to: "/" })
+        setFormState("initial")
+        break
+
+      case "error":
+        setFormState("initial")
+        form.reset()
+        break
+    }
+  }
+    
+
   const enquiryReasonOptions = [
     { label: "charter", value: "charter" },
     { label: "sale", value: "sale" },
@@ -87,7 +146,6 @@ export const EnquireDialog = ({
 
   useEffect(() => {
     document.body.classList.toggle("enquire-dialog-open", open)
-
     return () => {
       document.body.classList.remove("enquire-dialog-open")
     }
@@ -110,17 +168,21 @@ export const EnquireDialog = ({
     },
   })
 
-  const { mutate, data, isPending} = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: (data: EnquireContactCreate) =>
       EnquiresService.createEnquireContact({ requestBody: data }),
-    onSuccess: () => {
+    onSuccess: (response) => {
+      setFormState(response.success ? "success" : "error")
       showSuccessToast("Enquire created successfully")
       form.reset()
-      onOpenChange(false)
-      console.log("Response: ", data)
+      console.log("Backend response:", response)
     },
-    onError: handleError.bind(showErrorToast),
+    onError: () => {
+      setFormState("error")
+      handleError.bind(showErrorToast)
+    }
   })
+
 
   const onSubmit = (data: FormData) => {
     const payload = {
@@ -276,226 +338,223 @@ export const EnquireDialog = ({
                 wide:mt-[54.5px]
               "
             >
-              Let's Chat
+              {currentState.title}
             </p>
             <p
-              className="
-                text-role
-                text-[18px]
-                desktop:text-[22px]
-
-                mt-[10px]
-                tracking-[0.02em]
-
-                whitespace-pre-line
-                tablet:whitespace-normal
-              "
+              className={cn(
+                "text-role text-[18px] desktop:text-[22px] mt-[10px] tracking-[0.02em]",
+                formState === "initial"
+                  ? "whitespace-pre-line tablet:whitespace-normal"
+                  : "whitespace-pre-line leading-[26px]",
+                  
+              )}
             >
-              Get in touch with one of our teams{"\n"}around the world
+              {currentState.content}
             </p>
 
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)}>
-                <div
-                  className="
-                    flex
-                    flex-col
-                    mt-[20px]
-                    tablet:mt-[45px]
-                    laptop:mt-[20px]
-                    desktop:mt-[30px]
-                    wide:mt-[50px]
-                    gap-[20px]
-                    laptop:gap-[15px]
-                    desktop:gap-[20px]
-                    wide:gap-[30px]
-                  "
-                >
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem className="border-0">
-                        <FormControl>
-                          <EnquireInput
-                            type="text"
-                            {...field}
-                            placeholder="first and last name*"
-                            required
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                {formState === "initial" && (
+                  <div
+                    className="
+                      flex
+                      flex-col
+                      mt-[20px]
+                      tablet:mt-[45px]
+                      laptop:mt-[20px]
+                      desktop:mt-[30px]
+                      wide:mt-[50px]
+                      gap-[20px]
+                      laptop:gap-[15px]
+                      desktop:gap-[20px]
+                      wide:gap-[30px]
+                    "
+                  >
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem className="border-0">
+                          <FormControl>
+                            <EnquireInput
+                              type="text"
+                              {...field}
+                              placeholder="first and last name*"
+                              required
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem className="border-0">
-                        <FormControl>
-                          <EnquireInput
-                            type="email"
-                            {...field}
-                            placeholder="email*"
-                            required
-                          />
-                        </FormControl>
-                        {/* <FormMessage /> */}
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="phone"
-                    render={({ field }) => (
-                      <FormItem className="border-0">
-                        <FormControl>
-                          <EnquireInput
-                            type="text"
-                            {...field}
-                            placeholder="phone"
-                          />
-                        </FormControl>
-                        {/* <FormMessage /> */}
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="customFields.0.fieldValue"
-                    render={({ field }) => {
-                      const selectedReason = enquiryReasonOptions.find(
-                        (option) => option.value === field.value,
-                      )
-
-                      return (
-                        <FormItem>
-                          <Collapsible
-                            open={selectOpen}
-                            onOpenChange={setSelectOpen}
-                            className="rounded-md"
-                          >
-                            <CollapsibleTrigger asChild>
-                              <button
-                                type="button"
-                                className="
-                                  flex items-center relative w-full justify-between
-                                  text-[18px] text-role
-                                  after:absolute
-                                  after:inset-x-0
-                                  after:bottom-0
-                                  after:h-px
-                                  after:bg-foreground
-                                  after:content-['']
-                                "
-                              >
-                                {selectedReason?.label || "reason for enquiry"}
-
-                                <SelectIcon collapsed={selectOpen} />
-                              </button>
-                            </CollapsibleTrigger>
-
-                            <CollapsibleContent>
-                              <div className="flex flex-col items-start">
-                                {enquiryReasonOptions.map((option) => {
-                                  const isSelected =
-                                    field.value === option.value
-
-                                  return (
-                                    <Button
-                                      variant="ghost"
-                                      key={option.value}
-                                      onClick={() => {
-                                        field.onChange(option.value)
-                                        setSelectOpen(false)
-                                      }}
-                                      className={cn(
-                                        "w-full justify-start items-start",
-                                        "text-[18px] leading-[23px]",
-                                        "rounded-none",
-                                        "py-[10px]",
-                                        "border-0 border-b",
-                                        isSelected
-                                          ? "border-foreground"
-                                          : "border-role",
-                                      )}
-                                    >
-                                      {option.label}
-                                    </Button>
-                                  )
-                                })}
-                              </div>
-                            </CollapsibleContent>
-                          </Collapsible>
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem className="border-0">
+                          <FormControl>
+                            <EnquireInput
+                              type="email"
+                              {...field}
+                              placeholder="email*"
+                              required
+                            />
+                          </FormControl>
                           {/* <FormMessage /> */}
                         </FormItem>
-                      )
-                    }}
-                  />
+                      )}
+                    />
 
-                  <FormField
-                    control={form.control}
-                    name="customFields.1.fieldValue"
-                    render={({ field }) => (
-                      <FormItem className="border-0">
-                        <FormControl>
-                          <EnquireTextarea
-                            {...field}
-                            placeholder="let us know any information you have in mind"
-                          />
-                        </FormControl>
-                        {/* <FormMessage /> */}
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="contact"
-                    render={({ field }) => (
-                      <FormItem className="flex items-center gap-3 space-y-0 items-start">
-                        <FormControl>
-                          <div className="p-[10px]">
-                            <SolidCheckbox
-                              id="contact"
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
+                    <FormField
+                      control={form.control}
+                      name="phone"
+                      render={({ field }) => (
+                        <FormItem className="border-0">
+                          <FormControl>
+                            <EnquireInput
+                              type="text"
+                              {...field}
+                              placeholder="phone"
                             />
-                          </div>
-                        </FormControl>
-                        <FormLabel htmlFor="contact"
-                          className="
-                            font-normal
-                            text-[18px]
-                            wide:text-[20px]
-                          "
-                        >
-                          I confirm that I consent to being contacted by BMA in
-                          relation to the interests and details I have indicated
-                          above. For further details please see our Privacy
-                          Policy
-                        </FormLabel>
-                      </FormItem>
-                    )}
-                  />
-                 
-                  
-                </div>
+                          </FormControl>
+                          {/* <FormMessage /> */}
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="customFields.0.fieldValue"
+                      render={({ field }) => {
+                        const selectedReason = enquiryReasonOptions.find(
+                          (option) => option.value === field.value,
+                        )
+
+                        return (
+                          <FormItem>
+                            <Collapsible
+                              open={selectOpen}
+                              onOpenChange={setSelectOpen}
+                              className="rounded-md"
+                            >
+                              <CollapsibleTrigger asChild>
+                                <button
+                                  type="button"
+                                  className="
+                                        flex items-center relative w-full justify-between
+                                        text-[18px] text-role
+                                        after:absolute
+                                        after:inset-x-0
+                                        after:bottom-0
+                                        after:h-px
+                                        after:bg-foreground
+                                        after:content-['']
+                                      "
+                                >
+                                  {selectedReason?.label || "reason for enquiry"}
+
+                                  <SelectIcon collapsed={selectOpen} />
+                                </button>
+                              </CollapsibleTrigger>
+
+                              <CollapsibleContent>
+                                <div className="flex flex-col items-start">
+                                  {enquiryReasonOptions.map((option) => {
+                                    const isSelected =
+                                      field.value === option.value
+
+                                    return (
+                                      <Button
+                                        variant="ghost"
+                                        key={option.value}
+                                        onClick={() => {
+                                          field.onChange(option.value)
+                                          setSelectOpen(false)
+                                        }}
+                                        className={cn(
+                                          "w-full justify-start items-start",
+                                          "text-[18px] leading-[23px]",
+                                          "rounded-none",
+                                          "py-[10px]",
+                                          "border-0 border-b",
+                                          isSelected
+                                            ? "border-foreground"
+                                            : "border-role",
+                                        )}
+                                      >
+                                        {option.label}
+                                      </Button>
+                                    )
+                                  })}
+                                </div>
+                              </CollapsibleContent>
+                            </Collapsible>
+                          </FormItem>
+                        )
+                      }}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="customFields.1.fieldValue"
+                      render={({ field }) => (
+                        <FormItem className="border-0">
+                          <FormControl>
+                            <EnquireTextarea
+                              {...field}
+                              placeholder="let us know any information you have in mind"
+                            />
+                          </FormControl>
+                          {/* <FormMessage /> */}
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="contact"
+                      render={({ field }) => (
+                        <FormItem className="flex items-center gap-3 space-y-0 items-start">
+                          <FormControl>
+                            <div className="p-[10px]">
+                              <SolidCheckbox
+                                id="contact"
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </div>
+                          </FormControl>
+                          <FormLabel
+                            htmlFor="contact"
+                            className="
+                              font-normal
+                              text-[18px]
+                              wide:text-[20px]
+                            "
+                          >
+                            I confirm that I consent to being contacted by BMA in
+                            relation to the interests and details I have indicated
+                            above. For further details please see our Privacy
+                            Policy
+                          </FormLabel>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                )}
+
                 <EnquireButton
                   type="submit"
                   disabled={isPending}
+                  onClick={handleButtonClick}
                   className="
-                  mt-[20px]
-                  desktop:mt-[30px]
-                  wide:mt-[50px]
-                  w-[120px]
-                "
+                    mt-[20px]
+                    desktop:mt-[30px]
+                    wide:mt-[50px]
+                  "
                 >
-                  send
+                  {currentState.buttonLabel}
                 </EnquireButton>
               </form>
             </Form>
@@ -503,11 +562,7 @@ export const EnquireDialog = ({
             <div
               className="
                 flex justify-between items-end w-[100%] bg-red
-                mt-[68px]
-                tablet:mt-[34px]
-                laptop:mt-[32px]
-                desktop:mt-[26px]
-                wide:mt-[108px]
+                mt-[auto]
               "
             >
               <div className="flex items-end justify-end">
